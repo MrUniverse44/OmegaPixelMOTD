@@ -1,0 +1,15 @@
+{
+  "loader": {
+    "name": "java_plain",
+    "version": "1.0"
+  },
+  "license": "MIT",
+  "plugins": [
+    {
+      "id": "pixelmotd",
+      "name": "PixelMOTD",
+      "entrypoint": "dev.justjustin.pixelmotd.initialization.sponge.SpongeMOTD",
+      "description": "Simple MOTD Plugin"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 9.3.0-SNAPSHOT
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#
+#   All commands and aliases are configurable!
+commands:
+  main-command:
+    cmd: "pmotd"
+    aliases:
+      - "pixelmotd"
+      - "pmd"
+      - "motd"
+    arguments:
+      reload: "reload"
+      whitelist: "whitelist"
+      blacklist: "blacklist"
+    permissions:
+      main: "pixelmotd.command.main"
+      reload: "pixelmotd.command.reload"
+      whitelist: "pixelmotd.command.whitelist"
+      blacklist: "pixelmotd.command.blacklist"

@@ -1,0 +1,108 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 9.3.0-SNAPSHOT
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#
+settings:
+
+  # MOTD SETTINGS
+
+  # This motd will appear when:
+  #   - You don't have installed ProtocolLib
+  #   - The player is running in a version before 1.16
+  # values: DEFAULT, HEX
+  default-priority-motd: "DEFAULT"
+
+  # CONFIGURATION SETTINGS
+
+  # Configuration version to prevent issues
+  config-version: 5
+  # Enable Check update when the plugin is loading
+  update-check: true
+  # Download automatically Updates
+  auto-download-updates: true
+  # Toggle update-check for Alpha and Beta Versions
+  check-alpha-updates: false
+
+  # EXTRA SETTINGS
+
+  # Online servers w/ sub-servers system.
+  # Usage: %<prefix>_<key>%
+  # Example: %custom_online_exampleName%, %custom_online_exampleContains%
+  online-variables:
+    # Toggle this option, without this option the motd will load faster
+    enabled: true
+    # The prefix for the variable.
+    prefix: "custom_online"
+    # Here you have two examples for CONTAINS mode and NAMES mode.
+    # Modes: NAMES,CONTAINS
+    exampleName:
+      # Name: Name will check the name of all servers, if your list contains the name of X servers, size of all players
+      # In these servers will be added to the online count of this variable.
+      mode: NAMES
+      values:
+        - "hub1"
+        - "hub2"
+        - "hub3"
+    exampleContains:
+      # CONTAINS (Example): You have sub-servers for SkyWars minigame, all servers contains "sw_map" in the name.
+      # Example: sw_map1,sw_map2,sw_map3,sw_map4 and you want to get the online players count of these servers
+      # Including the lobby players-count (sw_lobby1,sw_lobby2). This mode will check the name of all servers
+      # with your values to get the online-size.
+      mode: CONTAINS
+      values:
+        - "sw_map"
+        - "sw_lobby"
+
+  # Player Name system, usage: %player_<number>% system
+  player-system:
+    # Toggle this option
+    toggle: true
+    # This is for %player_<number>% variables, if you disable these variables will not work but the motd will load faster.
+    # But if you want to use this, here is the system, They asked me to add this system, and it is because it is here.
+
+  # Plugin language file, if you want to add your custom lang file you need put the name ("messages_<code>.yml") and in the language you put the code, example:
+  # messages_en.yml | code: en | language: en
+  # messages_es.yml | code: es | language: es
+  # messages_jp.yml | code: jp | language: jp
+  # messages_pl.yml | code: pl | language: pl
+  language: en
+
+  # This option is only for bungee-cord!
+  # Don't work in spigot version.
+  # Variable: %status_<server>%
+  server-status:
+    toggle: false
+    online: "&a&lONLINE"
+    offline: "&c&lOFFLINE"
+    intervals:
+      online: 10
+      offline: 10
+      timeout: 500
+
+  # MOTD CONFIGURATION
+
+  # Toggle the 1.16+ motd, this motd includes gradient or hex colors.
+  different-motd-for-116-or-higher: true
+  # Toggle outdated-client motd system
+  outdated-client-motd: true
+  # Toggle outdated-server motd system
+  outdated-server-motd: true
+  # Toggle this option
+  icon-system: true
+
+  # Config your max-server-protocol and min-server-protocol for the check of the outdated-client and outdated-server.
+  # You can see protocols here: https://minecraft.fandom.com/wiki/Protocol_version
+  # Default protocol versions are 1.8 to 1.18
+
+  # Default max protocol: 758 = 1.18.2
+  max-server-protocol: 758
+
+  # Default min protocol 47 = 1.8.X
+  min-server-protocol: 47

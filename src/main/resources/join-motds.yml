@@ -1,0 +1,37 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 9.3.0-SNAPSHOT
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#
+# This motd will be showed to all players when switch from worlds or servers depending on the platform
+global-join-motd:
+  enabled: true
+  # This will clear the chat before the global-join-motd.
+  clear-chat: true
+  # Lines of the motd, if you want center the text use: <center>
+  # This supports PlaceholderAPI when the plugin is installed on spigot.
+  lines:
+    - "<center>&a&lX PixelMotds 4"
+    - "<center>&f&oFourth re-work of the PixelMOTD"
+    - ""
+    - "&8 - &fYou are connected in &a%connected_server%"
+    - "&8 - &fYou were previously in &7%previous_server%"
+    - ""
+    - "&ePixelMOTD"
+  # This motd will not be sent to players in blacklist-servers or worlds
+  blacklist-servers:
+    - "lobby"
+    - "auth"
+join-motds:
+  lobby:
+    lines:
+      - "&cThis motd is exclusive for lobby server."
+  auth:
+    lines:
+      - "&cThis motd will be sent to players in the auth server."

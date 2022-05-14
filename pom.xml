@@ -55,6 +55,12 @@
     </build>
 
     <repositories>
+        <!-- Sponge Repo -->
+        <repository>
+            <id>sponge-repo</id>
+            <name>Sponge Maven Repository</name>
+            <url>https://repo.spongepowered.org/repository/maven-public/</url>
+        </repository>
         <!-- Velocity Repo -->
         <repository>
             <id>velocity</id>
@@ -106,6 +112,14 @@
         </dependency>
 
         <dependency>
+            <groupId>org.spongepowered</groupId>
+            <artifactId>spongeapi</artifactId>
+            <version>8.0.0</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.viaversion</groupId>
             <artifactId>viaversion-api</artifactId>
             <version>LATEST</version>
@@ -122,7 +136,7 @@
         <dependency>
             <groupId>com.github.MrUniverse44</groupId>
             <artifactId>SlimeLib</artifactId>
-            <version>1.0.4.1</version>
+            <version>1.0.4.3</version>
         </dependency>
 
         <dependency>

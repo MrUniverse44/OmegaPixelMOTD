@@ -1,0 +1,34 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 9.3.0-SNAPSHOT
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#
+messages:
+  reload: '&aEl plugin ha sido recargado en <ms>ms.'
+
+  error:
+    permission: '&cNecesitas el permiso <permission> para este comando.'
+    already-whitelisted: '&a<type> &e<player> &aya esta en la lista blanca!'
+    already-blacklisted: '&a<type> &e<player> &aya esta en la lista negra!'
+    not-whitelisted: '&a<type> &e<player> &ano esta en la lista blanca!'
+    not-blacklisted: '&a<type> &e<player> &ano esta en la lista negra!'
+
+  whitelist:
+    enabled: '&aEl modo mantenimiento ahora esta &b&lACTIVADO&a.'
+    disabled: '&aEl modo mantenimiento ahora esta &c&lDESACTIVADO&a.'
+    player:
+      add: '&a<type> &e<player> &aha sido&b agregado &aa la lista blanca.'
+      remove: '&a<type> &e<player> &afue&c eliminado &ade la lista blanca.'
+
+  blacklist:
+    enabled: '&aLa blacklist ahora esta &b&lACTIVADO&a.'
+    disabled: '&aLa blacklist ahora esta &c&lDESACTIVADO&a.'
+    player:
+      add: '&a<type> &e<player> &aha sido&b agregado &aa la lista negra.'
+      remove: '&a<type> &e<player> &afue&c eliminado &ade la lista negra.'
