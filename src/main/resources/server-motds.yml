@@ -81,7 +81,7 @@ motds:
         single-value: 1
         values: []
 
-hex-motds:
+motds-hex:
   default:
     line1: '&aThis motd supports hex colors'
     line2: '&7Is only for 1.16+ players.'

@@ -1,7 +1,7 @@
 package dev.justjustin.pixelmotd.initialization.sponge;
 
 import com.google.inject.Inject;
-import dev.justjustin.pixelmotd.initialization.PixelMOTD;
+import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.mruniverse.slimelib.SlimePlatform;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.config.ConfigDir;

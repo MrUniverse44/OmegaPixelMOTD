@@ -1,6 +1,6 @@
 package dev.justjustin.pixelmotd.initialization.spigot;
 
-import dev.justjustin.pixelmotd.initialization.PixelMOTD;
+import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.mruniverse.slimelib.SlimePlatform;
 import org.bukkit.plugin.java.JavaPlugin;
 

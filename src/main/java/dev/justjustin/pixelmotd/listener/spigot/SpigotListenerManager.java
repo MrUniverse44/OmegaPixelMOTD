@@ -24,8 +24,10 @@ public class SpigotListenerManager implements ListenerManager {
 
         if (manager.isPluginEnabled("ProtocolLib")) {
             new PacketServerPingListener(slimePlugin).register();
+            slimePlugin.getLogs().info("Using ProtocolLib for motds, enabling all features...");
         } else {
             manager.registerEvents(new ServerPingListener(slimePlugin), plugin);
+            slimePlugin.getLogs().info("Using default motd system from minecraft, disabling some features..");
         }
     }
 

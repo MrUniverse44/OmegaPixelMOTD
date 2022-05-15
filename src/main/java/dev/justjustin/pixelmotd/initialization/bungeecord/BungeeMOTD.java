@@ -1,6 +1,6 @@
 package dev.justjustin.pixelmotd.initialization.bungeecord;
 
-import dev.justjustin.pixelmotd.initialization.PixelMOTD;
+import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.mruniverse.slimelib.SlimePlatform;
 import net.md_5.bungee.api.plugin.Plugin;
 
