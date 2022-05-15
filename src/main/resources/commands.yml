@@ -17,10 +17,53 @@ commands:
       - "pixelmotd"
       - "pmd"
       - "motd"
+    no-arguments:
+      - "&a&l────── PIXEL MOTD ──────"
+      - "&8Created by JustJustin v%plugin version%"
+      - "&a&l────── PIXEL MOTD ──────"
+    admin:
+      main:
+        - "&a&l────── PIXEL MOTD ──────"
+        - "&8» &a/%used command% admin whitelist &8- &7Whitelist Commands."
+        - "&8» &a/%used command% admin blacklist &8- &7Blacklist Commands."
+        - "&8» &a/%used command% admin reload &8- &7Reload Command."
+        - "&8» &a/%used command% admin updater &8- &7Auto Update Command."
+        - "&a&l────── PIXEL MOTD ──────"
+      updater:
+        start: "&9Updater command has been used, all information will be posted in Console."
+        finish: "&9Updater has been applied, read information about the updater in Console."
+      whitelist:
+        - "&a&l────── PIXEL MOTD ──────"
+        - "&8Admin - Whitelist Commands:"
+        - "&8» &a/%used command% admin whitelist list &8- &7List of players, uuids in the whitelist."
+        - "&8» &a/%used command% admin whitelist add (player) [<server/world>]&8- &7Add a player to the whitelist."
+        - "&8» &a/%used command% admin whitelist remove (player) [<server/world>] &8- &7Remove a player from whitelist."
+        - "&8» &a/%used command% admin whitelist <on|off> [<server/world>] &8- &7Toggle whitelist."
+        - "&a&l────── PIXEL MOTD ──────"
+      blacklist:
+        - "&a&l────── PIXEL MOTD ──────"
+        - "&8Admin - Blacklist Commands:"
+        - "&8» &a/%used command% admin blacklist list &8- &7List of players, uuids in the blacklist."
+        - "&8» &a/%used command% admin blacklist add (player) [<server/world>]&8- &7Add a player to the blacklist."
+        - "&8» &a/%used command% admin blacklist remove (player) [<server/world>] &8- &7Remove a player from blacklist."
+        - "&8» &a/%used command% admin blacklist <on|off> [<server/world>] &8- &7Toggle blacklist."
+        - "&a&l────── PIXEL MOTD ──────"
     arguments:
       reload: "reload"
-      whitelist: "whitelist"
-      blacklist: "blacklist"
+      whitelist:
+        main: "whitelist"
+        list: "list"
+        add: "add"
+        remove: "remove"
+        toggle-on: "on"
+        toggle-off: "off"
+      blacklist:
+        main: "blacklist"
+        list: "list"
+        add: "add"
+        remove: "remove"
+        toggle-on: "on"
+        toggle-off: "off"
     permissions:
       main: "pixelmotd.command.main"
       reload: "pixelmotd.command.reload"

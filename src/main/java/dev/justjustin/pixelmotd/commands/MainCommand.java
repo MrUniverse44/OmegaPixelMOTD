@@ -5,6 +5,7 @@ import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
 import dev.mruniverse.slimelib.commands.sender.Sender;
+import dev.mruniverse.slimelib.control.Control;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ import java.util.List;
         usage = "/<command> (whitelist, blacklist, reload)"
 )
 public class MainCommand<T> implements SlimeCommand {
+
+    private final String path = "commands.main-command.";
 
     private final SlimePlugin<T> plugin;
 
@@ -31,7 +34,13 @@ public class MainCommand<T> implements SlimeCommand {
     }
 
     @Override
-    public void execute(Sender sender, String s, String[] strings) {
+    public void execute(Sender sender, String command, String[] arguments) {
+        Control commandManager = plugin.getLoader().getFiles().getControl(SlimeFile.COMMANDS);
+        if (arguments.length == 0) {
+            if (sender.hasPermission(commandManager.getString(path + "permissions.main"))) {
+                return;
+            }
+        }
 
     }
 
