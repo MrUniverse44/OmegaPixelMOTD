@@ -16,6 +16,7 @@ public enum MotdType {
     private final String path;
 
     private final SlimeFile file;
+
     private final boolean hexMode;
 
     MotdType(SlimeFile file, String path, boolean hexMode) {
