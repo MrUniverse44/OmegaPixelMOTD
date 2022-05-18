@@ -25,21 +25,41 @@ public class MainCommand<T> implements SlimeCommand {
 
     @Override
     public String getCommand() {
-        return plugin.getLoader().getFiles().getControl(SlimeFile.COMMANDS).getString("commands.main-command.cmd", "pmotd");
+        return plugin.getLoader().getFiles().getControl(SlimeFile.COMMANDS).getString(path + "cmd", "pmotd");
     }
 
     @Override
     public List<String> getAliases() {
-        return plugin.getLoader().getFiles().getControl(SlimeFile.COMMANDS).getStringList("commands.main-command.aliases");
+        return plugin.getLoader().getFiles().getControl(SlimeFile.COMMANDS).getStringList(path + "aliases");
     }
 
     @Override
     public void execute(Sender sender, String command, String[] arguments) {
         Control commandManager = plugin.getLoader().getFiles().getControl(SlimeFile.COMMANDS);
+        Control messages  = plugin.getLoader().getFiles().getControl(SlimeFile.MESSAGES);
+
         if (arguments.length == 0) {
-            if (sender.hasPermission(commandManager.getString(path + "permissions.main"))) {
+
+            String permission = commandManager.getString(path + "permissions.main", "pixelmotd.command.main");
+
+            if (!sender.hasPermission(permission)) {
+
+                String message = messages.getString("messages.error.permission", "");
+
+                sender.sendColoredMessage(message.replace("<permission>", permission));
                 return;
+
             }
+
+            List<String> stringList = commandManager.getStringList(path + "no-arguments");
+
+            stringList.replaceAll(line -> line.replace("%plugin version%", plugin.getPluginInformation().getVersion()));
+
+            for (String line : stringList) {
+                sender.sendColoredMessage(line);
+            }
+            return;
+
         }
 
     }

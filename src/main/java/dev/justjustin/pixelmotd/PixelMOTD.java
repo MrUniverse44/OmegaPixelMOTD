@@ -5,6 +5,7 @@ import dev.justjustin.pixelmotd.players.PlayerHandler;
 import dev.justjustin.pixelmotd.storage.MotdStorage;
 import dev.mruniverse.slimelib.SlimePlatform;
 import dev.mruniverse.slimelib.SlimePlugin;
+import dev.mruniverse.slimelib.SlimePluginInformation;
 import dev.mruniverse.slimelib.input.InputManager;
 import dev.mruniverse.slimelib.loader.BaseSlimeLoader;
 import dev.mruniverse.slimelib.loader.DefaultSlimeLoader;
@@ -15,6 +16,8 @@ import java.io.File;
 
 @SuppressWarnings("unused")
 public class PixelMOTD<T> implements SlimePlugin<T> {
+
+    private final SlimePluginInformation information;
 
     private final ListenerManager listenerManager;
 
@@ -46,6 +49,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         this.folder        = dataFolder;
         this.platform      = platform;
         this.plugin        = plugin;
+        this.information   = new SlimePluginInformation(platform, plugin);
 
         this.logs          = SlimeLog.createLogs(platform, this);
 
@@ -68,6 +72,11 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
     public PlayerHandler getPlayerHandler() {
         return playerHandler;
+    }
+
+    @Override
+    public SlimePluginInformation getPluginInformation() {
+        return information;
     }
 
     @Override
