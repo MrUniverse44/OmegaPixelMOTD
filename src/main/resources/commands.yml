@@ -64,6 +64,7 @@ commands:
         remove: "remove"
         toggle-on: "on"
         toggle-off: "off"
+      updater: "updater"
     permissions:
       main: "pixelmotd.command.main"
       reload: "pixelmotd.command.reload"
