@@ -2,6 +2,7 @@ package dev.justjustin.pixelmotd.commands;
 
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.utils.ListType;
+import dev.justjustin.pixelmotd.utils.WhitelistLocation;
 import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
@@ -112,7 +113,7 @@ public class MainCommand<T> implements SlimeCommand {
 
             }
 
-            executeList(commandManager, messages, sender, ListType.WHITELIST, removeArguments(arguments));
+            executeList(commandManager, messages, command, sender, ListType.WHITELIST, removeArguments(arguments));
             return;
         }
 
@@ -129,7 +130,7 @@ public class MainCommand<T> implements SlimeCommand {
 
             }
 
-            executeList(commandManager, messages, sender, ListType.BLACKLIST, removeArguments(arguments));
+            executeList(commandManager, messages, command, sender, ListType.BLACKLIST, removeArguments(arguments));
             return;
         }
 
@@ -154,13 +155,71 @@ public class MainCommand<T> implements SlimeCommand {
         }
     }
 
-    private void executeList(Control commandManager, Control messages, Sender sender, ListType listType, String[] arguments) {
-        if (arguments.length == 0) {
-            List<String> message = commandManager.getStringList(path + "admin." + listType.toString());
+    private void executeList(Control commandManager, Control messages, String command, Sender sender, ListType type, String[] args) {
+        if (args.length == 0) {
+            List<String> message = commandManager.getStringList(path + "admin." + type.toString());
 
-            //TODO: whitelist and blacklist commands.
+            message.replaceAll(line -> line.replace("%used command%", command));
+
+            for (String text : message) {
+                sender.sendColoredMessage(text);
+            }
 
             return;
+        }
+
+        Control file = plugin.getLoader().getFiles().getControl(type.getFile());
+
+        if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(1)))) {
+            sender.sendColoredMessage("&aUser Name List: (Global Whitelist)");
+
+            sendList(sender, file, "global-whitelist-players.players.by-name");
+
+            for (String username : file.getStringList("global-whitelist-players.players.by-name")) {
+                sender.sendColoredMessage("  &8- &7" + username);
+            }
+
+            sender.sendColoredMessage("&aUUID List: (Global Whitelist)");
+
+            sendList(sender, file, "global-whitelist-players.players.by-uuid");
+
+            WhitelistLocation place = WhitelistLocation.fromPlatform(plugin.getServerType());
+
+            for (String keys : file.getContent(place.toString(), false)) {
+                sender.sendColoredMessage("&aUser Name List: (" + place.toSingular() + "-" + keys + " Whitelist)");
+
+                sendList(sender, file, place + ".players.by-name");
+
+                sender.sendColoredMessage("&aUUID List: (" + place.toSingular() + "-" + keys + " Whitelist)");
+
+                sendList(sender, file, place + ".players.by-uuid");
+            }
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(2)))) {
+            //TODO: Add Command
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(3)))) {
+            //TODO: Remove Command
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(4)))) {
+            //TODO: Toggle ON
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(5)))) {
+            //TODO: Toggle OFF
+        }
+    }
+
+    private void sendList(Sender sender, Control file, String path) {
+        for (String username : file.getStringList(path)) {
+            sender.sendColoredMessage("  &8- &7" + username);
         }
     }
 
