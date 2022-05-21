@@ -2,6 +2,7 @@ package dev.justjustin.pixelmotd.commands;
 
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.utils.ListType;
+import dev.justjustin.pixelmotd.utils.PlayerUtil;
 import dev.justjustin.pixelmotd.utils.WhitelistLocation;
 import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.commands.command.Command;
@@ -146,8 +147,8 @@ public class MainCommand<T> implements SlimeCommand {
                 return;
 
             }
-
             plugin.reload();
+            update();
         }
 
         if (arguments[0].equalsIgnoreCase(argumentsMap.get(3))) {
@@ -175,10 +176,6 @@ public class MainCommand<T> implements SlimeCommand {
 
             sendList(sender, file, "global-whitelist-players.players.by-name");
 
-            for (String username : file.getStringList("global-whitelist-players.players.by-name")) {
-                sender.sendColoredMessage("  &8- &7" + username);
-            }
-
             sender.sendColoredMessage("&aUUID List: (Global Whitelist)");
 
             sendList(sender, file, "global-whitelist-players.players.by-uuid");
@@ -186,24 +183,92 @@ public class MainCommand<T> implements SlimeCommand {
             WhitelistLocation place = WhitelistLocation.fromPlatform(plugin.getServerType());
 
             for (String keys : file.getContent(place.toString(), false)) {
+
                 sender.sendColoredMessage("&aUser Name List: (" + place.toSingular() + "-" + keys + " Whitelist)");
 
-                sendList(sender, file, place + ".players.by-name");
+                sendList(sender, file, place + "." + keys + ".players.by-name");
 
                 sender.sendColoredMessage("&aUUID List: (" + place.toSingular() + "-" + keys + " Whitelist)");
 
-                sendList(sender, file, place + ".players.by-uuid");
+                sendList(sender, file, place + "." + keys + ".players.by-uuid");
+
             }
             return;
         }
 
         if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(2)))) {
-            //TODO: Add Command
+            if (args.length == 1 || args.length >= 4) {
+                sender.sendColoredMessage(messages.getString("messages.error.invalid-arguments", ""));
+                return;
+            }
+
+            String value = args[1];
+
+            String path = "global-whitelist-players.players." + PlayerUtil.getDestinyPath(value);
+
+            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+
+            if (args.length == 3) {
+                path = whitelistLocation.toString() + "." + value + ".players." + PlayerUtil.getDestinyPath(value);
+            }
+
+            List<String> valueList = file.getStringList(path);
+
+            if (valueList.contains(value)) {
+                sender.sendColoredMessage(
+                        messages.getString("messages.error.already-" + type + "ed", "").replace("<type>", PlayerUtil.fromUnknown(value)).replace("<player>", value)
+                );
+                return;
+            }
+
+            valueList.add(value);
+
+            plugin.getLoader().getFiles().getControl(type.getFile()).set(path, valueList);
+            plugin.getLoader().getFiles().getControl(type.getFile()).save();
+            plugin.getLoader().getFiles().getControl(type.getFile()).reload();
+
+            sender.sendColoredMessage(
+                    messages.getString("messages." + type + ".player.add", "").replace("<type>", PlayerUtil.fromUnknown(value)).replace("<player>", value)
+            );
+
             return;
         }
 
         if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(3)))) {
-            //TODO: Remove Command
+            if (args.length == 1 || args.length >= 4) {
+                sender.sendColoredMessage(messages.getString("messages.error.invalid-arguments", ""));
+                return;
+            }
+
+            String value = args[1];
+
+            String path = "global-whitelist-players.players." + PlayerUtil.getDestinyPath(value);
+
+            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+
+            if (args.length == 3) {
+                path = whitelistLocation.toString() + "." + value + ".players." + PlayerUtil.getDestinyPath(value);
+            }
+
+            List<String> valueList = file.getStringList(path);
+
+            if (!valueList.contains(value)) {
+                sender.sendColoredMessage(
+                        messages.getString("messages.error.not-" + type + "ed", "").replace("<type>", PlayerUtil.fromUnknown(value)).replace("<player>", value)
+                );
+                return;
+            }
+
+            valueList.remove(value);
+
+            plugin.getLoader().getFiles().getControl(type.getFile()).set(path, valueList);
+            plugin.getLoader().getFiles().getControl(type.getFile()).save();
+            plugin.getLoader().getFiles().getControl(type.getFile()).reload();
+
+            sender.sendColoredMessage(
+                    messages.getString("messages." + type + ".player.remove", "").replace("<type>", PlayerUtil.fromUnknown(value)).replace("<player>", value)
+            );
+
             return;
         }
 

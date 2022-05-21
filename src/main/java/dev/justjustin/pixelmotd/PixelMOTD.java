@@ -3,6 +3,7 @@ package dev.justjustin.pixelmotd;
 import dev.justjustin.pixelmotd.commands.MainCommand;
 import dev.justjustin.pixelmotd.players.PlayerHandler;
 import dev.justjustin.pixelmotd.storage.MotdStorage;
+import dev.justjustin.pixelmotd.utils.Updater;
 import dev.mruniverse.slimelib.SlimePlatform;
 import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.SlimePluginInformation;
@@ -64,6 +65,15 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         listenerManager = ListenerManager.createNewInstance(platform, this);
 
         listenerManager.register();
+
+        if (slimeLoader.getFiles().getControl(SlimeFile.SETTINGS).getStatus("settings.update-check",true)) {
+            if (slimeLoader.getFiles().getControl(SlimeFile.SETTINGS).getStatus("settings.auto-download-updates",true)) {
+                new Updater(logs, information.getVersion(), 37177, getDataFolder(), Updater.UpdateType.CHECK_DOWNLOAD);
+            } else {
+                new Updater(logs, information.getVersion(), 37177, getDataFolder(), Updater.UpdateType.VERSION_CHECK);
+            }
+
+        }
     }
 
     public ListenerManager getListenerManager() {

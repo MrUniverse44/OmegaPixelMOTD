@@ -18,6 +18,7 @@ messages:
     already-blacklisted: '&a<type> &e<player> &aはすでにブラックリストに追加されています！'
     not-whitelisted: '&a<type> &e<player> &aはホワイトリストに追加されていません！'
     not-blacklisted: '&a<type> &e<player> &aはブラックリストにつかされていません！'
+    invalid-arguments: '&aThis command needs more arguments.'
 
   whitelist:
     enabled: '&aホワイトリストが&b&l有効&aです。'

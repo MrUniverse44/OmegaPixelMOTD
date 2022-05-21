@@ -18,6 +18,7 @@ messages:
     already-blacklisted: '&a<type> &e<player> &ais already in the blacklist!'
     not-whitelisted: '&a<type> &e<player> &ais not in the whitelist!'
     not-blacklisted: '&a<type> &e<player> &ais not in the blacklist!'
+    invalid-arguments: '&aThis command needs more arguments.'
 
   whitelist:
     enabled: '&aWhitelist Status now is &b&lENABLED&a.'

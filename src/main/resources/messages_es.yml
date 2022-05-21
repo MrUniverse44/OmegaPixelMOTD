@@ -18,6 +18,7 @@ messages:
     already-blacklisted: '&a<type> &e<player> &aya esta en la lista negra!'
     not-whitelisted: '&a<type> &e<player> &ano esta en la lista blanca!'
     not-blacklisted: '&a<type> &e<player> &ano esta en la lista negra!'
+    invalid-arguments: '&aEste comando necesita mas argumentos.'
 
   whitelist:
     enabled: '&aEl modo mantenimiento ahora esta &b&lACTIVADO&a.'
