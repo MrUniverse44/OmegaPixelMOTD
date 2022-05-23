@@ -12,10 +12,8 @@ import java.io.File;
 
 public class VelocityMotdBuilder extends MotdBuilder<ProxyServer, Favicon> {
 
-
-    @SuppressWarnings("unchecked")
-    public <T> VelocityMotdBuilder(PixelMOTD<T> plugin, SlimeLogs logs) {
-        super((PixelMOTD<ProxyServer>) plugin, logs);
+    public VelocityMotdBuilder(PixelMOTD<ProxyServer> plugin, SlimeLogs logs) {
+        super(plugin, logs);
     }
 
     @Override

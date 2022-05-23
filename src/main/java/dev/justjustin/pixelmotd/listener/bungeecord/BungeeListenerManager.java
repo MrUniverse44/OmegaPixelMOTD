@@ -1,17 +1,17 @@
 package dev.justjustin.pixelmotd.listener.bungeecord;
 
 import dev.justjustin.pixelmotd.ListenerManager;
+import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.bungeecord.events.ProxyPingListener;
-import dev.mruniverse.slimelib.SlimePlugin;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class BungeeListenerManager implements ListenerManager {
 
-    private final SlimePlugin<Plugin> slimePlugin;
+    private final PixelMOTD<Plugin> slimePlugin;
 
     @SuppressWarnings("unchecked")
-    public <T> BungeeListenerManager(SlimePlugin<T> plugin) {
-        this.slimePlugin = (SlimePlugin<Plugin>) plugin;
+    public <T> BungeeListenerManager(PixelMOTD<T> plugin) {
+        this.slimePlugin = (PixelMOTD<Plugin>) plugin;
     }
 
     @Override

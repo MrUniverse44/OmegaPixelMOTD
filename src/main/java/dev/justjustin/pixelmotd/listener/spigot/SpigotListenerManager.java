@@ -1,19 +1,19 @@
 package dev.justjustin.pixelmotd.listener.spigot;
 
 import dev.justjustin.pixelmotd.ListenerManager;
+import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.spigot.events.PacketServerPingListener;
 import dev.justjustin.pixelmotd.listener.spigot.events.ServerPingListener;
-import dev.mruniverse.slimelib.SlimePlugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SpigotListenerManager implements ListenerManager {
 
-    private final SlimePlugin<JavaPlugin> slimePlugin;
+    private final PixelMOTD<JavaPlugin> slimePlugin;
 
     @SuppressWarnings("unchecked")
-    public <T> SpigotListenerManager(SlimePlugin<T> plugin) {
-        this.slimePlugin = (SlimePlugin<JavaPlugin>) plugin;
+    public <T> SpigotListenerManager(PixelMOTD<T> plugin) {
+        this.slimePlugin = (PixelMOTD<JavaPlugin>) plugin;
     }
 
     @Override

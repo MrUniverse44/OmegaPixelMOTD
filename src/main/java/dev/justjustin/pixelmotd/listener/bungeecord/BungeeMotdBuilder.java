@@ -12,9 +12,8 @@ import java.io.File;
 
 public class BungeeMotdBuilder extends MotdBuilder<Plugin, Favicon> {
 
-    @SuppressWarnings("unchecked")
-    public <T> BungeeMotdBuilder(PixelMOTD<T> plugin, SlimeLogs logs) {
-        super((PixelMOTD<Plugin>) plugin, logs);
+    public BungeeMotdBuilder(PixelMOTD<Plugin> plugin, SlimeLogs logs) {
+        super(plugin, logs);
     }
 
     @Override

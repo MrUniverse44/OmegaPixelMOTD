@@ -12,9 +12,8 @@ import java.io.File;
 
 public class SpongeMotdBuilder extends MotdBuilder<Server, Favicon> {
 
-    @SuppressWarnings("unchecked")
-    public <T> SpongeMotdBuilder(PixelMOTD<T> plugin, SlimeLogs logs) {
-        super((PixelMOTD<Server>) plugin, logs);
+    public SpongeMotdBuilder(PixelMOTD<Server> plugin, SlimeLogs logs) {
+        super(plugin, logs);
     }
 
     @Override

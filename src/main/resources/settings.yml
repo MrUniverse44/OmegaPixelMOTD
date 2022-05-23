@@ -65,7 +65,7 @@ settings:
   # Player Name system, usage: %player_<number>% system
   player-system:
     # Toggle this option
-    toggle: true
+    enabled: true
     # This is for %player_<number>% variables, if you disable these variables will not work but the motd will load faster.
     # But if you want to use this, here is the system, They asked me to add this system, and it is because it is here.
 

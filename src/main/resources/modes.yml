@@ -22,6 +22,7 @@ custom-console-name:
 whitelist:
   global:
     enabled: true
+    enable-motd: true
     author: Console
     reason: We are working on new updates.
     players:
@@ -31,6 +32,7 @@ whitelist:
 blacklist:
   global:
     enabled: true
+    enable-motd: true
     author: Console
     reason: You are blocked on this server.
     players:

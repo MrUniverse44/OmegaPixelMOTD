@@ -12,8 +12,6 @@
 #   GitHub Link: https://github.com/MrUniverse44/XPixelMotd4
 #
 #  # <- clone this format to create your own motd
-#  # icons:
-#  # <- folders: DEFAULT, MOTD_FOLDER
 #  # <- icon: "ICON NAME.png" or "RANDOM" (RANDOM TO SELECT A RANDOM IMAGE FROM THE FOLDER)
 #  # protocol:
 #  # <- modifiers: ALWAYS_POSITIVE,ALWAYS_NEGATIVE,DEFAULT
@@ -30,7 +28,6 @@
 #       lines:
 #         - "Here you hover"
 #     icons:
-#       folder: DEFAULT
 #       icon: "test.png"
 #     protocol:
 #       toggle: true
@@ -65,7 +62,6 @@ outdated-client:
         - "<hasOnline>%player_5%"
         - "<hasMoreOnline>&7+&a%more_online% &7players."
     icons:
-      folder: DEFAULT
       icon: "test.png"
     protocol:
       toggle: true
@@ -101,7 +97,6 @@ outdated-client-hex:
         - "<hasOnline>%player_5%"
         - "<hasMoreOnline>&7+&a%more_online% &7players."
     icons:
-      folder: DEFAULT
       icon: "test.png"
     protocol:
       toggle: true

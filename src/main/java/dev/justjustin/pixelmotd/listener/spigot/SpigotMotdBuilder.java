@@ -12,9 +12,8 @@ import java.io.File;
 
 public class SpigotMotdBuilder extends MotdBuilder<JavaPlugin, CachedServerIcon> {
 
-    @SuppressWarnings("unchecked")
-    public <T> SpigotMotdBuilder(PixelMOTD<T> plugin, SlimeLogs logs) {
-        super((PixelMOTD<JavaPlugin>) plugin, logs);
+    public SpigotMotdBuilder(PixelMOTD<JavaPlugin> plugin, SlimeLogs logs) {
+        super(plugin, logs);
     }
 
     @Override
