@@ -9,6 +9,7 @@ public enum SlimeFile implements SlimeFiles {
     SERVER_MOTDS("server-motds.yml", "motds"),
     JOIN_MOTDS("join-motds.yml", "motds"),
     EVENTS("events.yml"),
+    MODES("modes.yml"),
     COMMANDS("commands.yml"),
     MESSAGES("messages_en.yml", "translations"),
     MESSAGES_EN("messages_en.yml", "translations"),

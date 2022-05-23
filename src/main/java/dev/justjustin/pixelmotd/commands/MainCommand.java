@@ -3,6 +3,7 @@ package dev.justjustin.pixelmotd.commands;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.utils.ListType;
 import dev.justjustin.pixelmotd.utils.PlayerUtil;
+import dev.justjustin.pixelmotd.utils.Updater;
 import dev.justjustin.pixelmotd.utils.WhitelistLocation;
 import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.commands.command.Command;
@@ -10,6 +11,7 @@ import dev.mruniverse.slimelib.commands.command.SlimeCommand;
 import dev.mruniverse.slimelib.commands.sender.Sender;
 import dev.mruniverse.slimelib.control.Control;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,7 +154,28 @@ public class MainCommand<T> implements SlimeCommand {
         }
 
         if (arguments[0].equalsIgnoreCase(argumentsMap.get(3))) {
-            //TODO: Updater
+            final Control settings = plugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS);
+
+            if (settings.getStatus("settings.update-check", true)) {
+                sender.sendColoredMessage("&9Updater Command has been used, information will be posted in Console");
+
+                Updater.UpdateType type = Updater.UpdateType.VERSION_CHECK;
+
+                if (settings.getStatus("settings.auto-download-updates", true)) {
+                    type = Updater.UpdateType.CHECK_DOWNLOAD;
+                }
+
+                new Updater(
+                        plugin.getLogs(),
+                        plugin.getPluginInformation().getVersion(),
+                        37177, plugin.getDataFolder(),
+                        type
+                );
+
+                sender.sendColoredMessage("&bUpdater has been applied read info in Console.");
+            } else {
+                sender.sendColoredMessage("&cUpdater is not enabled in settings.yml");
+            }
         }
     }
 
@@ -204,12 +227,12 @@ public class MainCommand<T> implements SlimeCommand {
 
             String value = args[1];
 
-            String path = "global-whitelist-players.players." + PlayerUtil.getDestinyPath(value);
+            String path = type + ".global.players." + PlayerUtil.getDestinyPath(value);
 
             WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
 
             if (args.length == 3) {
-                path = whitelistLocation.toString() + "." + value + ".players." + PlayerUtil.getDestinyPath(value);
+                path = type + "." + whitelistLocation.toStringLowerCase() + "." + value + ".players." + PlayerUtil.getDestinyPath(value);
             }
 
             List<String> valueList = file.getStringList(path);
@@ -242,12 +265,12 @@ public class MainCommand<T> implements SlimeCommand {
 
             String value = args[1];
 
-            String path = "global-whitelist-players.players." + PlayerUtil.getDestinyPath(value);
+            String path = type + ".global.players." + PlayerUtil.getDestinyPath(value);
 
             WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
 
             if (args.length == 3) {
-                path = whitelistLocation.toString() + "." + value + ".players." + PlayerUtil.getDestinyPath(value);
+                path = type + "." + whitelistLocation.toStringLowerCase() + "." + value + ".players." + PlayerUtil.getDestinyPath(value);
             }
 
             List<String> valueList = file.getStringList(path);
@@ -273,12 +296,87 @@ public class MainCommand<T> implements SlimeCommand {
         }
 
         if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(4)))) {
-            //TODO: Toggle ON
+
+            String path = type + ".global.";
+
+            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+
+            if (args.length >= 2) {
+
+                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[1] + ".";
+
+            }
+
+            plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                    path + "enabled",
+                    true
+            );
+
+            if (!sender.isConsoleSender() || !file.getStatus("custom-console-name.enabled")) {
+
+                plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                        path + "author",
+                        sender.getName()
+                );
+
+            } else {
+
+                plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                        path + "author",
+                        file.getString("custom-console-name.name", "")
+                );
+
+            }
+
+            plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                    path + "reason",
+                    file.getString("default-reasons" + type)
+            );
+
+            plugin.getLoader().getFiles().getControl(type.getFile()).save();
+            plugin.getLoader().getFiles().getControl(type.getFile()).reload();
             return;
         }
 
         if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(5)))) {
-            //TODO: Toggle OFF
+            String path = type + ".global.";
+
+            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+
+            if (args.length >= 2) {
+
+                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[1] + ".";
+
+            }
+
+            plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                    path + "enabled",
+                    true
+            );
+
+            if (!sender.isConsoleSender() || !file.getStatus("custom-console-name.enabled")) {
+
+                plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                        path + "author",
+                        sender.getName()
+                );
+
+            } else {
+
+                plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                        path + "author",
+                        file.getString("custom-console-name.name", "")
+                );
+
+            }
+
+            plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                    path + "reason",
+                    file.getString("default-reasons" + type)
+            );
+
+            plugin.getLoader().getFiles().getControl(type.getFile()).save();
+            plugin.getLoader().getFiles().getControl(type.getFile()).reload();
         }
     }
 
@@ -296,6 +394,33 @@ public class MainCommand<T> implements SlimeCommand {
 
     @Override
     public List<String> onTabComplete(Sender sender, String commandLabel, String[] args) {
-        return SlimeCommand.super.onTabComplete(sender, commandLabel, args);
+        List<String> arguments = new ArrayList<>();
+
+        if (args.length == 0) {
+            arguments.add(argumentsMap.get(0));
+            arguments.add(argumentsMap.get(1));
+            arguments.add(argumentsMap.get(2));
+            arguments.add(argumentsMap.get(3));
+            return arguments;
+        }
+
+        if (args[0].equalsIgnoreCase(argumentsMap.get(1))) {
+            arguments.add(argumentsMap.get(11));
+            arguments.add(argumentsMap.get(12));
+            arguments.add(argumentsMap.get(13));
+            arguments.add(argumentsMap.get(14));
+            arguments.add(argumentsMap.get(15));
+            return arguments;
+        }
+
+        if (args[0].equalsIgnoreCase(argumentsMap.get(2))) {
+            arguments.add(argumentsMap.get(21));
+            arguments.add(argumentsMap.get(22));
+            arguments.add(argumentsMap.get(23));
+            arguments.add(argumentsMap.get(24));
+            arguments.add(argumentsMap.get(25));
+            return arguments;
+        }
+        return arguments;
     }
 }

@@ -8,6 +8,8 @@
 #   Using version 9.3.0-SNAPSHOT
 #   Author: JustJustin (MrUniverse44)
 #   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#   MC-Market Link: https://www.mc-market.org/resources/22313/
+#   GitHub Link: https://github.com/MrUniverse44/XPixelMotd4
 #
 messages:
   reload: '&aEl plugin ha sido recargado en <ms>ms.'

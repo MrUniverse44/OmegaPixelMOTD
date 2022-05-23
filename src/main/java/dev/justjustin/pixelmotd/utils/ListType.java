@@ -3,19 +3,16 @@ package dev.justjustin.pixelmotd.utils;
 import dev.justjustin.pixelmotd.SlimeFile;
 
 public enum ListType {
-    WHITELIST(1, SlimeFile.WHITELIST),
-    BLACKLIST(2, SlimeFile.BLACKLIST);
-
-    private final SlimeFile file;
+    WHITELIST(1),
+    BLACKLIST(2);
     private final int id;
 
-    ListType(int id, SlimeFile file) {
-        this.file = file;
+    ListType(int id) {
         this.id = id;
     }
 
     public SlimeFile getFile() {
-        return file;
+        return SlimeFile.MODES;
     }
 
     public Integer getArgument(int argument) {

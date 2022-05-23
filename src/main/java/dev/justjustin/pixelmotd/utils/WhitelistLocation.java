@@ -17,6 +17,10 @@ public enum WhitelistLocation {
                 return WORLDS;
         }
     }
+    
+    public String toStringLowerCase() {
+        return super.toString().toLowerCase();
+    }
 
     @Override
     public String toString() {
