@@ -69,6 +69,8 @@ settings:
     # This is for %player_<number>% variables, if you disable these variables will not work but the motd will load faster.
     # But if you want to use this, here is the system, They asked me to add this system, and it is because it is here.
 
+  unknown-player: "unknown#1"
+
   # Plugin language file, if you want to add your custom lang file you need put the name ("messages_<code>.yml") and in the language you put the code, example:
   # messages_en.yml | code: en | language: en
   # messages_es.yml | code: es | language: es

@@ -129,8 +129,6 @@ public class ProxyPingListener implements Listener, Ping {
             pingBuilder.execute(MotdType.OUTDATED_CLIENT, ping, protocol, userName);
         }
 
-        //TODO: ProxyPingListener MOTD
-
     }
 
 }
