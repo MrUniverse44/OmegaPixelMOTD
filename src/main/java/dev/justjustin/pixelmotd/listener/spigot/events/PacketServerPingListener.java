@@ -170,8 +170,6 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
         if (MIN_PROTOCOL > protocol && hasOutdatedClient) {
             pingBuilder.execute(MotdType.OUTDATED_CLIENT, ping, protocol, user);
         }
-
-        // TODO: Motd
     }
 
 }
