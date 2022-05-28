@@ -1,4 +1,173 @@
 package dev.justjustin.pixelmotd.listener.velocity;
 
-public class VelocityPingBuilder {
+import com.velocitypowered.api.event.proxy.ProxyPingEvent;
+import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.server.ServerPing;
+import com.velocitypowered.api.util.Favicon;
+import dev.justjustin.pixelmotd.MotdProtocol;
+import dev.justjustin.pixelmotd.MotdType;
+import dev.justjustin.pixelmotd.PixelMOTD;
+import dev.justjustin.pixelmotd.listener.MotdBuilder;
+import dev.justjustin.pixelmotd.listener.PingBuilder;
+import dev.justjustin.pixelmotd.utils.MotdPlayers;
+import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.logs.SlimeLogs;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
+import java.util.List;
+import java.util.UUID;
+
+public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, ProxyPingEvent, ServerPing.SamplePlayer> {
+
+    public VelocityPingBuilder(PixelMOTD<ProxyServer> plugin, MotdBuilder<ProxyServer, Favicon> builder) {
+        super(plugin, builder);
+    }
+
+    @Override
+    public void execute(MotdType motdType, ProxyPingEvent event, int code, String user) {
+        final SlimeLogs logs = getPlugin().getLogs();
+
+        final Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
+
+        ServerPing.Builder ping = event.getPing().asBuilder();
+
+        String motd;
+
+        try {
+            motd = getMotd(motdType);
+        } catch (Exception ignored) {
+            logs.error("This file isn't updated to the latest file or the motd-path is incorrect, can't find motds for MotdType: " + motdType);
+            return;
+        }
+
+        String path = motdType + "." + motd + ".";
+
+        String line1, line2, completed;
+
+        int online, max;
+
+        if (isIconSystem()) {
+            Favicon img = getBuilder().getFavicon(
+                    motdType,
+                    control.getString(
+                            path + "icons.icon"
+                    )
+            );
+            if (img != null) {
+                ping.favicon(img);
+            }
+        }
+
+        if (control.getStatus(path + "players.online.toggle")) {
+            online = MotdPlayers.getModeFromText(
+                    control,
+                    control.getString(path + "players.online.type", ""),
+                    getPlugin().getPlayerHandler().getPlayersSize(),
+                    path + "players.online."
+            );
+        } else {
+            online = net.md_5.bungee.api.ProxyServer.getInstance().getOnlineCount();
+        }
+        if (control.getStatus(path + "players.max.toggle")) {
+            String mode = control.getString(path + "players.max.type", "").toLowerCase();
+            if (mode.contains("equal")) {
+                max = MotdPlayers.getModeFromText(
+                        control,
+                        mode,
+                        getPlugin().getPlugin().getPlayerCount(),
+                        path + "players.max."
+                );
+            } else {
+                max = MotdPlayers.getModeFromText(
+                        control,
+                        mode,
+                        online,
+                        path + "players.max."
+                );
+            }
+        } else {
+            max = getPlugin().getPlugin().getConfiguration().getShowMaxPlayers();
+        }
+
+        if (control.getStatus(path + "hover.toggle")) {
+            ping.samplePlayers(
+                    getHover(
+                            motdType,
+                            path,
+                            online,
+                            max,
+                            user
+                    )
+            );
+        }
+
+        if (control.getStatus(path + "protocol.toggle")) {
+            MotdProtocol protocol = MotdProtocol.getFromText(
+                    control.getString(control.getString(path + "protocol.modifier", "")),
+                    code
+            );
+
+            int p1 = ping.getVersion().getProtocol();
+            TextComponent n1 = color(
+                    control.getString(path + "protocol.message")
+            );
+
+            if (protocol == MotdProtocol.ALWAYS_POSITIVE || protocol == MotdProtocol.ALWAYS_NEGATIVE) {
+                p1 = protocol.getCode();
+            }
+
+            ping.version(
+                    new ServerPing.Version(
+                            p1,
+                            n1.content()
+                    )
+            );
+        }
+
+        TextComponent result;
+
+        line1 = control.getColoredString(path + "line1", "");
+        line2 = control.getColoredString(path + "line2", "");
+
+        completed = line1 + "\n" + line2;
+
+        result = color(completed);
+
+        ping.description(result);
+        ping.onlinePlayers(online);
+        ping.maximumPlayers(max);
+
+        event.setPing(ping.build());
+    }
+
+    private TextComponent color(String text) {
+        return LegacyComponentSerializer.builder().character('&').build().deserialize(text);
+    }
+
+    @Override
+    public ServerPing.SamplePlayer[] getHover(MotdType motdType, String path, int online, int max, String user) {
+        ServerPing.SamplePlayer[] hoverToShow = new ServerPing.SamplePlayer[0];
+        List<String> lines;
+
+        Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
+
+        lines = control.getColoredStringList(path + "hover.lines");
+
+        final UUID uuid = UUID.fromString("0-0-0-0-0");
+
+        for (String line : lines) {
+            hoverToShow = addHoverLine(hoverToShow, new ServerPing.SamplePlayer(line, uuid));
+        }
+
+        return hoverToShow;
+    }
+
+    @Override
+    public ServerPing.SamplePlayer[] addHoverLine(ServerPing.SamplePlayer[] player, ServerPing.SamplePlayer info) {
+        ServerPing.SamplePlayer[] samplePlayers = new ServerPing.SamplePlayer[player.length + 1];
+        System.arraycopy(player, 0, samplePlayers, 0, player.length);
+        samplePlayers[player.length] = info;
+        return samplePlayers;
+    }
 }

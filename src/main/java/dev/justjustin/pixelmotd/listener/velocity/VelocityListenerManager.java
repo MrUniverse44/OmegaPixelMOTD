@@ -3,6 +3,7 @@ package dev.justjustin.pixelmotd.listener.velocity;
 import com.velocitypowered.api.proxy.ProxyServer;
 import dev.justjustin.pixelmotd.ListenerManager;
 import dev.justjustin.pixelmotd.PixelMOTD;
+import dev.justjustin.pixelmotd.listener.velocity.events.ProxyPingListener;
 
 public class VelocityListenerManager implements ListenerManager {
 
@@ -15,6 +16,9 @@ public class VelocityListenerManager implements ListenerManager {
 
     @Override
     public void register() {
-
+        slimePlugin.getPlugin().getEventManager().register(
+                slimePlugin,
+                new ProxyPingListener(slimePlugin)
+        );
     }
 }
