@@ -31,9 +31,24 @@ global-join-motd:
     - "lobby"
     - "auth"
 join-motds:
+  # The key is the server name
   lobby:
+    # You can add more servers for this motd
+    more-servers: []
+    # Aliases: CONTAINS, EQUALS
+    server-names-check-type: CONTAINS
+    # example of contains: "lobby1, lobby2, lobby3, lobby4, lobby5"
+    # example of equals: "lobby". "lobby1", "lobby2", "lobby3", "lobby4", "lobby5" will be ignored
+    # if the path 'more-servers' is empty, the type will be used for the main-server
     lines:
       - "&cThis motd is exclusive for lobby server."
   auth:
+    # You can add more servers for this motd
+    more-servers: [ ]
+    # Aliases: CONTAINS, EQUALS
+    server-names-check-type: CONTAINS
+    # example of contains: "lobby1, lobby2, lobby3, lobby4, lobby5"
+    # example of equals: "lobby". "lobby1", "lobby2", "lobby3", "lobby4", "lobby5" will be ignored
+    # if the path 'more-servers' is empty, the type will be used for the main-server
     lines:
       - "&cThis motd will be sent to players in the auth server."
