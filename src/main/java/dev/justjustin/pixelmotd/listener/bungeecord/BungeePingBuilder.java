@@ -6,8 +6,10 @@ import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.MotdBuilder;
 import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.utils.MotdPlayers;
+import dev.mruniverse.slimelib.colors.platforms.bungeecord.BungeeSlimeColor;
 import dev.mruniverse.slimelib.control.Control;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
+import dev.mruniverse.slimelib.utils.ClassUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ProxyServer;
@@ -19,6 +21,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, ServerPing.PlayerInfo> {
+
+    private static final boolean HAS_RGB_SUPPORT = ClassUtils.hasMethod(ChatColor.class, "of", String.class);
 
     public BungeePingBuilder(PixelMOTD<Plugin> plugin, MotdBuilder<Plugin, Favicon> builder) {
         super(plugin, builder);
@@ -120,12 +124,28 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
 
         TextComponent result = new TextComponent("");
 
-        line1 = control.getColoredString(path + "line1", "");
-        line2 = control.getColoredString(path + "line2", "");
+        if (motdType.isHexMotd()) {
 
-        completed = line1 + "\n" + line2;
+            line1 = control.getString(path + "line1", "");
+            line2 = control.getString(path + "line2", "");
 
-        result.addExtra(completed);
+            completed = line1 + "\n" + line2;
+
+            result.addExtra(
+                    new BungeeSlimeColor(completed, HAS_RGB_SUPPORT)
+                            .build()
+            );
+
+        } else {
+
+            line1 = control.getColoredString(path + "line1", "");
+            line2 = control.getColoredString(path + "line2", "");
+
+            completed = line1 + "\n" + line2;
+
+            result.addExtra(completed);
+
+        }
 
         ping.setDescriptionComponent(result);
         ping.getPlayers().setOnline(online);

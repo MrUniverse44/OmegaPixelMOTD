@@ -153,7 +153,30 @@ public class MainCommand<T> implements SlimeCommand {
             update();
         }
 
+        if (arguments[0].equalsIgnoreCase("admin")) {
+            if (sender.hasPermission("pixelmotd.admin")) {
+
+                for (String message : commandManager.getStringList("commands.main-command.admin.main")) {
+                    sender.sendColoredMessage(
+                            message
+                    );
+                }
+            }
+            return;
+        }
+
         if (arguments[0].equalsIgnoreCase(argumentsMap.get(3))) {
+            String permission = commandManager.getString(path + "permissions.reload", "pixelmotd.command.reload");
+
+            if (!sender.hasPermission(permission)) {
+
+                String message = messages.getString("messages.error.permission", "");
+
+                sender.sendColoredMessage(message.replace("<permission>", permission));
+                return;
+
+            }
+
             final Control settings = plugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS);
 
             if (settings.getStatus("settings.update-check", true)) {
@@ -176,6 +199,10 @@ public class MainCommand<T> implements SlimeCommand {
             } else {
                 sender.sendColoredMessage("&cUpdater is not enabled in settings.yml");
             }
+        }
+        sender.sendColoredMessage("&eThis command doesn't exist. Use &f/pmotd &eto get all commands");
+        if (sender.hasPermission("pixelmotd.admin")) {
+            sender.sendColoredMessage("&a(Admin Permission Detected) &6Or use &f/pmotd admin &6to get all admin commands");
         }
     }
 

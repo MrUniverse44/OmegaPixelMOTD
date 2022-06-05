@@ -37,7 +37,16 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
     private final T plugin;
 
     public PixelMOTD(SlimePlatform platform, T plugin, File dataFolder) {
+
+        this.folder        = dataFolder;
+        this.platform      = platform;
+        this.plugin        = plugin;
+
         this.playerHandler = PlayerHandler.fromPlatform(platform, plugin);
+
+        this.information   = new SlimePluginInformation(platform, plugin);
+
+        this.logs          = SlimeLog.createLogs(platform, this);
 
         this.slimeLoader   = new DefaultSlimeLoader<>(
                 this,
@@ -46,13 +55,6 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
                         plugin
                 )
         );
-
-        this.folder        = dataFolder;
-        this.platform      = platform;
-        this.plugin        = plugin;
-        this.information   = new SlimePluginInformation(platform, plugin);
-
-        this.logs          = SlimeLog.createLogs(platform, this);
 
         getLoader().setFiles(SlimeFile.class);
 

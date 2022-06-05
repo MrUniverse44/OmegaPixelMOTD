@@ -26,10 +26,10 @@ commands:
     admin:
       main:
         - "&a&l────── PIXEL MOTD ──────"
-        - "&8» &a/%used command% admin whitelist &8- &7Whitelist Commands."
-        - "&8» &a/%used command% admin blacklist &8- &7Blacklist Commands."
-        - "&8» &a/%used command% admin reload &8- &7Reload Command."
-        - "&8» &a/%used command% admin updater &8- &7Auto Update Command."
+        - "&8» &a/%used command% whitelist &8- &7Whitelist Commands."
+        - "&8» &a/%used command% blacklist &8- &7Blacklist Commands."
+        - "&8» &a/%used command% reload &8- &7Reload Command."
+        - "&8» &a/%used command% updater &8- &7Auto Update Command."
         - "&a&l────── PIXEL MOTD ──────"
       updater:
         start: "&9Updater command has been used, all information will be posted in Console."
@@ -37,18 +37,18 @@ commands:
       whitelist:
         - "&a&l────── PIXEL MOTD ──────"
         - "&8Admin - Whitelist Commands:"
-        - "&8» &a/%used command% admin whitelist list &8- &7List of players, uuids in the whitelist."
-        - "&8» &a/%used command% admin whitelist add (player) [<server/world>]&8- &7Add a player to the whitelist."
-        - "&8» &a/%used command% admin whitelist remove (player) [<server/world>] &8- &7Remove a player from whitelist."
-        - "&8» &a/%used command% admin whitelist <on|off> [<server/world>] &8- &7Toggle whitelist."
+        - "&8» &a/%used command% whitelist list &8- &7List of players, uuids in the whitelist."
+        - "&8» &a/%used command% whitelist add (player) [<server/world>]&8- &7Add a player to the whitelist."
+        - "&8» &a/%used command% whitelist remove (player) [<server/world>] &8- &7Remove a player from whitelist."
+        - "&8» &a/%used command% whitelist <on|off> [<server/world>] &8- &7Toggle whitelist."
         - "&a&l────── PIXEL MOTD ──────"
       blacklist:
         - "&a&l────── PIXEL MOTD ──────"
         - "&8Admin - Blacklist Commands:"
-        - "&8» &a/%used command% admin blacklist list &8- &7List of players, uuids in the blacklist."
-        - "&8» &a/%used command% admin blacklist add (player) [<server/world>]&8- &7Add a player to the blacklist."
-        - "&8» &a/%used command% admin blacklist remove (player) [<server/world>] &8- &7Remove a player from blacklist."
-        - "&8» &a/%used command% admin blacklist <on|off> [<server/world>] &8- &7Toggle blacklist."
+        - "&8» &a/%used command% blacklist list &8- &7List of players, uuids in the blacklist."
+        - "&8» &a/%used command% blacklist add (player) [<server/world>]&8- &7Add a player to the blacklist."
+        - "&8» &a/%used command% blacklist remove (player) [<server/world>] &8- &7Remove a player from blacklist."
+        - "&8» &a/%used command% blacklist <on|off> [<server/world>] &8- &7Toggle blacklist."
         - "&a&l────── PIXEL MOTD ──────"
     arguments:
       reload: "reload"
