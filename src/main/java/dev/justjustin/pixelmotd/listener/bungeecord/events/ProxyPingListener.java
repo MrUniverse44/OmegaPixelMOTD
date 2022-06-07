@@ -50,6 +50,10 @@ public class ProxyPingListener implements Listener, Ping {
         load();
     }
 
+    public void update() {
+        load();
+    }
+
     public void updateModes() {
         modes = slimePlugin.getLoader().getFiles().getControl(SlimeFile.MODES);
     }

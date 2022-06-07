@@ -11,6 +11,11 @@ public class SpigotListenerManager implements ListenerManager {
 
     private final PixelMOTD<JavaPlugin> slimePlugin;
 
+    private PacketServerPingListener packetListener;
+    private ServerPingListener serverListener;
+
+    private boolean isPacket = false;
+
     @SuppressWarnings("unchecked")
     public <T> SpigotListenerManager(PixelMOTD<T> plugin) {
         this.slimePlugin = (PixelMOTD<JavaPlugin>) plugin;
@@ -23,11 +28,28 @@ public class SpigotListenerManager implements ListenerManager {
         PluginManager manager = plugin.getServer().getPluginManager();
 
         if (manager.isPluginEnabled("ProtocolLib")) {
-            new PacketServerPingListener(slimePlugin).register();
+            isPacket = true;
+
+            packetListener = new PacketServerPingListener(slimePlugin);
+            packetListener.register();
+
             slimePlugin.getLogs().info("Using ProtocolLib for motds, enabling all features...");
         } else {
-            manager.registerEvents(new ServerPingListener(slimePlugin), plugin);
+            isPacket = false;
+
+            serverListener = new ServerPingListener(slimePlugin);
+
+            manager.registerEvents(serverListener, plugin);
             slimePlugin.getLogs().info("Using default motd system from minecraft, disabling some features..");
+        }
+    }
+
+    @Override
+    public void update() {
+        if (isPacket) {
+            packetListener.update();
+        } else {
+            serverListener.update();
         }
     }
 

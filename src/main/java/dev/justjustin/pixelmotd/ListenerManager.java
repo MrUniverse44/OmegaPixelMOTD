@@ -30,6 +30,8 @@ public interface ListenerManager {
      */
     void register();
 
+    void update();
+
 
 
 }

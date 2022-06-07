@@ -17,4 +17,8 @@ public class ServerPingListener {
     public void onClientPingServer(ClientPingServerEvent event) {
 
     }
+
+    public void update() {
+
+    }
 }

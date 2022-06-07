@@ -1,11 +1,11 @@
 package dev.justjustin.pixelmotd.commands;
 
+import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.utils.ListType;
 import dev.justjustin.pixelmotd.utils.PlayerUtil;
 import dev.justjustin.pixelmotd.utils.Updater;
 import dev.justjustin.pixelmotd.utils.WhitelistLocation;
-import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
 import dev.mruniverse.slimelib.commands.sender.Sender;
@@ -26,9 +26,9 @@ public class MainCommand<T> implements SlimeCommand {
 
     private final String path = "commands.main-command.";
 
-    private final SlimePlugin<T> plugin;
+    private final PixelMOTD<T> plugin;
 
-    public MainCommand(SlimePlugin<T> plugin) {
+    public MainCommand(PixelMOTD<T> plugin) {
         this.plugin = plugin;
         load();
     }
@@ -199,6 +199,7 @@ public class MainCommand<T> implements SlimeCommand {
             } else {
                 sender.sendColoredMessage("&cUpdater is not enabled in settings.yml");
             }
+            return;
         }
         sender.sendColoredMessage("&eThis command doesn't exist. Use &f/pmotd &eto get all commands");
         if (sender.hasPermission("pixelmotd.admin")) {
@@ -360,6 +361,11 @@ public class MainCommand<T> implements SlimeCommand {
                     file.getString("default-reasons" + type)
             );
 
+            sender.sendColoredMessage(
+                    messages.getString("messages." + type + ".enabled", "")
+            );
+
+            plugin.getListenerManager().update();
             plugin.getLoader().getFiles().getControl(type.getFile()).save();
             plugin.getLoader().getFiles().getControl(type.getFile()).reload();
             return;
@@ -402,6 +408,11 @@ public class MainCommand<T> implements SlimeCommand {
                     file.getString("default-reasons" + type)
             );
 
+            sender.sendColoredMessage(
+                    messages.getString("messages." + type + ".disabled", "")
+            );
+
+            plugin.getListenerManager().update();
             plugin.getLoader().getFiles().getControl(type.getFile()).save();
             plugin.getLoader().getFiles().getControl(type.getFile()).reload();
         }

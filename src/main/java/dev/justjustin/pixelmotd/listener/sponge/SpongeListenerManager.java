@@ -12,6 +12,7 @@ import org.spongepowered.plugin.PluginContainer;
 public class SpongeListenerManager implements ListenerManager {
 
     private final PixelMOTD<Server> slimePlugin;
+    private final ServerPingListener listener;
 
     @Inject
     private PluginContainer container;
@@ -19,10 +20,16 @@ public class SpongeListenerManager implements ListenerManager {
     @SuppressWarnings("unchecked")
     public <T> SpongeListenerManager(T plugin) {
         this.slimePlugin = (PixelMOTD<Server>) plugin;
+        this.listener = new ServerPingListener(slimePlugin);
     }
 
     @Override
     public void register() {
-        Sponge.eventManager().registerListeners(container, new ServerPingListener(slimePlugin));
+        Sponge.eventManager().registerListeners(container, listener);
+    }
+
+    @Override
+    public void update() {
+        listener.update();
     }
 }

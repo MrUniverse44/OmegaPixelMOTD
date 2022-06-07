@@ -42,6 +42,10 @@ public class ServerPingListener implements Ping, Listener {
         load();
     }
 
+    public void update() {
+        load();
+    }
+
     public void updateModes() {
         modes = slimePlugin.getLoader().getFiles().getControl(SlimeFile.MODES);
     }

@@ -79,6 +79,10 @@ public class ProxyPingListener implements Ping {
         MIN_PROTOCOL = control.getInt("settings.min-server-protocol",47);
     }
 
+    public void update() {
+        load();
+    }
+
     @Subscribe(order = PostOrder.EARLY)
     public void onMotdPing(ProxyPingEvent event) {
         final ServerPing ping = event.getPing();
