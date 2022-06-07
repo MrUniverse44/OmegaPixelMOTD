@@ -10,7 +10,7 @@ import dev.mruniverse.slimelib.SlimePluginInformation;
 import dev.mruniverse.slimelib.input.InputManager;
 import dev.mruniverse.slimelib.loader.BaseSlimeLoader;
 import dev.mruniverse.slimelib.loader.DefaultSlimeLoader;
-import dev.mruniverse.slimelib.logs.SlimeLog;
+import dev.mruniverse.slimelib.logs.SlimeLogger;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
 import java.io.File;
@@ -46,7 +46,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
         this.information   = new SlimePluginInformation(platform, plugin);
 
-        this.logs          = SlimeLog.createLogs(platform, this);
+        this.logs          = SlimeLogger.createLogs(platform, this);
 
         this.slimeLoader   = new DefaultSlimeLoader<>(
                 this,
