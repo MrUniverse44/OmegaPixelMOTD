@@ -27,9 +27,12 @@ global-join-motd:
     - ""
     - "&ePixelMOTD"
   # This motd will not be sent to players in blacklist-servers or worlds
+  # You can use <contains> variable to use the CONTAINS check-type
+  # example of contains in "lobby": "lobby1, lobby2, lobby3, lobby4, lobby5" will be blacklisted
+  # By default it uses the EQUALS check-type
   blacklist-servers:
-    - "lobby"
-    - "auth"
+    - "<contains>lobby"
+    - "<contains>auth"
 join-motds:
   # The key is the server name
   lobby:
@@ -41,14 +44,26 @@ join-motds:
     # example of equals: "lobby". "lobby1", "lobby2", "lobby3", "lobby4", "lobby5" will be ignored
     # if the path 'more-servers' is empty, the type will be used for the main-server
     lines:
-      - "&cThis motd is exclusive for lobby server."
+      - "<center>&a&lX PixelMotds 4"
+      - "<center>&f&oFourth re-work of the PixelMOTD"
+      - ""
+      - "&8 - &cThis motd is exclusive for lobby server."
+      - "&8 - &eYou were previously in &7%previous_server%"
+      - ""
+      - "&ePixelMOTD"
   auth:
     # You can add more servers for this motd
-    more-servers: [ ]
+    more-servers: []
     # Aliases: CONTAINS, EQUALS
     server-names-check-type: CONTAINS
     # example of contains: "lobby1, lobby2, lobby3, lobby4, lobby5"
     # example of equals: "lobby". "lobby1", "lobby2", "lobby3", "lobby4", "lobby5" will be ignored
     # if the path 'more-servers' is empty, the type will be used for the main-server
     lines:
-      - "&cThis motd will be sent to players in the auth server."
+      - "<center>&a&lX PixelMotds 4"
+      - "<center>&f&oFourth re-work of the PixelMOTD"
+      - ""
+      - "&8 - &bPlease login with &f/login (password)&f."
+      - "&8 - &r&oWelcome to our server!"
+      - ""
+      - "&ePixelMOTD"
