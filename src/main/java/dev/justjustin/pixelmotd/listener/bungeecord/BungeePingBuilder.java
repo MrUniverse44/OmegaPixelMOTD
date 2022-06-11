@@ -39,7 +39,7 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
         try {
             motd = getMotd(motdType);
         } catch (Exception ignored) {
-            logs.error("This file isn't updated to the latest file or the motd-path is incorrect, can't find motds for MotdType: " + motdType.toString());
+            logs.error("This file isn't updated to the latest file or the motd-path is incorrect, can't find motds for MotdType: " + motdType);
             return;
         }
 

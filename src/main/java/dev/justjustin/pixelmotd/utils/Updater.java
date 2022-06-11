@@ -222,6 +222,10 @@ public class Updater {
                 result = Result.NO_UPDATE;
             }
         } catch (Exception exception) {
+            if (exception instanceof FileNotFoundException) {
+                logs.info("No updates are available on github");
+                return;
+            }
             logs.error("Can't find for updates on github :(");
             logs.error(exception);
 

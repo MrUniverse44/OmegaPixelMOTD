@@ -139,6 +139,8 @@ public class MainCommand<T> implements SlimeCommand {
 
         if (arguments[0].equalsIgnoreCase(argumentsMap.get(0))) {
 
+            long before = System.currentTimeMillis();
+
             String permission = commandManager.getString(path + "permissions.reload", "pixelmotd.command.reload");
 
             if (!sender.hasPermission(permission)) {
@@ -151,6 +153,14 @@ public class MainCommand<T> implements SlimeCommand {
             }
             plugin.reload();
             update();
+
+            long after = System.currentTimeMillis();
+
+            sender.sendColoredMessage(
+                    messages.getString("messages.reload", "").replace("<ms>", (after - before) + "")
+            );
+
+            return;
         }
 
         if (arguments[0].equalsIgnoreCase("admin")) {

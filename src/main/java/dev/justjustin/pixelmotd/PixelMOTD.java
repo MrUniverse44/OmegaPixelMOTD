@@ -115,6 +115,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
     public void reload() {
         slimeLoader.reload();
 
+        listenerManager.update();
+
         motdStorage.update(
                 slimeLoader.getFiles()
         );
