@@ -10,8 +10,10 @@ import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.MotdBuilder;
 import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.utils.MotdPlayers;
+import dev.mruniverse.slimelib.colors.platforms.velocity.DefaultSlimeColor;
 import dev.mruniverse.slimelib.control.Control;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -125,14 +127,27 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
             );
         }
 
-        TextComponent result;
+        Component result;
 
-        line1 = control.getColoredString(path + "line1", "");
-        line2 = control.getColoredString(path + "line2", "");
+        if (motdType.isHexMotd()) {
 
-        completed = line1 + "\n" + line2;
+            line1 = control.getString(path + "line1", "");
+            line2 = control.getString(path + "line2", "");
 
-        result = color(completed);
+            completed = line1 + "\n" + line2;
+
+            result = new DefaultSlimeColor(completed, true)
+                    .build();
+
+        } else {
+
+            line1 = control.getColoredString(path + "line1", "");
+            line2 = control.getColoredString(path + "line2", "");
+
+            completed = line1 + "\n" + line2;
+
+            result = color(completed);
+        }
 
         ping.description(result);
         ping.onlinePlayers(online);
