@@ -67,7 +67,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
                     path + "players.online."
             );
         } else {
-            online = net.md_5.bungee.api.ProxyServer.getInstance().getOnlineCount();
+            online = getPlugin().getPlugin().getPlayerCount();
         }
         if (control.getStatus(path + "players.max.toggle")) {
             String mode = control.getString(path + "players.max.type", "").toLowerCase();
