@@ -66,7 +66,9 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
         listenerManager = ListenerManager.createNewInstance(platform, this);
 
-        listenerManager.register();
+        if (platform != SlimePlatform.VELOCITY && platform != SlimePlatform.SPONGE) {
+            listenerManager.register();
+        }
 
         if (slimeLoader.getFiles().getControl(SlimeFile.SETTINGS).getStatus("settings.update-check",true)) {
             if (slimeLoader.getFiles().getControl(SlimeFile.SETTINGS).getStatus("settings.auto-download-updates",true)) {
@@ -120,8 +122,6 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         motdStorage.update(
                 slimeLoader.getFiles()
         );
-
-        //listenerManager.reload();
     }
 
     @Override

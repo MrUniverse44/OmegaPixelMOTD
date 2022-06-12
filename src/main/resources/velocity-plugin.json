@@ -1,1 +1,1 @@
-{"id":"pixelmotd","name":"PixelMOTD","version":"${project.version}","authors":["JustJustin"],"dependencies":[],"main":"dev.justjustin.pixelmotd.initialization.VelocityMOTD"}
+{"id":"pixelmotd","name":"PixelMOTD","version":"${project.version}","authors":["JustJustin"],"dependencies":[],"main":"dev.justjustin.pixelmotd.initialization.velocity.VelocityMOTD"}

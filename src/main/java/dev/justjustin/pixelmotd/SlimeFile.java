@@ -75,6 +75,9 @@ public enum SlimeFile implements SlimeFiles {
 
     @Override
     public String getResourceFileName(SlimePlatform platform) {
+        if (platform == SlimePlatform.VELOCITY || platform == SlimePlatform.SPONGE) {
+            return "/" + this.resource;
+        }
         return this.resource;
     }
 

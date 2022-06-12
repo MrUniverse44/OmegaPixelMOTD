@@ -8,6 +8,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import dev.justjustin.pixelmotd.PixelMOTD;
+import dev.justjustin.pixelmotd.listener.velocity.VelocityListenerManager;
 import dev.mruniverse.slimelib.SlimePlatform;
 
 import java.io.File;
@@ -35,11 +36,18 @@ public class VelocityMOTD {
 
     @Subscribe
     public void onInitialize(ProxyInitializeEvent event) {
+
+        File directory = dataDirectory.getParent().toFile();
+
         instance = new PixelMOTD<>(
                 SlimePlatform.VELOCITY,
                 server,
-                new File(dataDirectory.toFile(), "PixelMOTD")
+                new File(directory, "PixelMOTD")
         );
+
+        VelocityListenerManager manager = (VelocityListenerManager) instance.getListenerManager();
+
+        manager.register(this);
     }
 
     @Subscribe
