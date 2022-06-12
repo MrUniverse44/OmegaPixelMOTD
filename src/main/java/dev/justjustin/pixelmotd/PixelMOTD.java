@@ -2,6 +2,7 @@ package dev.justjustin.pixelmotd;
 
 import dev.justjustin.pixelmotd.commands.MainCommand;
 import dev.justjustin.pixelmotd.players.PlayerHandler;
+import dev.justjustin.pixelmotd.servers.ServerHandler;
 import dev.justjustin.pixelmotd.storage.MotdStorage;
 import dev.justjustin.pixelmotd.utils.Updater;
 import dev.mruniverse.slimelib.SlimePlatform;
@@ -26,6 +27,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
     private final PlayerHandler playerHandler;
 
+    private final ServerHandler serverHandler;
+
     private final MotdStorage motdStorage;
 
     private final SlimePlatform platform;
@@ -43,6 +46,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         this.plugin        = plugin;
 
         this.playerHandler = PlayerHandler.fromPlatform(platform, plugin);
+
+        this.serverHandler = ServerHandler.fromPlatform(platform, plugin);
 
         this.information   = new SlimePluginInformation(platform, plugin);
 
@@ -86,6 +91,10 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
     public PlayerHandler getPlayerHandler() {
         return playerHandler;
+    }
+
+    public ServerHandler getServerHandler() {
+        return serverHandler;
     }
 
     @Override
