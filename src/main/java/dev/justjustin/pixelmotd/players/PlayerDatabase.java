@@ -11,19 +11,19 @@ public class PlayerDatabase {
         return playersMap.containsKey(key);
     }
 
-    public String getPlayer(String key) {
+    public String getPlayer(String key, String def) {
         if (key.contains(":")) {
-            return getPlayerFromSocket(key);
+            return getPlayerFromSocket(key, def);
         }
-        return playersMap.computeIfAbsent(key, V -> "unknown#1");
+        return playersMap.computeIfAbsent(key, V -> def);
     }
 
-    public String getPlayerFromSocket(String socket) {
+    public String getPlayerFromSocket(String socket, String def) {
         socket = socket.replace("/","");
 
         String[] key = socket.split(":");
 
-        return getPlayer(key[0]);
+        return getPlayer(key[0], def);
     }
 
     public Map<String, String> getPlayersMap() {

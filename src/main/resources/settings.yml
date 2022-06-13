@@ -40,7 +40,7 @@ settings:
   online-variables:
     # Toggle this option, without this option the motd will load faster
     enabled: true
-    # The prefix for the variable.
+    # The prefix for the variable. (%custom_online_<id>%)
     prefix: "custom_online"
     # Here you have two examples for CONTAINS mode and NAMES mode.
     # Modes: NAMES,CONTAINS

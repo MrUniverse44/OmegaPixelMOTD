@@ -134,7 +134,17 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
             line1 = control.getString(path + "line1", "");
             line2 = control.getString(path + "line2", "");
 
-            completed = line1 + "\n" + line2;
+            completed = getExtras().replace(
+                    line1,
+                    online,
+                    max,
+                    user
+            ) + "\n" + getExtras().replace(
+                    line2,
+                    online,
+                    max,
+                    user
+            );
 
             result = new DefaultSlimeColor(completed, true)
                     .build();
@@ -144,7 +154,17 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
             line1 = control.getColoredString(path + "line1", "");
             line2 = control.getColoredString(path + "line2", "");
 
-            completed = line1 + "\n" + line2;
+            completed = getExtras().replace(
+                    line1,
+                    online,
+                    max,
+                    user
+            ) + "\n" + getExtras().replace(
+                    line2,
+                    online,
+                    max,
+                    user
+            );
 
             result = color(completed);
         }
@@ -162,17 +182,31 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
     @Override
     public ServerPing.SamplePlayer[] getHover(MotdType motdType, String path, int online, int max, String user) {
-        ServerPing.SamplePlayer[] hoverToShow = new ServerPing.SamplePlayer[0];
-        List<String> lines;
-
         Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
 
-        lines = control.getColoredStringList(path + "hover.lines");
+        ServerPing.SamplePlayer[] hoverToShow = new ServerPing.SamplePlayer[0];
+
+        List<String> lines;
+
+        if (isPlayerSystem()) {
+            lines = getExtras().replaceHoverLine(
+                    control.getColoredStringList(path + "hover.lines"),
+                    control.getInt(path + "hover.hasMoreOnline")
+            );
+        } else {
+            lines = control.getColoredStringList(path + "hover.lines");
+        }
 
         final UUID uuid = UUID.fromString("0-0-0-0-0");
 
         for (String line : lines) {
-            hoverToShow = addHoverLine(hoverToShow, new ServerPing.SamplePlayer(line, uuid));
+            hoverToShow = addHoverLine(
+                    hoverToShow,
+                    new ServerPing.SamplePlayer(
+                            getExtras().replace(line, online, max, user),
+                            uuid
+                    )
+            );
         }
 
         return hoverToShow;

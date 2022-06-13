@@ -25,6 +25,8 @@ public class ServerPingListener implements Ping, Listener {
 
     private boolean isBlacklisted;
 
+    private String unknown;
+
     private MotdType type;
 
     private Control modes;
@@ -59,6 +61,8 @@ public class ServerPingListener implements Ping, Listener {
 
         type = MotdType.NORMAL;
 
+        unknown = slimePlugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS).getString("settings.unknown-player", "unknown#1");
+
         if (control.getString("settings.default-priority-motd", "DEFAULT").equalsIgnoreCase("HEX")) {
             type = MotdType.NORMAL_HEX;
         }
@@ -72,7 +76,7 @@ public class ServerPingListener implements Ping, Listener {
 
         final InetAddress address = ping.getAddress();
 
-        final String user = getPlayerDatabase().getPlayer(address.getHostAddress());
+        final String user = getPlayerDatabase().getPlayer(address.getHostAddress(), unknown);
 
         if (isBlacklisted && modes.getStringList("blacklist.global.players.by-name").contains(user)) {
             if (type.isHexMotd()) {

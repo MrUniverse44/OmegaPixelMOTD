@@ -36,6 +36,8 @@ public class ProxyPingListener implements Ping {
 
     private int MAX_PROTOCOL;
 
+    private String unknown;
+
     private MotdType type;
 
     private Control modes;
@@ -64,6 +66,8 @@ public class ProxyPingListener implements Ping {
         final Control control = fileStorage.getControl(SlimeFile.SETTINGS);
 
         type = MotdType.NORMAL;
+
+        unknown = slimePlugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS).getString("settings.unknown-player", "unknown#1");
 
         if (control.getString("settings.default-priority-motd", "DEFAULT").equalsIgnoreCase("HEX")) {
             type = MotdType.NORMAL_HEX;
@@ -102,9 +106,9 @@ public class ProxyPingListener implements Ping {
         if (socketAddress != null) {
             InetAddress address = socketAddress.getAddress();
 
-            user = getPlayerDatabase().getPlayer(address.getHostAddress());
+            user = getPlayerDatabase().getPlayer(address.getHostAddress(), unknown);
         } else {
-            user = slimePlugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS).getString("settings.unknown-player", "unknown#1");
+            user = unknown;
         }
 
         if (isBlacklisted && modes.getStringList("blacklist.global.players.by-name").contains(user)) {

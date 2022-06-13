@@ -9,6 +9,7 @@ import dev.justjustin.pixelmotd.listener.MotdBuilder;
 import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.utils.MotdPlayers;
 import dev.justjustin.pixelmotd.utils.PlaceholderParser;
+import dev.mruniverse.slimelib.colors.platforms.StringSlimeColor;
 import dev.mruniverse.slimelib.control.Control;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import org.bukkit.Bukkit;
@@ -122,15 +123,53 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
             );
         }
 
-        line1 = control.getColoredString(path + "line1", "");
-        line2 = control.getColoredString(path + "line2", "");
+        if (!motdType.isHexMotd()) {
+            line1 = control.getColoredString(path + "line1", "");
+            line2 = control.getColoredString(path + "line2", "");
 
-        if (hasPAPI) {
-            line1 = PlaceholderParser.parse(getPlugin().getLogs(), user, line1);
-            line2 = PlaceholderParser.parse(getPlugin().getLogs(), user, line2);
+            if (hasPAPI) {
+                line1 = PlaceholderParser.parse(getPlugin().getLogs(), user, line1);
+                line2 = PlaceholderParser.parse(getPlugin().getLogs(), user, line2);
+            }
+
+            completed = getExtras().replace(
+                    line1,
+                    online,
+                    max,
+                    user
+            ) + "\n" + getExtras().replace(
+                    line2,
+                    online,
+                    max,
+                    user
+            );
+
+        } else {
+            line1 = control.getString(path + "line1", "");
+            line2 = control.getString(path + "line2", "");
+
+            if (hasPAPI) {
+                line1 = PlaceholderParser.parse(getPlugin().getLogs(), user, line1);
+                line2 = PlaceholderParser.parse(getPlugin().getLogs(), user, line2);
+            }
+
+            completed = new StringSlimeColor(
+                    getExtras().replace(
+                            line1,
+                            online,
+                            max,
+                            user
+                    ) + "\n" + getExtras().replace(
+                            line2,
+                            online,
+                            max,
+                            user
+                    ),
+                    true
+            ).build();
+
+            completed = ChatColor.translateAlternateColorCodes('&', completed);
         }
-
-        completed = ChatColor.translateAlternateColorCodes('&', line1 + "\n" + line2);
 
         ping.setMotD(completed);
         ping.setPlayersOnline(online);
@@ -139,18 +178,30 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
 
     @Override
     public WrappedGameProfile[] getHover(MotdType motdType, String path, int online, int max, String user) {
-        WrappedGameProfile[] gameProfiles = new WrappedGameProfile[0];
-
         Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
 
-        List<String> lines = control.getColoredStringList(path + "hover.lines");
+        WrappedGameProfile[] gameProfiles = new WrappedGameProfile[0];
+
+        List<String> lines;
+
+        if (isPlayerSystem()) {
+            lines = getExtras().replaceHoverLine(
+                    control.getColoredStringList(path + "hover.lines"),
+                    control.getInt(path + "hover.hasMoreOnline")
+            );
+        } else {
+            lines = control.getColoredStringList(path + "hover.lines");
+        }
 
         final UUID uuid = UUID.fromString("0-0-0-0-0");
 
         for (String line : lines) {
             gameProfiles = addHoverLine(
                     gameProfiles,
-                    new WrappedGameProfile(uuid, line)
+                    new WrappedGameProfile(
+                            uuid,
+                            getExtras().replace(line, online, max, user)
+                    )
             );
         }
         return gameProfiles;

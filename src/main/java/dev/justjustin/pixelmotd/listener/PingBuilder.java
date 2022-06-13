@@ -30,7 +30,7 @@ public abstract class PingBuilder<T, I, E, H> {
     public PingBuilder(PixelMOTD<T> plugin, MotdBuilder<T, I> builder) {
         this.plugin = plugin;
         this.builder = builder;
-        this.extras = new Extras();
+        this.extras = new Extras(plugin);
         load();
     }
 
@@ -90,17 +90,11 @@ public abstract class PingBuilder<T, I, E, H> {
         return motds.get(random.nextInt(motds.size()));
     }
 
-    public void execute(MotdType motdType, E ping, int code, String user) {
-        //TODO: This method depends of the platform
-    }
+    public abstract void execute(MotdType motdType, E ping, int code, String user);
 
-    public H[] getHover(MotdType motdType, String path, int online, int max, String user) {
-        return null;
-    }
+    public abstract H[] getHover(MotdType motdType, String path, int online, int max, String user);
 
-    public H[] addHoverLine(H[] player, H info) {
-        return null;
-    }
+    public abstract H[] addHoverLine(H[] player, H info);
 
     public PixelMOTD<T> getPlugin() {
         return plugin;

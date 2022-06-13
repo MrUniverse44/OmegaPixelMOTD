@@ -22,11 +22,11 @@ events:
   # This is the default event, to add more events only copy and paste it
   # (obviously replacing the name 'exampleEvent' with another name)
   exampleEvent:
-    eventName: Example Event
-    eventDate: 12/21/21 23:59:00
-    TimeZone: ECT
-    format-Type: FIRST
-    endMessage: '&cThe event finished.'
+    name: Example Event
+    date: 12/21/21 23:59:00
+    time-zone: ECT
+    format-type: FIRST
+    end-message: '&cThe event finished.'
 # Time Option
 timer:
   weeks: "weeks"

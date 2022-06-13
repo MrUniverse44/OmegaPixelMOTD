@@ -34,9 +34,7 @@ public abstract class Icon<I> {
         return logs;
     }
 
-    public I getFavicon(File file) {
-        return null;
-    }
+    public abstract I getFavicon(File file);
 
 
 }
