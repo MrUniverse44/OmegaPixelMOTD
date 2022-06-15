@@ -46,8 +46,7 @@ public class ProxyPingListener implements Ping {
         this.pingBuilder = new VelocityPingBuilder(
                 slimePlugin,
                 new VelocityMotdBuilder(
-                        slimePlugin,
-                        slimePlugin.getLogs()
+                        slimePlugin
                 )
         );
         this.slimePlugin = slimePlugin;
