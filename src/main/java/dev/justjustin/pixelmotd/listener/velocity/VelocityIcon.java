@@ -16,7 +16,13 @@ public class VelocityIcon extends Icon<Favicon> {
 
     @Override
     public Favicon getFavicon(File file) {
+        if (!file.exists()) {
+            getLogs().error("File doesn't exists: " + file.getName() + " motd-type::" + getType().toString());
+            return null;
+        }
+
         try {
+
             BufferedImage image = ImageIO.read(file);
 
             getLogs().info("&aIcon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());

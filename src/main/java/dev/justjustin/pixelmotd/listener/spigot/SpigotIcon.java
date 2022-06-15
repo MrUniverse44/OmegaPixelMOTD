@@ -17,6 +17,11 @@ public class SpigotIcon extends Icon<CachedServerIcon> {
 
     @Override
     public CachedServerIcon getFavicon(File file) {
+        if (!file.exists()) {
+            getLogs().error("File doesn't exists: " + file.getName() + " motd-type::" + getType().toString());
+            return null;
+        }
+
         try {
             BufferedImage image = ImageIO.read(file);
 

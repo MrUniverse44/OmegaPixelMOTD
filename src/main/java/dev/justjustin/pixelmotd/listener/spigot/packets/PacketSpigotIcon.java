@@ -18,6 +18,11 @@ public class PacketSpigotIcon extends Icon<WrappedServerPing.CompressedImage> {
 
     @Override
     public WrappedServerPing.CompressedImage getFavicon(File icon) {
+        if (!icon.exists()) {
+            getLogs().error("File doesn't exists: " + icon.getName() + " motd-type::" + getType().toString());
+            return null;
+        }
+
         try {
             BufferedImage image = ImageIO.read(icon);
 

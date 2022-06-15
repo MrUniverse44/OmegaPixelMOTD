@@ -17,6 +17,11 @@ public class BungeeIcon extends Icon<Favicon> {
 
     @Override
     public Favicon getFavicon(File file) {
+        if (!file.exists()) {
+            getLogs().error("File doesn't exists: " + file.getName() + " motd-type::" + getType().toString());
+            return null;
+        }
+
         try {
             BufferedImage image = ImageIO.read(file);
 
