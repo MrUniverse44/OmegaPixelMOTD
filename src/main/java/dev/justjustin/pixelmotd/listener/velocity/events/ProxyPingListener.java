@@ -86,6 +86,7 @@ public class ProxyPingListener implements Ping {
 
     public void update() {
         load();
+        pingBuilder.update();
     }
 
     @Subscribe(order = PostOrder.EARLY)

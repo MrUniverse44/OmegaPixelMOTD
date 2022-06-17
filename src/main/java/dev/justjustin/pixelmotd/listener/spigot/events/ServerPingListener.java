@@ -46,6 +46,7 @@ public class ServerPingListener implements Ping, Listener {
 
     public void update() {
         load();
+        pingBuilder.update();
     }
 
     public void updateModes() {

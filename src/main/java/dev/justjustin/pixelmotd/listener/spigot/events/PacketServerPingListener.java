@@ -76,6 +76,7 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
 
     public void update() {
         load();
+        pingBuilder.update();
     }
 
     public void updateModes() {

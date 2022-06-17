@@ -55,6 +55,7 @@ public class ProxyPingListener implements Listener, Ping {
 
     public void update() {
         load();
+        pingBuilder.update();
     }
 
     public void updateModes() {
