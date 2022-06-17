@@ -25,11 +25,11 @@ public class SpigotIcon extends Icon<CachedServerIcon> {
         try {
             BufferedImage image = ImageIO.read(file);
 
-            getLogs().info("&3Icon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
+            getLogs().info("&3Icon loaded: &6" + file.getName() + "&a of MotdType &6" + getType().toString());
 
             return Bukkit.loadServerIcon(image);
         } catch (Exception exception) {
-            getLogs().error("Can't create favicon: " + getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:", exception);
+            getLogs().error("Can't create favicon: " + file.getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:", exception);
 
             return null;
         }

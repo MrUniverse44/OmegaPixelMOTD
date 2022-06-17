@@ -26,11 +26,11 @@ public class PacketSpigotIcon extends Icon<WrappedServerPing.CompressedImage> {
         try {
             BufferedImage image = ImageIO.read(icon);
 
-            getLogs().info("&3Icon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
+            getLogs().info("&3Icon loaded: &6" + icon.getName() + "&a of MotdType &6" + getType().toString());
 
             return WrappedServerPing.CompressedImage.fromPng(image);
         } catch (IOException exception) {
-            getLogs().error("Can't create favicon: " + getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:", exception);
+            getLogs().error("Can't create favicon: " + icon.getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:", exception);
             return null;
         }
     }

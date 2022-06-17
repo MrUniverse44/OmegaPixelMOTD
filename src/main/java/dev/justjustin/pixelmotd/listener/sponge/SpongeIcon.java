@@ -24,11 +24,11 @@ public class SpongeIcon extends Icon<Favicon> {
         try {
             BufferedImage image = ImageIO.read(file);
 
-            getLogs().info("&3Icon loaded: &6" + getName() + "&3 of MotdType &6" + getType().toString());
+            getLogs().info("&3Icon loaded: &6" + file.getName() + "&3 of MotdType &6" + getType().toString());
 
             return Favicon.load(image);
         } catch (Exception exception) {
-            getLogs().error("Can't create favicon: " + getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:", exception);
+            getLogs().error("Can't create favicon: " + file.getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:", exception);
 
             return null;
         }

@@ -37,16 +37,16 @@ public class VelocityIcon extends Icon<Favicon> {
             BufferedImage image = ImageIO.read(file);
 
             if (logs != null) {
-                logs.info("&8[&9PixelMOTD&8] &3Icon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
+                logs.info("&8[&9PixelMOTD&8] &3Icon loaded: &6" + file.getName() + "&a of MotdType &6" + getType().toString());
             } else {
-                log("&8[&9PixelMOTD&8] &3Icon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
+                log("&8[&9PixelMOTD&8] &3Icon loaded: &6" + file.getName() + "&a of MotdType &6" + getType().toString());
             }
             return Favicon.create(image);
         } catch (Exception exception) {
             if (logs != null) {
-                logs.error("Can't create favicon: " + getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:", exception);
+                logs.error("Can't create favicon: " + file.getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:", exception);
             } else {
-                log("Can't create favicon: " + getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:");
+                log("Can't create favicon: " + file.getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:");
                 exception.printStackTrace();
             }
             return null;
