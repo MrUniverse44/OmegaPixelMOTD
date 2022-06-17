@@ -16,6 +16,7 @@ public enum SlimeFile implements SlimeFiles {
     MESSAGES_ES("messages_es.yml", "translations"),
     MESSAGES_JP("messages_jp.yml", "translations"),
     MESSAGES_PL("messages_pl.yml", "translations"),
+    MESSAGES_DE("messages_de.yml", "translations"),
     WHITELIST("whitelist.yml", "modes"),
     BLACKLIST("blacklist.yml", "modes"),
     OUTDATED_SERVER("outdated-server.yml", "modes"),
