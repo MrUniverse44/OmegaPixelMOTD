@@ -1,0 +1,35 @@
+name: Build maven
+
+on: [push, pull_request]
+
+jobs:
+      
+  upload:
+   
+    runs-on: ubuntu-latest
+    
+    steps:
+     - name: Checkout 🙃
+       uses: actions/checkout@v3
+       
+     - name: Set up JDK 8 🛠
+       uses: actions/setup-java@v3
+       with:
+        java-version: '8'
+        distribution: 'temurin'
+        cache: maven
+        
+     - name: Setup Maven 3.8.6 🔮
+       uses: stCarolas/setup-maven@v4.3
+       with:
+        maven-version: 3.8.6
+        
+     - name: Build Jar files 📎
+       run: mvn package
+       
+     - name: Upload files ☁
+       uses: actions/upload-artifact@v3
+       with:
+        name: PixelMOTD Plugin
+        path: ./target/PixelMOTD*
+        retention-days: 30
