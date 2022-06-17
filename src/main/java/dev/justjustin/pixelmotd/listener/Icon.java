@@ -12,8 +12,8 @@ public abstract class Icon<I> {
     private final I favicon;
     public Icon(SlimeLogs logs, MotdType motdType, File icon) {
         this.motdType = motdType;
-        this.favicon  = getFavicon(icon);
         this.logs     = logs;
+        this.favicon  = getFavicon(icon);
     }
 
     public MotdType getType() {
@@ -28,9 +28,7 @@ public abstract class Icon<I> {
         return logs;
     }
 
-    public I getFavicon(File file) {
-        return null;
-    }
+    public abstract I getFavicon(File file);
 
 
 }

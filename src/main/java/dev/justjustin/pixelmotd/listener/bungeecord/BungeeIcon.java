@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class BungeeIcon extends Icon<Favicon> {
+
     public BungeeIcon(SlimeLogs logs, MotdType motdType, File icon) {
         super(logs, motdType, icon);
     }
