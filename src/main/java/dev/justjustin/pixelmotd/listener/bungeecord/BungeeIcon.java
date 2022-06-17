@@ -18,18 +18,18 @@ public class BungeeIcon extends Icon<Favicon> {
     @Override
     public Favicon getFavicon(File file) {
         if (!file.exists()) {
-            super.getLogs().error("File doesn't exists: " + file.getName() + " motd-type::" + getType().toString());
+            getLogs().error("File doesn't exists: " + file.getName() + " motd-type::" + getType().toString());
             return null;
         }
 
         try {
             BufferedImage image = ImageIO.read(file);
 
-            super.getLogs().info("&3Icon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
+            getLogs().info("&3Icon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
 
             return Favicon.create(image);
         } catch (IOException exception) {
-            super.getLogs().error("Can't create favicon: " + getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:", exception);
+            getLogs().error("Can't create favicon: " + getName() + ", maybe the icon is not 64x64 or is broken. Showing Exception:", exception);
             return null;
         }
     }

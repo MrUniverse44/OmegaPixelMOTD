@@ -1,8 +1,6 @@
 package dev.justjustin.pixelmotd.listener.velocity;
 
-import com.google.inject.Inject;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
-import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.util.Favicon;
 import dev.justjustin.pixelmotd.MotdType;
 import dev.justjustin.pixelmotd.initialization.velocity.VelocityMOTD;
