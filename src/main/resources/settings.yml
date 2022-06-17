@@ -76,6 +76,7 @@ settings:
   # messages_es.yml | code: es | language: es
   # messages_jp.yml | code: jp | language: jp
   # messages_pl.yml | code: pl | language: pl
+  # messages_de.yml | code: de | language: de
   language: en
 
   # This option is only for bungee-cord!
