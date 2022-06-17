@@ -3,8 +3,8 @@
 
 
 # Github action workflows
-.github/workflows/* @SageSphinx63920
+.github/workflows/* sage@sagesphinx63920.dev
 
 
 #Translator *if known*
-/src/main/resources/messages_de.yml @SageSphinx63920
+/src/main/resources/messages_de.yml sage@sagesphinx63920.dev
