@@ -25,7 +25,7 @@ public class SpigotIcon extends Icon<CachedServerIcon> {
         try {
             BufferedImage image = ImageIO.read(file);
 
-            getLogs().info("&aIcon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
+            getLogs().info("&3Icon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
 
             return Bukkit.loadServerIcon(image);
         } catch (Exception exception) {

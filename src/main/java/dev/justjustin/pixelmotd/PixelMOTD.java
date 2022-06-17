@@ -53,6 +53,15 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
         this.logs          = SlimeLogger.createLogs(platform, this);
 
+        SlimeLogger logger = new SlimeLogger();
+
+        logger.setPluginName("PixelMOTD");
+        logger.setHidePackage("dev.mruniverse.pixelmotd.");
+        logger.setContainIdentifier("mruniverse");
+        logger.getProperties().getPrefixes().changeMainText("&9PixelMOTD");
+
+        this.logs.setSlimeLogger(logger);
+
         this.slimeLoader   = new DefaultSlimeLoader<>(
                 this,
                 InputManager.createInputManager(
@@ -69,7 +78,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
         motdStorage = new MotdStorage(getLoader().getFiles());
 
-        listenerManager = ListenerManager.createNewInstance(platform, this);
+        listenerManager = ListenerManager.createNewInstance(platform, this, logs);
 
         if (platform != SlimePlatform.VELOCITY && platform != SlimePlatform.SPONGE) {
             listenerManager.register();

@@ -11,6 +11,8 @@ import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.velocity.VelocityListenerManager;
 import dev.mruniverse.slimelib.SlimePlatform;
 
+import org.slf4j.Logger;
+
 import java.io.File;
 import java.nio.file.Path;
 
@@ -25,6 +27,8 @@ import java.nio.file.Path;
 )
 public class VelocityMOTD {
 
+    private static VelocityMOTD classInstance;
+
     @Inject
     private ProxyServer server;
 
@@ -32,10 +36,15 @@ public class VelocityMOTD {
     @DataDirectory
     private Path dataDirectory;
 
+    @Inject
+    private Logger logger;
+
     private PixelMOTD<ProxyServer> instance;
 
     @Subscribe
     public void onInitialize(ProxyInitializeEvent event) {
+
+        classInstance = this;
 
         File directory = dataDirectory.getParent().toFile();
 
@@ -53,6 +62,18 @@ public class VelocityMOTD {
     @Subscribe
     public void onShutdown(ProxyShutdownEvent event) {
         instance.getLoader().shutdown();
+    }
+
+    public ProxyServer getServer() {
+        return server;
+    }
+
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public static VelocityMOTD getInstance() {
+        return classInstance;
     }
 
 }

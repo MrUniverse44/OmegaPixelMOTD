@@ -5,16 +5,21 @@ import dev.justjustin.pixelmotd.ListenerManager;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.initialization.velocity.VelocityMOTD;
 import dev.justjustin.pixelmotd.listener.velocity.events.ProxyPingListener;
+import dev.mruniverse.slimelib.logs.SlimeLogs;
 
 public class VelocityListenerManager implements ListenerManager {
 
     private final PixelMOTD<ProxyServer> slimePlugin;
+
     private final ProxyPingListener listener;
 
+    private final SlimeLogs logs;
+
     @SuppressWarnings("unchecked")
-    public <T> VelocityListenerManager(T plugin) {
+    public <T> VelocityListenerManager(T plugin, SlimeLogs logs) {
         this.slimePlugin = (PixelMOTD<ProxyServer>) plugin;
-        this.listener = new ProxyPingListener(slimePlugin);
+        this.listener = new ProxyPingListener(slimePlugin, logs);
+        this.logs = logs;
     }
 
     public void register(VelocityMOTD plugin) {
@@ -22,6 +27,8 @@ public class VelocityListenerManager implements ListenerManager {
                 plugin,
                 listener
         );
+
+        logs.info("ProxyPingListener has been registered");
     }
 
     @Override
@@ -30,6 +37,8 @@ public class VelocityListenerManager implements ListenerManager {
                 slimePlugin.getPlugin(),
                 listener
         );
+
+        logs.info("ProxyPingListener has been registered");
     }
 
     @Override

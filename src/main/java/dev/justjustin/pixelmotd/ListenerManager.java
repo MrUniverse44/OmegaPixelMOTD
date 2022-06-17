@@ -5,23 +5,24 @@ import dev.justjustin.pixelmotd.listener.spigot.SpigotListenerManager;
 import dev.justjustin.pixelmotd.listener.sponge.SpongeListenerManager;
 import dev.justjustin.pixelmotd.listener.velocity.VelocityListenerManager;
 import dev.mruniverse.slimelib.SlimePlatform;
+import dev.mruniverse.slimelib.logs.SlimeLogs;
 
 public interface ListenerManager {
 
     /**
      * Create a new instance for ListenerManager depending on the platform
      */
-    static <T> ListenerManager createNewInstance(SlimePlatform platform, PixelMOTD<T> plugin) {
+    static <T> ListenerManager createNewInstance(SlimePlatform platform, PixelMOTD<T> plugin, SlimeLogs logs) {
         switch (platform) {
             case SPIGOT:
-                return new SpigotListenerManager(plugin);
+                return new SpigotListenerManager(plugin, logs);
             default:
             case BUNGEECORD:
-                return new BungeeListenerManager(plugin);
+                return new BungeeListenerManager(plugin, logs);
             case SPONGE:
-                return new SpongeListenerManager(plugin);
+                return new SpongeListenerManager(plugin, logs);
             case VELOCITY:
-                return new VelocityListenerManager(plugin);
+                return new VelocityListenerManager(plugin, logs);
         }
     }
 

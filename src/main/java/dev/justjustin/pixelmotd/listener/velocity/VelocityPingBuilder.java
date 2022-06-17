@@ -16,6 +16,7 @@ import dev.mruniverse.slimelib.logs.SlimeLogs;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.UUID;
@@ -190,11 +191,11 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
         if (isPlayerSystem()) {
             lines = getExtras().replaceHoverLine(
-                    control.getColoredStringList(path + "hover.lines"),
+                    control.getStringList(path + "hover.lines"),
                     control.getInt(path + "hover.hasMoreOnline")
             );
         } else {
-            lines = control.getColoredStringList(path + "hover.lines");
+            lines = control.getStringList(path + "hover.lines");
         }
 
         final UUID uuid = UUID.fromString("0-0-0-0-0");
@@ -203,13 +204,17 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
             hoverToShow = addHoverLine(
                     hoverToShow,
                     new ServerPing.SamplePlayer(
-                            getExtras().replace(line, online, max, user),
+                            legacy(getExtras().replace(line, online, max, user)),
                             uuid
                     )
             );
         }
 
         return hoverToShow;
+    }
+
+    private @NotNull String legacy(String content) {
+        return LegacyComponentSerializer.builder().character('&').build().deserialize(content).content();
     }
 
     @Override

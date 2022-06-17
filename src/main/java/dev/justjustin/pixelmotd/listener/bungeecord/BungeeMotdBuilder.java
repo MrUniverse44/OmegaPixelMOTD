@@ -19,7 +19,7 @@ public class BungeeMotdBuilder extends MotdBuilder<Plugin, Favicon> {
     @Override
     public Icon<Favicon> createIcon(MotdType motdType, File icon) {
         return new BungeeIcon(
-                getLogs(),
+                super.getLogs(),
                 motdType,
                 icon
         );

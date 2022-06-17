@@ -12,8 +12,8 @@ import java.io.File;
 
 public class VelocityMotdBuilder extends MotdBuilder<ProxyServer, Favicon> {
 
-    public VelocityMotdBuilder(PixelMOTD<ProxyServer> plugin) {
-        super(plugin, plugin.getLogs());
+    public VelocityMotdBuilder(PixelMOTD<ProxyServer> plugin, SlimeLogs logs) {
+        super(plugin, logs);
     }
 
     @Override

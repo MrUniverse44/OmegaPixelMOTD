@@ -61,7 +61,7 @@ public abstract class PingBuilder<T, I, E, H> {
                     motds
             );
 
-            plugin.getLogs().info("&aMotds loaded for type &e" + motdType + "&a, motds loaded: &f" + motds.toString().replace("[","").replace("]",""));
+            plugin.getLogs().info("&3Motds loaded for type &f" + motdType + "&3, motds loaded: &f" + motds.toString().replace("[","").replace("]",""));
         }
     }
 

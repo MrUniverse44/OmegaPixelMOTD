@@ -8,6 +8,7 @@ import dev.justjustin.pixelmotd.listener.bungeecord.BungeeMotdBuilder;
 import dev.justjustin.pixelmotd.listener.bungeecord.BungeePingBuilder;
 import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.logs.SlimeLogs;
 import dev.mruniverse.slimelib.storage.FileStorage;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.connection.PendingConnection;
@@ -43,10 +44,10 @@ public class ProxyPingListener implements Listener, Ping {
 
     private Control modes;
 
-    public ProxyPingListener(PixelMOTD<Plugin> slimePlugin) {
+    public ProxyPingListener(PixelMOTD<Plugin> slimePlugin, SlimeLogs logs) {
         this.pingBuilder = new BungeePingBuilder(
                 slimePlugin,
-                new BungeeMotdBuilder(slimePlugin, slimePlugin.getLogs())
+                new BungeeMotdBuilder(slimePlugin, logs)
         );
         this.slimePlugin = slimePlugin;
         load();

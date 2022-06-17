@@ -13,6 +13,7 @@ import dev.justjustin.pixelmotd.listener.Ping;
 import dev.justjustin.pixelmotd.listener.velocity.VelocityMotdBuilder;
 import dev.justjustin.pixelmotd.listener.velocity.VelocityPingBuilder;
 import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.logs.SlimeLogs;
 import dev.mruniverse.slimelib.storage.FileStorage;
 
 import java.net.InetAddress;
@@ -42,11 +43,12 @@ public class ProxyPingListener implements Ping {
 
     private Control modes;
 
-    public ProxyPingListener(PixelMOTD<ProxyServer> slimePlugin) {
+    public ProxyPingListener(PixelMOTD<ProxyServer> slimePlugin, SlimeLogs logs) {
         this.pingBuilder = new VelocityPingBuilder(
                 slimePlugin,
                 new VelocityMotdBuilder(
-                        slimePlugin
+                        slimePlugin,
+                        logs
                 )
         );
         this.slimePlugin = slimePlugin;

@@ -192,41 +192,41 @@ public class Updater {
             element = object.get("tag_name");
             tag = element.toString().replaceAll("\"", "").replace("v", "");
             if (logger)
-                logs.info("GITHUB | Checking for update...");
+                logs.info("GITHUB |&e Checking for update...");
             if (shouldUpdate(tag, currentVersion) && updateType == UpdateType.VERSION_CHECK) {
                 result = Result.UPDATE_FOUND;
                 if (logger) {
-                    logs.info("GITHUB | Update found!");
+                    logs.info("GITHUB |&6 Update found!");
                 }
             } else if (updateType == UpdateType.DOWNLOAD) {
                 if (logger)
-                    logs.info("GITHUB | Trying to download update..");
+                    logs.info("GITHUB |&e Trying to download update..");
                 download(UpdateSite.GITHUB);
             } else if (updateType == UpdateType.CHECK_DOWNLOAD) {
                 if (shouldUpdate(tag, currentVersion)) {
                     if (logger) {
-                        logs.info("GITHUB | Update found, downloading now...");
+                        logs.info("GITHUB |&e Update found, downloading now...");
                     }
                     download(UpdateSite.GITHUB);
 
                 } else {
                     if (logger) {
-                        logs.info("GITHUB | You are using latest version of the plugin.");
+                        logs.info("GITHUB |&6 You are using latest version of the plugin.");
                     }
                     result = Result.NO_UPDATE;
                 }
             } else {
                 if (logger) {
-                    logs.info("GITHUB | You are using latest version of the plugin.");
+                    logs.info("GITHUB |&6 You are using latest version of the plugin.");
                 }
                 result = Result.NO_UPDATE;
             }
         } catch (Exception exception) {
             if (exception instanceof FileNotFoundException) {
-                logs.info("No updates are available on github");
+                logs.info("&aNo updates are available on github");
                 return;
             }
-            logs.error("Can't find for updates on github :(");
+            logs.error("&cCan't find for updates on github :(");
             logs.error(exception);
 
         }
@@ -262,33 +262,33 @@ public class Updater {
                 element = object.get("name");
                 version = element.toString().replaceAll("\"", "").replace("v", "");
                 if (logger)
-                    logs.info("SPIGOTMC | Checking for update...");
+                    logs.info("SPIGOTMC |&e Checking for update...");
                 if (shouldUpdate(version, currentVersion) && updateType == UpdateType.VERSION_CHECK) {
                     result = Result.UPDATE_FOUND;
                     if (logger)
-                        logs.info("SPIGOTMC | Update found!");
+                        logs.info("SPIGOTMC |&6 Update found!");
                 } else if (updateType == UpdateType.DOWNLOAD) {
                     if (logger)
-                        logs.info("SPIGOTMC | Trying to download update..");
+                        logs.info("SPIGOTMC |&e Trying to download update..");
                     download(UpdateSite.SPIGOTMC);
                 } else if (updateType == UpdateType.CHECK_DOWNLOAD) {
                     if (shouldUpdate(version, currentVersion)) {
                         if (logger)
-                            logs.info("SPIGOTMC | Update found, downloading now...");
+                            logs.info("SPIGOTMC |&e Update found, downloading now...");
                         download(UpdateSite.SPIGOTMC);
                     } else {
                         if (logger)
-                            logs.info("SPIGOTMC | You are using latest version of the plugin.");
+                            logs.info("SPIGOTMC |&6 You are using latest version of the plugin.");
                         result = Result.NO_UPDATE;
                     }
                 } else {
                     if (logger)
-                        logs.info("SPIGOTMC | You are using latest version of the plugin.");
+                        logs.info("SPIGOTMC |&6 You are using latest version of the plugin.");
                     result = Result.NO_UPDATE;
                 }
             }
         } catch (Exception exception) {
-            logs.error("Can't find for updates on spigotmc :(");
+            logs.error("&cCan't find for updates on spigotmc :(");
             logs.error(exception);
 
         }
@@ -337,11 +337,11 @@ public class Updater {
                 fout.write(data, 0, count);
             }
 
-            logs.info("Latest build from Github has been downloaded.");
+            logs.info("&6Latest build from Github has been downloaded.");
 
         } catch (Exception ignored) {
             if (logger)
-                logs.info("Can't download latest version automatically, download it manually from website.");
+                logs.info("&cCan't download latest version automatically, download it manually from website.");
             logs.info(" ");
             result = Result.FAILED;
         } finally {
@@ -380,11 +380,11 @@ public class Updater {
                 fout.write(data, 0, count);
             }
 
-            logs.info("Latest release from SpigotMC has been downloaded.");
+            logs.info("&6Latest release from SpigotMC has been downloaded.");
 
         } catch (Exception ignored) {
             if (logger)
-                logs.info("Can't download latest version automatically, download it manually from website.");
+                logs.info("&cCan't download latest version automatically, download it manually from website.");
             logs.info(" ");
             result = Result.FAILED;
         } finally {

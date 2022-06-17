@@ -24,7 +24,7 @@ public class SpongeIcon extends Icon<Favicon> {
         try {
             BufferedImage image = ImageIO.read(file);
 
-            getLogs().info("&aIcon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
+            getLogs().info("&3Icon loaded: &6" + getName() + "&3 of MotdType &6" + getType().toString());
 
             return Favicon.load(image);
         } catch (Exception exception) {

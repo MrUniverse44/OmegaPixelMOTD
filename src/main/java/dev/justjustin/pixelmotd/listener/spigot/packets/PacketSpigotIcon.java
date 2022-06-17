@@ -26,7 +26,7 @@ public class PacketSpigotIcon extends Icon<WrappedServerPing.CompressedImage> {
         try {
             BufferedImage image = ImageIO.read(icon);
 
-            getLogs().info("&aIcon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
+            getLogs().info("&3Icon loaded: &6" + getName() + "&a of MotdType &6" + getType().toString());
 
             return WrappedServerPing.CompressedImage.fromPng(image);
         } catch (IOException exception) {

@@ -2,8 +2,6 @@ package dev.justjustin.pixelmotd.listener;
 
 import dev.justjustin.pixelmotd.MotdType;
 import dev.justjustin.pixelmotd.PixelMOTD;
-import dev.mruniverse.slimelib.SlimePlatform;
-import dev.mruniverse.slimelib.logs.SlimeLogger;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
 import java.io.File;
@@ -16,19 +14,11 @@ public abstract class MotdBuilder<T, I> {
 
     private final PixelMOTD<T> plugin;
 
-    private SlimeLogs logs;
+    private final SlimeLogs logs;
 
     public MotdBuilder(PixelMOTD<T> plugin, SlimeLogs logs) {
         this.plugin = plugin;
         this.logs = logs;
-        if (logs == null) {
-            this.logs = SlimeLogger.createLogs(
-                    SlimePlatform.getAutomatically(),
-                    plugin,
-                    "PixelMOTD"
-
-            );
-        }
         load();
     }
 
@@ -107,6 +97,7 @@ public abstract class MotdBuilder<T, I> {
         return null;
     }
 
+    @SuppressWarnings("unused")
     public Map<MotdType, Map<String, Icon<I>>> getIcons() {
         return icons;
     }

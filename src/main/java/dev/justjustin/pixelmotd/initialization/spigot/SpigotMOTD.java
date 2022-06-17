@@ -12,7 +12,7 @@ public class SpigotMOTD extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = new PixelMOTD<>(
-                SlimePlatform.BUNGEECORD,
+                SlimePlatform.SPIGOT,
                 this,
                 getDataFolder()
         );
