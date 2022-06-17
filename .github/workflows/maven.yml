@@ -27,12 +27,6 @@ jobs:
      - name: Build Jar files 📎
        run: mvn package
        
-     - name: Debug .-.
-       run: |
-         ls
-         cd target
-         ls
-       
      - name: Upload files ☁
        uses: actions/upload-artifact@v3
        with:
