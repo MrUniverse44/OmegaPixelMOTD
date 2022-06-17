@@ -1,0 +1,10 @@
+# Global developer(s)
+*       @MrUniverse44
+
+
+# Github action workflows
+.github/workflows/* @SageSphinx63920
+
+
+#Translator *if known*
+/src/main/resources/messages_de.yml @SageSphinx63920
