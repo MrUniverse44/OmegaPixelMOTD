@@ -19,6 +19,59 @@ custom-console-name:
   enabled: true
   name: Network
 
+kick-message:
+  global-whitelist:
+    - "&c&lYOU HAS BEEN REMOVED FROM THE SERVER"
+    - " "
+    - "&7Whitelist Author &8:"
+    - "&f%author%"
+    - " "
+    - "&7Whitelist Reason &8:"
+    - "&f%reason%"
+    - " "
+    - "&7Whitelist applied in all the network."
+    - " "
+    - "&ePixelMOTD Plugin"
+  global-blacklist:
+    - "&c&lYOU HAS BEEN REMOVED FROM THE SERVER"
+    - " "
+    - "&7Blacklist Author &8:"
+    - "&f%author%"
+    - " "
+    - "&7Blacklist Reason &8:"
+    - "&f%reason%"
+    - " "
+    - "&7Blacklist applied in your username."
+    - " "
+    - "&ePixelMOTD Plugin"
+  whitelist:
+    - "&c&lYOU HAS BEEN REMOVED FROM THE SERVER"
+    - " "
+    - "&7Whitelist Author &8:"
+    - "&f%author%"
+    - " "
+    - "&7Whitelist Reason &8:"
+    - "&f%reason%"
+    - " "
+    - "&7Server: &8:"
+    - "&f%server%"
+    - " "
+    - "&ePixelMOTD Plugin"
+  blacklist:
+    - "&c&lYOU HAS BEEN REMOVED FROM THE SERVER"
+    - " "
+    - "&7Blacklist Author &8:"
+    - "&f%author%"
+    - " "
+    - "&7Blacklist Reason &8:"
+    - "&f%reason%"
+    - " "
+    - "&7Server: &8:"
+    - "&f%server%"
+    - " "
+    - "&ePixelMOTD Plugin"
+
+
 whitelist:
   global:
     enabled: false

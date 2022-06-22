@@ -4,6 +4,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import dev.justjustin.pixelmotd.ListenerManager;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.initialization.velocity.VelocityMOTD;
+import dev.justjustin.pixelmotd.listener.Ping;
 import dev.justjustin.pixelmotd.listener.velocity.events.ProxyPingListener;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
@@ -44,5 +45,10 @@ public class VelocityListenerManager implements ListenerManager {
     @Override
     public void update() {
         listener.update();
+    }
+
+    @Override
+    public Ping getPing() {
+        return listener;
     }
 }

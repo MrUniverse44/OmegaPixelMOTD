@@ -1,5 +1,6 @@
 package dev.justjustin.pixelmotd;
 
+import dev.justjustin.pixelmotd.listener.Ping;
 import dev.justjustin.pixelmotd.listener.bungeecord.BungeeListenerManager;
 import dev.justjustin.pixelmotd.listener.spigot.SpigotListenerManager;
 import dev.justjustin.pixelmotd.listener.sponge.SpongeListenerManager;
@@ -32,6 +33,8 @@ public interface ListenerManager {
     void register();
 
     void update();
+
+    Ping getPing();
 
 
 

@@ -2,6 +2,7 @@ package dev.justjustin.pixelmotd.listener.spigot;
 
 import dev.justjustin.pixelmotd.ListenerManager;
 import dev.justjustin.pixelmotd.PixelMOTD;
+import dev.justjustin.pixelmotd.listener.Ping;
 import dev.justjustin.pixelmotd.listener.spigot.events.PacketServerPingListener;
 import dev.justjustin.pixelmotd.listener.spigot.events.ServerPingListener;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
@@ -55,6 +56,14 @@ public class SpigotListenerManager implements ListenerManager {
         } else {
             serverListener.update();
         }
+    }
+
+    @Override
+    public Ping getPing() {
+        if (isPacket) {
+            return packetListener;
+        }
+        return serverListener;
     }
 
 }

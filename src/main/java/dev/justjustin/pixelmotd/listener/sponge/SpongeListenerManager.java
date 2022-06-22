@@ -3,6 +3,7 @@ package dev.justjustin.pixelmotd.listener.sponge;
 import com.google.inject.Inject;
 import dev.justjustin.pixelmotd.ListenerManager;
 import dev.justjustin.pixelmotd.PixelMOTD;
+import dev.justjustin.pixelmotd.listener.Ping;
 import dev.justjustin.pixelmotd.listener.sponge.events.ServerPingListener;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import org.spongepowered.api.Server;
@@ -36,5 +37,10 @@ public class SpongeListenerManager implements ListenerManager {
     @Override
     public void update() {
         listener.update();
+    }
+
+    @Override
+    public Ping getPing() {
+        return listener;
     }
 }
