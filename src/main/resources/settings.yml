@@ -104,10 +104,10 @@ settings:
 
   # Config your max-server-protocol and min-server-protocol for the check of the outdated-client and outdated-server.
   # You can see protocols here: https://minecraft.fandom.com/wiki/Protocol_version
-  # Default protocol versions are 1.8 to 1.18
+  # Default protocol versions are 1.8 to 1.19
 
-  # Default max protocol: 758 = 1.18.2
-  max-server-protocol: 758
+  # Default max protocol: 758 = 1.19
+  max-server-protocol: 759
 
   # Default min protocol 47 = 1.8.X
   min-server-protocol: 47
