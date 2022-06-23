@@ -42,7 +42,7 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
 
         Control settings = getControl();
 
-        String path = "." + target + ".players.by-";
+        String path = "." + getPlace().toStringLowerCase() + "." + target + ".players.by-";
 
         if (settings.getStatus("whitelist" + target + ".enabled", false)) {
             if (!settings.getStringList("whitelist" + path + "name").contains(username) ||

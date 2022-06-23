@@ -70,7 +70,7 @@ public class AbstractServerConnectListener extends ConnectionListener<ProxyServe
 
         Control settings = getControl();
 
-        String path = "." + serverName + ".players.by-";
+        String path = "." + getPlace().toStringLowerCase() + "." + serverName + ".players.by-";
 
         if (settings.getStatus("whitelist" + serverName + ".enabled", false)) {
             if (!settings.getStringList("whitelist" + path + "name").contains(username) ||

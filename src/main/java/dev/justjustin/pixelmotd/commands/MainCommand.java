@@ -116,7 +116,7 @@ public class MainCommand<T> implements SlimeCommand {
 
             }
 
-            executeList(commandManager, messages, command, sender, ListType.WHITELIST, removeArguments(arguments));
+            executeList(commandManager, messages, command, sender, ListType.WHITELIST, removeArgument(arguments));
             return;
         }
 
@@ -133,7 +133,7 @@ public class MainCommand<T> implements SlimeCommand {
 
             }
 
-            executeList(commandManager, messages, command, sender, ListType.BLACKLIST, removeArguments(arguments));
+            executeList(commandManager, messages, command, sender, ListType.BLACKLIST, removeArgument(arguments));
             return;
         }
 
@@ -168,7 +168,7 @@ public class MainCommand<T> implements SlimeCommand {
 
                 for (String message : commandManager.getStringList("commands.main-command.admin.main")) {
                     sender.sendColoredMessage(
-                            message
+                            message.replace("%used command%", command)
                     );
                 }
             }
@@ -235,23 +235,27 @@ public class MainCommand<T> implements SlimeCommand {
         if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(1)))) {
             sender.sendColoredMessage("&aUser Name List: (Global Whitelist)");
 
-            sendList(sender, file, "global-whitelist-players.players.by-name");
+            sendList(sender, file, "whitelist.global.players.by-name");
 
             sender.sendColoredMessage("&aUUID List: (Global Whitelist)");
 
-            sendList(sender, file, "global-whitelist-players.players.by-uuid");
+            sendList(sender, file, "whitelist.global.players.by-uuid");
 
             WhitelistLocation place = WhitelistLocation.fromPlatform(plugin.getServerType());
 
-            for (String keys : file.getContent(place.toString(), false)) {
+            for (String keys : file.getContent(type + "." + place.toStringLowerCase(), false)) {
 
-                sender.sendColoredMessage("&aUser Name List: (" + place.toSingular() + "-" + keys + " Whitelist)");
+                if (keys.equalsIgnoreCase("global")) {
+                    continue;
+                }
 
-                sendList(sender, file, place + "." + keys + ".players.by-name");
+                sender.sendColoredMessage("&aUser Name List: (" + place.toSingular() + "-" + keys + " " + type + ")");
 
-                sender.sendColoredMessage("&aUUID List: (" + place.toSingular() + "-" + keys + " Whitelist)");
+                sendList(sender, file, type + "." + place.toStringLowerCase() + "." + keys + ".players.by-name");
 
-                sendList(sender, file, place + "." + keys + ".players.by-uuid");
+                sender.sendColoredMessage("&aUUID List: (" + place.toSingular() + "-" + keys + " " + type + ")");
+
+                sendList(sender, file, type + "." + place.toStringLowerCase() + "." + keys + ".players.by-uuid");
 
             }
             return;
@@ -270,7 +274,7 @@ public class MainCommand<T> implements SlimeCommand {
             WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
 
             if (args.length == 3) {
-                path = type + "." + whitelistLocation.toStringLowerCase() + "." + value + ".players." + PlayerUtil.getDestinyPath(value);
+                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[2] + ".players." + PlayerUtil.getDestinyPath(value);
             }
 
             List<String> valueList = file.getStringList(path);
@@ -308,7 +312,7 @@ public class MainCommand<T> implements SlimeCommand {
             WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
 
             if (args.length == 3) {
-                path = type + "." + whitelistLocation.toStringLowerCase() + "." + value + ".players." + PlayerUtil.getDestinyPath(value);
+                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[2] + ".players." + PlayerUtil.getDestinyPath(value);
             }
 
             List<String> valueList = file.getStringList(path);
@@ -434,9 +438,9 @@ public class MainCommand<T> implements SlimeCommand {
         }
     }
 
-    private String[] removeArguments(String[] args) {
-        String[] newArgs = new String[args.length - 2];
-        System.arraycopy(args, 2, newArgs, 0, newArgs.length);
+    private String[] removeArgument(String[] args) {
+        String[] newArgs = new String[args.length - 1];
+        System.arraycopy(args, 1, newArgs, 0, newArgs.length);
         return newArgs;
     }
 

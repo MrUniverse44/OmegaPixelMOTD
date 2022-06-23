@@ -3,6 +3,7 @@ package dev.justjustin.pixelmotd.listener.bungeecord.events.abstracts;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.ConnectionListener;
 import dev.justjustin.pixelmotd.utils.ListUtil;
+import dev.justjustin.pixelmotd.utils.WhitelistLocation;
 import dev.mruniverse.slimelib.control.Control;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -48,7 +49,7 @@ public class AbstractServerConnectListener extends ConnectionListener<Plugin, Se
 
         Control settings = getControl();
 
-        String path = "." + serverName + ".players.by-";
+        String path = "." + getPlace().toStringLowerCase() + "." + serverName + ".players.by-";
 
         if (settings.getStatus("whitelist" + serverName + ".enabled", false)) {
             if (!settings.getStringList("whitelist" + path + "name").contains(username) ||

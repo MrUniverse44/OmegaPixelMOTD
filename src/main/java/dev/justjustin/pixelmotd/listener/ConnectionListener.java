@@ -4,6 +4,7 @@ import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.players.PlayerDatabase;
 import dev.justjustin.pixelmotd.utils.Extras;
+import dev.justjustin.pixelmotd.utils.WhitelistLocation;
 import dev.mruniverse.slimelib.control.Control;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
@@ -27,6 +28,10 @@ public abstract class ConnectionListener<T, E, S> {
 
     public void update() {
         load();
+    }
+
+    public WhitelistLocation getPlace() {
+        return WhitelistLocation.fromPlatform(plugin.getServerType());
     }
 
     public abstract void execute(E event);

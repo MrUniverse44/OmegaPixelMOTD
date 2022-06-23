@@ -76,8 +76,6 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
         getLoader().getCommands().register(new MainCommand<>(this));
 
-        motdStorage = new MotdStorage(getLoader().getFiles());
-
         listenerManager = ListenerManager.createNewInstance(platform, this, logs);
 
         if (platform != SlimePlatform.VELOCITY && platform != SlimePlatform.SPONGE) {
@@ -92,6 +90,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
             }
 
         }
+
+        motdStorage = new MotdStorage(getLoader().getFiles());
     }
 
     public ListenerManager getListenerManager() {
