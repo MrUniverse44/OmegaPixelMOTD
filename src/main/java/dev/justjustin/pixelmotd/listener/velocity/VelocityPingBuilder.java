@@ -113,14 +113,15 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
             int p1 = ping.getVersion().getProtocol();
 
-            TextComponent n1 = color(
+            Component n1 = new DefaultSlimeColor(
                     getExtras().replace(
                             control.getString(path + "protocol.message"),
                             online,
                             max,
                             user
-                    )
-            );
+                    ),
+                    true
+            ).build();
 
             if (protocol != MotdProtocol.DEFAULT) {
                 p1 = protocol.getCode();
@@ -129,7 +130,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
             ping.version(
                     new ServerPing.Version(
                             p1,
-                            n1.content()
+                            legacy(n1)
                     )
             );
         }
@@ -184,7 +185,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
     }
 
     private TextComponent color(String text) {
-        return LegacyComponentSerializer.builder().character('&').build().deserialize(text);
+        return LegacyComponentSerializer.legacySection().deserialize(text);
     }
 
     @Override
@@ -210,7 +211,14 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
             hoverToShow = addHoverLine(
                     hoverToShow,
                     new ServerPing.SamplePlayer(
-                            legacy(getExtras().replace(line, online, max, user)),
+                            legacy(
+                                    getExtras().replace(
+                                            line,
+                                            online,
+                                            max,
+                                            user
+                                    )
+                            ),
                             uuid
                     )
             );
@@ -220,7 +228,18 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
     }
 
     private @NotNull String legacy(String content) {
-        return LegacyComponentSerializer.builder().character('&').build().deserialize(content).content();
+        Component color = new DefaultSlimeColor(content, true)
+                .build();
+
+        return LegacyComponentSerializer.legacySection().serialize(
+                color
+        );
+    }
+
+    private @NotNull String legacy(Component color) {
+        return LegacyComponentSerializer.legacySection().serialize(
+                color
+        );
     }
 
     @Override
