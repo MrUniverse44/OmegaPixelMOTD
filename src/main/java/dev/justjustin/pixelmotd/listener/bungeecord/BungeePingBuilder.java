@@ -110,14 +110,19 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
                     code
             );
 
-            if (protocol == MotdProtocol.ALWAYS_POSITIVE || protocol == MotdProtocol.ALWAYS_NEGATIVE) {
+            if (protocol != MotdProtocol.DEFAULT) {
                 ping.getVersion().setProtocol(protocol.getCode());
             }
 
             ping.getVersion().setName(
                     ChatColor.translateAlternateColorCodes(
                             '&',
-                            control.getString(path + "protocol.message")
+                            getExtras().replace(
+                                    control.getString(path + "protocol.message"),
+                                    online,
+                                    max,
+                                    user
+                            )
                     )
             );
         }

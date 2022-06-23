@@ -111,14 +111,19 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
                     code
             );
 
-            if (protocol == MotdProtocol.ALWAYS_POSITIVE || protocol == MotdProtocol.ALWAYS_NEGATIVE) {
+            if (protocol != MotdProtocol.ALWAYS_NEGATIVE) {
                 ping.setVersionProtocol(protocol.getCode());
             }
 
             ping.setVersionName(
                     ChatColor.translateAlternateColorCodes(
                             '&',
-                            control.getString(path + "protocol.message")
+                            getExtras().replace(
+                                    control.getString(path + "protocol.message"),
+                                    online,
+                                    max,
+                                    user
+                            )
                     )
             );
         }

@@ -112,11 +112,17 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
             );
 
             int p1 = ping.getVersion().getProtocol();
+
             TextComponent n1 = color(
-                    control.getString(path + "protocol.message")
+                    getExtras().replace(
+                            control.getString(path + "protocol.message"),
+                            online,
+                            max,
+                            user
+                    )
             );
 
-            if (protocol == MotdProtocol.ALWAYS_POSITIVE || protocol == MotdProtocol.ALWAYS_NEGATIVE) {
+            if (protocol != MotdProtocol.DEFAULT) {
                 p1 = protocol.getCode();
             }
 
