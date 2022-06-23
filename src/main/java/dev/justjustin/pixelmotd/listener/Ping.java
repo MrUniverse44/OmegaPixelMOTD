@@ -9,4 +9,6 @@ public interface Ping {
         return database;
     }
 
+    PingBuilder<?, ?, ?, ?> getPingBuilder();
+
 }

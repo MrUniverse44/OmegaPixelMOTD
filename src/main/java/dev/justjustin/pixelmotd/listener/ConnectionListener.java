@@ -3,6 +3,7 @@ package dev.justjustin.pixelmotd.listener;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.players.PlayerDatabase;
+import dev.justjustin.pixelmotd.utils.Extras;
 import dev.mruniverse.slimelib.control.Control;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
@@ -35,12 +36,17 @@ public abstract class ConnectionListener<T, E, S> {
     public String replace(String message, String key, String username, String uniqueId) {
         Control settings = getControl();
 
-        return message.replace("%username%", username)
-                .replace("%nick%", username)
-                .replace("%uniqueId%", uniqueId)
-                .replace("%uuid%", uniqueId)
-                .replace("%reason%", settings.getString(key + ".reason", ""))
-                .replace("%author%", settings.getString(key + ".author", ""));
+        return getExtras().replace(
+                message.replace("%username%", username)
+                    .replace("%nick%", username)
+                    .replace("%uniqueId%", uniqueId)
+                    .replace("%uuid%", uniqueId)
+                    .replace("%reason%", settings.getString(key + ".reason", ""))
+                    .replace("%author%", settings.getString(key + ".author", "")),
+                plugin.getPlayerHandler().getPlayersSize(),
+                plugin.getPlayerHandler().getMaxPlayers(),
+                username
+        );
     }
 
     public boolean hasWhitelist() {
@@ -53,6 +59,10 @@ public abstract class ConnectionListener<T, E, S> {
 
     public Control getControl() {
         return plugin.getLoader().getFiles().getControl(SlimeFile.MODES);
+    }
+
+    public Extras getExtras() {
+        return plugin.getListenerManager().getPing().getPingBuilder().getExtras();
     }
 
     public SlimeLogs getLogs() {

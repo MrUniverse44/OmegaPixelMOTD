@@ -4,6 +4,7 @@ import dev.justjustin.pixelmotd.MotdType;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.listener.Ping;
+import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.listener.bungeecord.BungeeMotdBuilder;
 import dev.justjustin.pixelmotd.listener.bungeecord.BungeePingBuilder;
 import dev.mruniverse.slimelib.SlimePlugin;
@@ -139,6 +140,10 @@ public class ProxyPingListener implements Listener, Ping {
             pingBuilder.execute(MotdType.OUTDATED_CLIENT, ping, protocol, userName);
         }
 
+    }
+
+    public PingBuilder<?, ?, ?, ?> getPingBuilder() {
+        return pingBuilder;
     }
 
 }

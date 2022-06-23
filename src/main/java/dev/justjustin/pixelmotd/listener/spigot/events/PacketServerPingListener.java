@@ -10,6 +10,7 @@ import dev.justjustin.pixelmotd.MotdType;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.listener.Ping;
+import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.listener.spigot.packets.PacketSpigotMotdBuilder;
 import dev.justjustin.pixelmotd.listener.spigot.packets.PacketSpigotPingBuilder;
 import dev.justjustin.pixelmotd.listener.spigot.version.PlayerVersionHandler;
@@ -179,6 +180,10 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
         if (MIN_PROTOCOL > protocol && hasOutdatedClient) {
             pingBuilder.execute(MotdType.OUTDATED_CLIENT, ping, protocol, user);
         }
+    }
+
+    public PingBuilder<?, ?, ?, ?> getPingBuilder() {
+        return pingBuilder;
     }
 
 }

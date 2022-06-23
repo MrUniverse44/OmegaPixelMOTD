@@ -4,6 +4,7 @@ import dev.justjustin.pixelmotd.MotdType;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.listener.Ping;
+import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.listener.spigot.SpigotMotdBuilder;
 import dev.justjustin.pixelmotd.listener.spigot.SpigotPingBuilder;
 import dev.mruniverse.slimelib.control.Control;
@@ -102,6 +103,10 @@ public class ServerPingListener implements Ping, Listener {
             return;
         }
         pingBuilder.execute(type, ping, -1, user);
+    }
+
+    public PingBuilder<?, ?, ?, ?> getPingBuilder() {
+        return pingBuilder;
     }
 
 }

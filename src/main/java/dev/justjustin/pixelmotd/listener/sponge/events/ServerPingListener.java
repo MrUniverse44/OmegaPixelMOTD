@@ -1,6 +1,7 @@
 package dev.justjustin.pixelmotd.listener.sponge.events;
 
 import dev.justjustin.pixelmotd.listener.Ping;
+import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import org.spongepowered.api.Server;
@@ -22,5 +23,9 @@ public class ServerPingListener implements Ping {
 
     public void update() {
 
+    }
+
+    public PingBuilder<?, ?, ?, ?> getPingBuilder() {
+        return null;
     }
 }
