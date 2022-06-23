@@ -1,9 +1,7 @@
-
-<img align="left" alt="PixelMOTD Image" src="https://i.imgur.com/jUBJjHy.png" />
-
+# PixelMOTD 4
 ---
 
-<img align="center" alt="Features Image" src="https://i.imgur.com/8Rg6V0u.png">
+<img align="center" alt="Features Image" src="https://cdn.discordapp.com/attachments/987409771302883341/987454796376207360/FeatureList.png">
 
 
 
@@ -24,11 +22,19 @@
 * Whitelist Permission Bypass
 * Customizable Motd Hover
 * Customizable Commands
-* Support WaterFall and FlameCord,PaperSpigot & more.
+* Support for many forks like WaterFall, FlameCord, PaperMC, Purpur & more.
 * Custom Protocol Message
 * Custom Server-Icon
 * Performance Boost
 * Customizable join motd
+
+---
+
+
+<img align="center" alt="Features Image" src="https://cdn.discordapp.com/attachments/987409771302883341/987454795906433054/DownloadLink.png">
+
+- You can download the plugin releases from our [Spigot MC](https://www.spigotmc.org/resources/%E2%9E%A5-pixel-motd-1-8-1-19.37177) page!
+> - Bleeding edge releases are avalibal throught the [GitHub Actions page](https://github.com/MrUniverse44/XPixelMotd4/actions)  |  *This build can be unstable! Please report any issue!*
 
 ---
 
@@ -49,5 +55,11 @@
 > - translations/messages_jp.yml
 > - translations/messages_de.yml
 > - translations/messages_pl.yml
+
+---
+
+Presented by:
+
+<img align="left" alt="PixelMOTD Image" src="https://i.imgur.com/jUBJjHy.png" />
 
 *//TODO : Improve README.md*

@@ -2,11 +2,11 @@ name: Build maven
 
 on: [push, pull_request]
 
-jobs:
-      
+jobs:    
   upload:
    
     runs-on: ubuntu-latest
+    if: "!contains(github.event.commits[0].message, '[ac-skip]')"
     
     steps:
      - name: Checkout 🙃
