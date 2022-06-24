@@ -12,7 +12,6 @@ import dev.mruniverse.slimelib.logs.SlimeLogs;
 import dev.mruniverse.slimelib.utils.ClassUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.Favicon;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -69,7 +68,7 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
                     path + "players.online."
             );
         } else {
-            online = ProxyServer.getInstance().getOnlineCount();
+            online = ping.getPlayers().getOnline();
         }
         if (control.getStatus(path + "players.max.toggle")) {
             String mode = control.getString(path + "players.max.type", "").toLowerCase();

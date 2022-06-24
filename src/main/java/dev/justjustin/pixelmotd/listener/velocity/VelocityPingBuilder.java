@@ -70,7 +70,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
                     path + "players.online."
             );
         } else {
-            online = getPlugin().getPlugin().getPlayerCount();
+            online = ping.getOnlinePlayers();
         }
         if (control.getStatus(path + "players.max.toggle")) {
             String mode = control.getString(path + "players.max.type", "").toLowerCase();
@@ -90,7 +90,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
                 );
             }
         } else {
-            max = getPlugin().getPlugin().getConfiguration().getShowMaxPlayers();
+            max = ping.getMaximumPlayers();
         }
 
         if (control.getStatus(path + "hover.toggle")) {

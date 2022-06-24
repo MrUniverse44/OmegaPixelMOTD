@@ -42,7 +42,7 @@ join-motds:
     server-names-check-type: CONTAINS
     # example of contains: "lobby1, lobby2, lobby3, lobby4, lobby5"
     # example of equals: "lobby". "lobby1", "lobby2", "lobby3", "lobby4", "lobby5" will be ignored
-    # if the path 'more-servers' is empty, the type will be used for the main-server
+    # the type will be used for the main-server and the more-servers path
     lines:
       - "<center>&a&lX PixelMotds 4"
       - "<center>&f&oFourth re-work of the PixelMOTD"
@@ -58,7 +58,7 @@ join-motds:
     server-names-check-type: CONTAINS
     # example of contains: "lobby1, lobby2, lobby3, lobby4, lobby5"
     # example of equals: "lobby". "lobby1", "lobby2", "lobby3", "lobby4", "lobby5" will be ignored
-    # if the path 'more-servers' is empty, the type will be used for the main-server
+    # the type will be used for the main-server and the more-servers path
     lines:
       - "<center>&a&lX PixelMotds 4"
       - "<center>&f&oFourth re-work of the PixelMOTD"

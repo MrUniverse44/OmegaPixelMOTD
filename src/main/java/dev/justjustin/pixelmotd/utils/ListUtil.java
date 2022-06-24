@@ -19,4 +19,20 @@ public class ListUtil {
         return builder.toString();
     }
 
+    public static boolean checkType(String type, List<String> paramList, String object) {
+        if (type.equalsIgnoreCase("EQUALS")) {
+            for (String name : paramList) {
+                if (object.equalsIgnoreCase(name)) {
+                    return true;
+                }
+            }
+        }
+        for (String name : paramList) {
+            if (object.contains(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

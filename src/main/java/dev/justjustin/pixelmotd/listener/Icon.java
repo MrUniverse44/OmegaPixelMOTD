@@ -10,6 +10,7 @@ public abstract class Icon<I> {
     private final MotdType motdType;
     private final SlimeLogs logs;
     private final I favicon;
+
     public Icon(SlimeLogs logs, MotdType motdType, File icon) {
         this.motdType = motdType;
         this.logs     = logs;

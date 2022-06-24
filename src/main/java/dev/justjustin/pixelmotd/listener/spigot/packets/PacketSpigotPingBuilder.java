@@ -12,7 +12,6 @@ import dev.justjustin.pixelmotd.utils.PlaceholderParser;
 import dev.mruniverse.slimelib.colors.platforms.StringSlimeColor;
 import dev.mruniverse.slimelib.control.Control;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -70,7 +69,7 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
                     path + "players.online."
             );
         } else {
-            online = Bukkit.getServer().getOnlinePlayers().size();
+            online = ping.getPlayersOnline();
         }
         if (control.getStatus(path + "players.max.toggle")) {
             String mode = control.getString(path + "players.max.type", "").toLowerCase();
