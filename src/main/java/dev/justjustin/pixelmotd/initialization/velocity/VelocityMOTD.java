@@ -9,6 +9,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.velocity.VelocityListenerManager;
+import dev.justjustin.pixelmotd.metrics.velocity.Metrics;
 import dev.mruniverse.slimelib.SlimePlatform;
 
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ public class VelocityMOTD {
 
     private static VelocityMOTD classInstance;
 
+    private PixelMOTD<ProxyServer> instance;
     @Inject
     private ProxyServer server;
 
@@ -39,7 +41,8 @@ public class VelocityMOTD {
     @Inject
     private Logger logger;
 
-    private PixelMOTD<ProxyServer> instance;
+    @Inject
+    private Metrics.Factory metricsFactory;
 
     @Subscribe
     public void onInitialize(ProxyInitializeEvent event) {
@@ -70,6 +73,10 @@ public class VelocityMOTD {
 
     public Logger getLogger() {
         return logger;
+    }
+
+    public void initMetrics(int id) {
+        Metrics metrics = metricsFactory.make(this, id);
     }
 
     public static VelocityMOTD getInstance() {

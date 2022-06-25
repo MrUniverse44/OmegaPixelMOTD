@@ -1,6 +1,7 @@
 package dev.justjustin.pixelmotd;
 
 import dev.justjustin.pixelmotd.commands.MainCommand;
+import dev.justjustin.pixelmotd.metrics.MetricsHandler;
 import dev.justjustin.pixelmotd.players.PlayerHandler;
 import dev.justjustin.pixelmotd.servers.ServerHandler;
 import dev.justjustin.pixelmotd.storage.MotdStorage;
@@ -92,6 +93,11 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         }
 
         motdStorage = new MotdStorage(getLoader().getFiles());
+
+        MetricsHandler.fromPlatform(
+                platform,
+                plugin
+        ).initialize();
     }
 
     public ListenerManager getListenerManager() {
