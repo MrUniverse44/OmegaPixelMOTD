@@ -24,7 +24,12 @@ public enum MotdProtocol {
         return code;
     }
 
-    public static MotdProtocol getFromText(String paramText,int code) {
+    public static MotdProtocol getFromText(String paramText, int code) {
+
+        if (paramText.equalsIgnoreCase("ALWAYS_NEGATIVE")) {
+            return ALWAYS_NEGATIVE;
+        }
+
         paramText = paramText.toLowerCase();
 
         if (paramText.contains("positive")) {
@@ -32,7 +37,7 @@ public enum MotdProtocol {
         }
 
         if (paramText.contains("negative")) {
-            return ALWAYS_NEGATIVE.setCode(code);
+            return ALWAYS_NEGATIVE;
         }
 
         return DEFAULT.setCode(code);
