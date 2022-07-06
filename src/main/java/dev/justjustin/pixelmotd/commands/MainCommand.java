@@ -398,7 +398,7 @@ public class MainCommand<T> implements SlimeCommand {
 
             plugin.getLoader().getFiles().getControl(type.getFile()).set(
                     path + "enabled",
-                    true
+                    false
             );
 
             if (!sender.isConsoleSender() || !file.getStatus("custom-console-name.enabled")) {
