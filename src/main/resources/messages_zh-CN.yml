@@ -17,17 +17,15 @@
 #   MC-Market 链接：https://www.mc-market.org/resources/22313
 #   GitHub 链接：https://github.com/MrUniverse44/XPixelMotd4
 #
-#   Notice! Do not change "<type>", "<player>" and "<ms>". They are replaced with the corresponding text on output.
-#   注意！请勿更改“<type>”、“<player>”和“<ms>”。它们会在输出时被替换为相应的文字。
-#
 #   Default translation provided by YoMonNPC.
 #   由 YoMonNPC 提供默认翻译。
+#   20220710T154000Z
 #
 messages:
   reload: '&a插件已正确重新加载，用时 <ms> 毫秒。'
 
   error:
-    permission: '&c你需要拥有权限“<permission>”才能使用此命令。'
+    permission: '&c你需要拥有权限“<permission>”来执行此命令。'
     already-whitelisted: '&a<type> &e<player> &a已在白名单中！'
     already-blacklisted: '&a<type> &e<player> &a已在黑名单中！'
     not-whitelisted: '&a<type> &e<player> &a不在白名单中！'
