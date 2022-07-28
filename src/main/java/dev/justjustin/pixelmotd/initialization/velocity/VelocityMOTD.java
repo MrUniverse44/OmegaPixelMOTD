@@ -8,8 +8,11 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import dev.justjustin.pixelmotd.PixelMOTD;
+import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.listener.velocity.VelocityListenerManager;
 import dev.justjustin.pixelmotd.metrics.velocity.Metrics;
+import dev.justjustin.pixelmotd.status.StatusChecker;
+import dev.justjustin.pixelmotd.status.VelocityServerStatusChecker;
 import dev.mruniverse.slimelib.SlimePlatform;
 
 import org.slf4j.Logger;
@@ -29,6 +32,8 @@ import java.nio.file.Path;
 public class VelocityMOTD {
 
     private static VelocityMOTD classInstance;
+
+    private VelocityServerStatusChecker checker = null;
 
     private PixelMOTD<ProxyServer> instance;
     @Inject
@@ -57,6 +62,10 @@ public class VelocityMOTD {
                 new File(directory, "PixelMOTD")
         );
 
+        if (instance.getLoader().getFiles().getControl(SlimeFile.SETTINGS).getStatus("settings.server-status.toggle")) {
+            checker = new VelocityServerStatusChecker(instance);
+        }
+
         VelocityListenerManager manager = (VelocityListenerManager) instance.getListenerManager();
 
         manager.register(this);
@@ -69,6 +78,10 @@ public class VelocityMOTD {
 
     public ProxyServer getServer() {
         return server;
+    }
+
+    public StatusChecker getChecker() {
+        return checker;
     }
 
     public Logger getLogger() {

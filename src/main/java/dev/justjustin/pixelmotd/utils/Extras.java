@@ -2,7 +2,12 @@ package dev.justjustin.pixelmotd.utils;
 
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
+import dev.justjustin.pixelmotd.initialization.bungeecord.BungeeMOTD;
+import dev.justjustin.pixelmotd.initialization.velocity.VelocityMOTD;
+import dev.justjustin.pixelmotd.servers.BungeeServerHandler;
 import dev.justjustin.pixelmotd.servers.Server;
+import dev.justjustin.pixelmotd.servers.VelocityServerHandler;
+import dev.justjustin.pixelmotd.status.StatusChecker;
 import dev.mruniverse.slimelib.control.Control;
 
 import java.text.ParseException;
@@ -13,7 +18,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Extras {
+    private final boolean IS_VELOCITY_PLATFORM;
+
+    private final boolean IS_BUNGEE_PLATFORM;
+
     private final Map<String, List<String>> serversMap = new HashMap<>();
+
     private final Map<String, OnlineList> onlineMap = new HashMap<>();
 
     private final Pattern pattern = Pattern.compile("%player_(\\d)+%");
@@ -27,6 +37,9 @@ public class Extras {
     public Extras(PixelMOTD<?> plugin) {
         this.plugin = plugin;
         this.max    = plugin.getPlayerHandler().getMaxPlayers();
+
+        this.IS_BUNGEE_PLATFORM = plugin.getServerHandler() instanceof BungeeServerHandler;
+        this.IS_VELOCITY_PLATFORM = plugin.getServerHandler() instanceof VelocityServerHandler;
 
         load();
     }
@@ -96,8 +109,26 @@ public class Extras {
             }
         }
         if (message.contains("%online_") || message.contains("%status_")) {
+
+            StatusChecker checker = null;
+
+            if (IS_VELOCITY_PLATFORM) {
+                checker = VelocityMOTD.getInstance().getChecker();
+            }
+
+            if (IS_BUNGEE_PLATFORM) {
+                checker = BungeeMOTD.getInstance().getChecker();
+            }
+
             for (Server server : plugin.getServerHandler().getServers()) {
                 message = message.replace("%online_" + server.getName() + "%", server.getOnline() + "");
+
+                if (checker != null) {
+                    message = message.replace(
+                            "%status_" + server.getName() + "%",
+                            checker.getServerStatus(server.getName())
+                    );
+                }
             }
         }
         return replaceEvents(message);
