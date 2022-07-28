@@ -372,7 +372,7 @@ public class MainCommand<T> implements SlimeCommand {
 
             plugin.getLoader().getFiles().getControl(type.getFile()).set(
                     path + "reason",
-                    file.getString("default-reasons" + type)
+                    file.getString("default-reasons." + type)
             );
 
             sender.sendColoredMessage(
