@@ -2,6 +2,7 @@ package dev.justjustin.pixelmotd.listener.spigot;
 
 import dev.justjustin.pixelmotd.MotdType;
 import dev.justjustin.pixelmotd.PixelMOTD;
+import dev.justjustin.pixelmotd.iridiumcolorapi.IridiumColorAPI;
 import dev.justjustin.pixelmotd.listener.MotdBuilder;
 import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.utils.MotdPlayers;
@@ -97,20 +98,31 @@ public class SpigotPingBuilder extends PingBuilder<JavaPlugin, CachedServerIcon,
                 line2 = PlaceholderParser.parse(getPlugin().getLogs(), user, line2);
             }
 
-            completed = new StringSlimeColor(
-                    getExtras().replace(
-                            line1,
-                            ping.getNumPlayers(),
-                            ping.getMaxPlayers(),
-                            user
-                    ) + "\n" + getExtras().replace(
-                            line2,
-                            ping.getNumPlayers(),
-                            ping.getMaxPlayers(),
-                            user
-                    ),
-                    true
-            ).build();
+            completed = getExtras().replace(
+                    line1,
+                    ping.getNumPlayers(),
+                    ping.getMaxPlayers(),
+                    user
+            ) + "\n" + getExtras().replace(
+                    line2,
+                    ping.getNumPlayers(),
+                    ping.getMaxPlayers(),
+                    user
+            );
+
+            if (!completed.contains("<GRADIENT:") && !completed.contains("<RAINBOW") && !completed.contains("<SOLID:")) {
+
+                completed = new StringSlimeColor(
+                        completed,
+                        true
+                ).build();
+
+            } else {
+
+                completed = IridiumColorAPI.process(completed);
+
+            }
+
 
             completed = ChatColor.translateAlternateColorCodes('&', completed);
         }
