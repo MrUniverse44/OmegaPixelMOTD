@@ -5,6 +5,7 @@ import dev.justjustin.pixelmotd.MotdType;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.MotdBuilder;
 import dev.justjustin.pixelmotd.listener.PingBuilder;
+import dev.justjustin.pixelmotd.minedown.MineDown;
 import dev.justjustin.pixelmotd.utils.MotdPlayers;
 import dev.mruniverse.slimelib.colors.platforms.bungeecord.BungeeSlimeColor;
 import dev.mruniverse.slimelib.control.Control;
@@ -135,10 +136,21 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
 
             completed = getExtras().replace(line1, online, max, user) + "\n" + getExtras().replace(line2, online, max, user);
 
-            result.addExtra(
-                    new BungeeSlimeColor(completed, HAS_RGB_SUPPORT)
-                            .build()
-            );
+            if (completed.contains("%(slimecolor")) {
+
+                result.addExtra(
+                        new BungeeSlimeColor(completed, HAS_RGB_SUPPORT)
+                                .build()
+                );
+
+            }  else {
+
+                result = new TextComponent(
+                        new MineDown(
+                                completed.replace('§', '&')).urlDetection(false).toComponent()
+                );
+
+            }
 
         } else {
 
