@@ -1,7 +1,7 @@
 package dev.justjustin.pixelmotd.storage;
 
 import dev.justjustin.pixelmotd.MotdType;
-import dev.mruniverse.slimelib.storage.FileStorage;
+import dev.mruniverse.slimelib.file.storage.FileStorage;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -35,7 +35,7 @@ public class MotdStorage {
     private void init() {
         for (MotdType motdType : MotdType.values()) {
 
-            List<String> motdList = storage.getControl(motdType.getFile()).getContent(motdType.toString(), false);
+            List<String> motdList = storage.getConfigurationHandler(motdType.getFile()).getContent(motdType.toString(), false);
 
             motdNameListMap.put(
                     motdType,
@@ -50,7 +50,7 @@ public class MotdStorage {
      * @return List of Motds
      */
     private List<String> getNewMotdList(MotdType motdType) {
-        return motdNameListMap.computeIfAbsent(motdType, V -> storage.getControl(motdType.getFile()).getContent(motdType.toString(), false));
+        return motdNameListMap.computeIfAbsent(motdType, V -> storage.getConfigurationHandler(motdType.getFile()).getContent(motdType.toString(), false));
     }
 
     /**

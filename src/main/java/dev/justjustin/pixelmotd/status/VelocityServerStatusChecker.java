@@ -7,7 +7,8 @@ import com.velocitypowered.api.scheduler.Scheduler;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.initialization.velocity.VelocityMOTD;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -29,7 +30,7 @@ public class VelocityServerStatusChecker implements StatusChecker {
 
     private Map<String, Boolean> statusMap = new ConcurrentHashMap<>();
 
-    private Control control;
+    private ConfigurationHandler control;
 
     private int pingTimeout = 500;
 
@@ -43,9 +44,9 @@ public class VelocityServerStatusChecker implements StatusChecker {
     }
 
     private void load() {
-        this.control = plugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS);
-        online = control.getColoredString("settings.server-status.online","&a&lONLINE");
-        offline = control.getColoredString("settings.server-status.offline","&c&lOFFLINE");
+        this.control = plugin.getConfigurationHandler(SlimeFile.SETTINGS);
+        online = control.getString(TextDecoration.LEGACY, "settings.server-status.online","&a&lONLINE");
+        offline = control.getString(TextDecoration.LEGACY, "settings.server-status.offline","&c&lOFFLINE");
     }
 
     public void update() {

@@ -10,7 +10,8 @@ import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.utils.MotdPlayers;
 import dev.justjustin.pixelmotd.utils.PlaceholderParser;
 import dev.mruniverse.slimelib.colors.platforms.StringSlimeColor;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,7 +33,7 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
     public void execute(MotdType motdType, WrappedServerPing ping, int code, String user) {
         final SlimeLogs logs = getPlugin().getLogs();
 
-        final Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
+        final ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
 
         String motd;
 
@@ -128,8 +129,8 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
         }
 
         if (!motdType.isHexMotd()) {
-            line1 = control.getColoredString(path + "line1", "");
-            line2 = control.getColoredString(path + "line2", "");
+            line1 = control.getString(TextDecoration.LEGACY, path + "line1", "");
+            line2 = control.getString(TextDecoration.LEGACY, path + "line2", "");
 
             if (hasPAPI) {
                 line1 = PlaceholderParser.parse(getPlugin().getLogs(), user, line1);
@@ -182,7 +183,7 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
 
     @Override
     public WrappedGameProfile[] getHover(MotdType motdType, String path, int online, int max, String user) {
-        Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
+        ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
 
         WrappedGameProfile[] gameProfiles = new WrappedGameProfile[0];
 
@@ -190,11 +191,11 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
 
         if (isPlayerSystem()) {
             lines = getExtras().replaceHoverLine(
-                    control.getColoredStringList(path + "hover.lines"),
+                    control.getStringList(TextDecoration.LEGACY, path + "hover.lines"),
                     control.getInt(path + "hover.hasMoreOnline")
             );
         } else {
-            lines = control.getColoredStringList(path + "hover.lines");
+            lines = control.getStringList(TextDecoration.LEGACY, path + "hover.lines");
         }
 
         final UUID uuid = UUID.fromString("0-0-0-0-0");

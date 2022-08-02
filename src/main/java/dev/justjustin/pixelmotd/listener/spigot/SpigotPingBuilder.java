@@ -8,7 +8,8 @@ import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.utils.MotdPlayers;
 import dev.justjustin.pixelmotd.utils.PlaceholderParser;
 import dev.mruniverse.slimelib.colors.platforms.StringSlimeColor;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,7 +25,7 @@ public class SpigotPingBuilder extends PingBuilder<JavaPlugin, CachedServerIcon,
 
     @Override
     public void execute(MotdType motdType, ServerListPingEvent ping, int code, String user) {
-        final Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
+        final ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
 
         String motd = getMotd(motdType);
 
@@ -69,8 +70,8 @@ public class SpigotPingBuilder extends PingBuilder<JavaPlugin, CachedServerIcon,
         }
 
         if (!motdType.isHexMotd()) {
-            line1 = control.getColoredString(path + "line1", "");
-            line2 = control.getColoredString(path + "line2", "");
+            line1 = control.getString(TextDecoration.LEGACY, path + "line1", "");
+            line2 = control.getString(TextDecoration.LEGACY, path + "line2", "");
 
             if (hasPAPI) {
                 line1 = PlaceholderParser.parse(getPlugin().getLogs(), user, line1);

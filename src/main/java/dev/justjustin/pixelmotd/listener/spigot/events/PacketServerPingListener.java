@@ -17,8 +17,8 @@ import dev.justjustin.pixelmotd.listener.spigot.version.PlayerVersionHandler;
 import dev.justjustin.pixelmotd.listener.spigot.version.handlers.None;
 import dev.justjustin.pixelmotd.listener.spigot.version.handlers.ProtocolLib;
 import dev.justjustin.pixelmotd.listener.spigot.version.handlers.ViaVersion;
-import dev.mruniverse.slimelib.control.Control;
-import dev.mruniverse.slimelib.storage.FileStorage;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.storage.FileStorage;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.InetAddress;
@@ -48,7 +48,7 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
 
     private MotdType type;
 
-    private Control modes;
+    private ConfigurationHandler modes;
 
     public PacketServerPingListener(PixelMOTD<JavaPlugin> slimePlugin) {
         super(slimePlugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Status.Server.SERVER_INFO);
@@ -81,7 +81,7 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
     }
 
     public void updateModes() {
-        modes = slimePlugin.getLoader().getFiles().getControl(SlimeFile.MODES);
+        modes = slimePlugin.getConfigurationHandler(SlimeFile.MODES);
     }
 
     private void load() {
@@ -89,11 +89,11 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
 
         FileStorage fileStorage = slimePlugin.getLoader().getFiles();
 
-        final Control control = fileStorage.getControl(SlimeFile.SETTINGS);
+        final ConfigurationHandler control = fileStorage.getConfigurationHandler(SlimeFile.SETTINGS);
 
         type = MotdType.NORMAL;
 
-        unknown = slimePlugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS).getString("settings.unknown-player", "unknown#1");
+        unknown = slimePlugin.getConfigurationHandler(SlimeFile.SETTINGS).getString("settings.unknown-player", "unknown#1");
 
         if (control.getString("settings.default-priority-motd", "DEFAULT").equalsIgnoreCase("HEX")) {
             type = MotdType.NORMAL_HEX;

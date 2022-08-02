@@ -1,15 +1,20 @@
 package dev.justjustin.pixelmotd;
 
 import dev.justjustin.pixelmotd.commands.MainCommand;
+import dev.justjustin.pixelmotd.exception.NotFoundLanguageException;
 import dev.justjustin.pixelmotd.metrics.MetricsHandler;
 import dev.justjustin.pixelmotd.players.PlayerHandler;
 import dev.justjustin.pixelmotd.servers.ServerHandler;
 import dev.justjustin.pixelmotd.storage.MotdStorage;
+import dev.justjustin.pixelmotd.utils.FileUtilities;
 import dev.justjustin.pixelmotd.utils.Updater;
+import dev.mruniverse.slimelib.SlimeFiles;
 import dev.mruniverse.slimelib.SlimePlatform;
 import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.SlimePluginInformation;
-import dev.mruniverse.slimelib.input.InputManager;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationProvider;
+import dev.mruniverse.slimelib.file.input.InputManager;
 import dev.mruniverse.slimelib.loader.BaseSlimeLoader;
 import dev.mruniverse.slimelib.loader.DefaultSlimeLoader;
 import dev.mruniverse.slimelib.logs.SlimeLogger;
@@ -30,6 +35,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
     private final ServerHandler serverHandler;
 
+    private ConfigurationHandler messages;
+
     private final MotdStorage motdStorage;
 
     private final SlimePlatform platform;
@@ -37,6 +44,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
     private final SlimeLogs logs;
 
     private final File folder;
+
+    private final File lang;
 
     private final T plugin;
 
@@ -65,10 +74,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
         this.slimeLoader   = new DefaultSlimeLoader<>(
                 this,
-                InputManager.createInputManager(
-                        platform,
-                        plugin
-                )
+                InputManager.getAutomatically()
         );
 
         getLoader().setFiles(SlimeFile.class);
@@ -77,14 +83,18 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
         getLoader().getCommands().register(new MainCommand<>(this));
 
-        listenerManager = ListenerManager.createNewInstance(platform, this, logs);
+        listenerManager = ListenerManager.createNewInstance(
+                platform,
+                this,
+                logs
+        );
 
         if (platform != SlimePlatform.VELOCITY && platform != SlimePlatform.SPONGE) {
             listenerManager.register();
         }
 
-        if (slimeLoader.getFiles().getControl(SlimeFile.SETTINGS).getStatus("settings.update-check",true)) {
-            if (slimeLoader.getFiles().getControl(SlimeFile.SETTINGS).getStatus("settings.auto-download-updates",true)) {
+        if (getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.update-check", true)) {
+            if (getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.auto-download-updates", true)) {
                 new Updater(logs, information.getVersion(), 37177, getDataFolder(), Updater.UpdateType.CHECK_DOWNLOAD);
             } else {
                 new Updater(logs, information.getVersion(), 37177, getDataFolder(), Updater.UpdateType.VERSION_CHECK);
@@ -94,10 +104,73 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
         motdStorage = new MotdStorage(getLoader().getFiles());
 
+        lang = new File(dataFolder, "lang");
+
+        if (!lang.exists()) {
+            loadDefaults();
+        }
+
+        String code = getConfigurationHandler(SlimeFile.SETTINGS).getString("settings.language", "en");
+
+        File langFile = new File(
+                lang,
+                "messages_" + code + ".yml"
+        );
+
+        if (langFile.exists()) {
+            ConfigurationProvider provider = getServerType().getProvider().getNewInstance();
+
+            messages = provider.create(
+                    logs,
+                    langFile
+            );
+
+            logs.info("Messages are loaded from Lang files successfully.");
+        } else {
+            logs.error("Can't load messages correctly, debug will be showed after this message:");
+            logs.debug("Language file of messages: " + langFile.getAbsolutePath());
+            logs.debug("Language name file of messages: " + langFile.getName());
+
+        }
+
         MetricsHandler.fromPlatform(
                 platform,
                 plugin
         ).initialize();
+    }
+
+    private void loadDefaults() {
+        loadMessageFile("en");
+        loadMessageFile("de");
+        loadMessageFile("es");
+        loadMessageFile("jp");
+        loadMessageFile("pl");
+        loadMessageFile("zh-CN");
+        loadMessageFile("zh-TW");
+    }
+
+    private void loadMessageFile(String file) {
+        FileUtilities.load(
+                logs,
+                lang,
+                "lang/messages_" + file + ".yml",
+                "/lang/messages_" +  file  +  ".yml"
+        );
+    }
+
+    public ConfigurationHandler getMessages() {
+        if (messages == null) {
+            exception();
+        }
+        return messages;
+    }
+
+    private void exception() {
+        new NotFoundLanguageException("The current language in the settings file doesn't exists, probably you will see errors in console").printStackTrace();
+    }
+
+    public ConfigurationHandler getConfigurationHandler(SlimeFiles file) {
+        return getLoader().getFiles().getConfigurationHandler(file);
     }
 
     public ListenerManager getListenerManager() {

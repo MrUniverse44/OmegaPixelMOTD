@@ -8,7 +8,8 @@ import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.minedown.MineDown;
 import dev.justjustin.pixelmotd.utils.MotdPlayers;
 import dev.mruniverse.slimelib.colors.platforms.bungeecord.BungeeSlimeColor;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import dev.mruniverse.slimelib.utils.ClassUtils;
 import net.md_5.bungee.api.ChatColor;
@@ -32,7 +33,7 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
     public void execute(MotdType motdType, ServerPing ping, int code, String user) {
         final SlimeLogs logs = getPlugin().getLogs();
 
-        final Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
+        final ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
 
         String motd;
 
@@ -154,8 +155,8 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
 
         } else {
 
-            line1 = control.getColoredString(path + "line1", "");
-            line2 = control.getColoredString(path + "line2", "");
+            line1 = control.getString(TextDecoration.LEGACY, path + "line1", "");
+            line2 = control.getString(TextDecoration.LEGACY, path + "line2", "");
 
             completed = getExtras().replace(line1, online, max, user) + "\n" + getExtras().replace(line2, online, max, user);
 
@@ -171,7 +172,7 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
     @Override
     public ServerPing.PlayerInfo[] getHover(MotdType motdType, String path, int online, int max, String user) {
 
-        Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
+        ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
 
         ServerPing.PlayerInfo[] hoverToShow = new ServerPing.PlayerInfo[0];
 
@@ -179,11 +180,11 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
 
         if (isPlayerSystem()) {
             lines = getExtras().replaceHoverLine(
-                    control.getColoredStringList(path + "hover.lines"),
+                    control.getStringList(TextDecoration.LEGACY, path + "hover.lines"),
                     control.getInt(path + "hover.hasMoreOnline")
             );
         } else {
-            lines = control.getColoredStringList(path + "hover.lines");
+            lines = control.getStringList(TextDecoration.LEGACY, path + "hover.lines");
         }
 
         final UUID uuid = UUID.fromString("0-0-0-0-0");

@@ -26,7 +26,7 @@ public final class BungeeMOTD extends Plugin {
                 getDataFolder()
         );
 
-        if (instance.getLoader().getFiles().getControl(SlimeFile.SETTINGS).getStatus("settings.server-status.toggle")) {
+        if (instance.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.server-status.toggle")) {
             checker = new ServerStatusChecker(instance);
         }
     }

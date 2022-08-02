@@ -2,7 +2,8 @@ package dev.justjustin.pixelmotd.status;
 
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
@@ -27,7 +28,7 @@ public class ServerStatusChecker implements StatusChecker {
 
     private Map<String, Boolean> statusMap = new ConcurrentHashMap<>();
 
-    private Control control;
+    private ConfigurationHandler control;
 
     private int pingTimeout = 500;
 
@@ -41,9 +42,9 @@ public class ServerStatusChecker implements StatusChecker {
     }
 
     private void load() {
-        this.control = plugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS);
-        online = control.getColoredString("settings.server-status.online","&a&lONLINE");
-        offline = control.getColoredString("settings.server-status.offline","&c&lOFFLINE");
+        this.control = plugin.getConfigurationHandler(SlimeFile.SETTINGS);
+        online = control.getString(TextDecoration.LEGACY, "settings.server-status.online","&a&lONLINE");
+        offline = control.getString(TextDecoration.LEGACY, "settings.server-status.offline","&c&lOFFLINE");
     }
 
     public void update() {

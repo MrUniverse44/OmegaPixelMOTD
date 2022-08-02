@@ -11,7 +11,8 @@ import dev.justjustin.pixelmotd.listener.MotdBuilder;
 import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.utils.MotdPlayers;
 import dev.mruniverse.slimelib.colors.platforms.velocity.DefaultSlimeColor;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -31,7 +32,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
     public void execute(MotdType motdType, ProxyPingEvent event, int code, String user) {
         final SlimeLogs logs = getPlugin().getLogs();
 
-        final Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
+        final ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
 
         ServerPing.Builder ping = event.getPing().asBuilder();
 
@@ -159,8 +160,8 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
         } else {
 
-            line1 = control.getColoredString(path + "line1", "");
-            line2 = control.getColoredString(path + "line2", "");
+            line1 = control.getString(TextDecoration.LEGACY, path + "line1", "");
+            line2 = control.getString(TextDecoration.LEGACY, path + "line2", "");
 
             completed = getExtras().replace(
                     line1,
@@ -190,7 +191,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
     @Override
     public ServerPing.SamplePlayer[] getHover(MotdType motdType, String path, int online, int max, String user) {
-        Control control = getPlugin().getLoader().getFiles().getControl(motdType.getFile());
+        ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
 
         ServerPing.SamplePlayer[] hoverToShow = new ServerPing.SamplePlayer[0];
 

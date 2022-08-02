@@ -84,6 +84,8 @@ public class VelocityListenerManager implements ListenerManager {
     @Override
     public void update() {
         listener.update();
+        loginListener.update();
+        serverListener.update();
     }
 
     @Override

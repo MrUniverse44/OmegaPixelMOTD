@@ -9,6 +9,7 @@ import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.ConnectionListener;
 import dev.justjustin.pixelmotd.utils.ListUtil;
 import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -19,6 +20,11 @@ public class AbstractLoginListener  extends ConnectionListener<ProxyServer, Logi
 
     public AbstractLoginListener(PixelMOTD<ProxyServer> plugin) {
         super(plugin);
+    }
+
+    @Override
+    public void update() {
+        super.update();
     }
 
     @Override
@@ -62,7 +68,7 @@ public class AbstractLoginListener  extends ConnectionListener<ProxyServer, Logi
 
         final String uuid = connection.getUniqueId().toString();
 
-        Control settings = getControl();
+        ConfigurationHandler settings = getControl();
 
         String path = ".global.players.by-";
 

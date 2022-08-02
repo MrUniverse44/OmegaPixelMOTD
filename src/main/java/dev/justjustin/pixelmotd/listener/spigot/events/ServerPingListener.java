@@ -7,8 +7,8 @@ import dev.justjustin.pixelmotd.listener.Ping;
 import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.listener.spigot.SpigotMotdBuilder;
 import dev.justjustin.pixelmotd.listener.spigot.SpigotPingBuilder;
-import dev.mruniverse.slimelib.control.Control;
-import dev.mruniverse.slimelib.storage.FileStorage;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.storage.FileStorage;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -30,7 +30,7 @@ public class ServerPingListener implements Ping, Listener {
 
     private MotdType type;
 
-    private Control modes;
+    private ConfigurationHandler modes;
 
     public ServerPingListener(PixelMOTD<JavaPlugin> slimePlugin) {
         this.pingBuilder = new SpigotPingBuilder(
@@ -51,7 +51,7 @@ public class ServerPingListener implements Ping, Listener {
     }
 
     public void updateModes() {
-        modes = slimePlugin.getLoader().getFiles().getControl(SlimeFile.MODES);
+        modes = slimePlugin.getConfigurationHandler(SlimeFile.MODES);
     }
 
     private void load() {
@@ -59,11 +59,11 @@ public class ServerPingListener implements Ping, Listener {
 
         FileStorage fileStorage = slimePlugin.getLoader().getFiles();
 
-        final Control control = fileStorage.getControl(SlimeFile.SETTINGS);
+        final ConfigurationHandler control = fileStorage.getConfigurationHandler(SlimeFile.SETTINGS);
 
         type = MotdType.NORMAL;
 
-        unknown = slimePlugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS).getString("settings.unknown-player", "unknown#1");
+        unknown = slimePlugin.getConfigurationHandler(SlimeFile.SETTINGS).getString("settings.unknown-player", "unknown#1");
 
         if (control.getString("settings.default-priority-motd", "DEFAULT").equalsIgnoreCase("HEX")) {
             type = MotdType.NORMAL_HEX;

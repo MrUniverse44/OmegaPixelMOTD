@@ -4,6 +4,7 @@ import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.ConnectionListener;
 import dev.justjustin.pixelmotd.utils.ListUtil;
 import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -43,7 +44,7 @@ public abstract class AbstractLoginListener  extends ConnectionListener<JavaPlug
 
         final String uuid = connection.getUniqueId().toString();
 
-        Control settings = getControl();
+        ConfigurationHandler settings = getControl();
 
         String path = ".global.players.by-";
 

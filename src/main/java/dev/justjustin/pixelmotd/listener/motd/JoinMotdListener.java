@@ -4,8 +4,7 @@ import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.players.PlayerDatabase;
 import dev.justjustin.pixelmotd.utils.Extras;
-import dev.justjustin.pixelmotd.utils.WhitelistLocation;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public abstract class JoinMotdListener<T, E, S> {
     public abstract S colorize(String message);
 
     public String replace(String message, String key, String username, String uniqueId) {
-        Control settings = getControl();
+        ConfigurationHandler settings = getControl();
 
         return getExtras().replace(
                 message.replace("%username%", username)
@@ -80,7 +79,7 @@ public abstract class JoinMotdListener<T, E, S> {
         return plugin.getListenerManager().getPing().getPlayerDatabase();
     }
 
-    public Control getControl() {
-        return plugin.getLoader().getFiles().getControl(SlimeFile.JOIN_MOTDS);
+    public ConfigurationHandler getControl() {
+        return plugin.getConfigurationHandler(SlimeFile.JOIN_MOTDS);
     }
 }

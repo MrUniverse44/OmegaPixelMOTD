@@ -5,8 +5,8 @@ import dev.justjustin.pixelmotd.MotdType;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.utils.Extras;
-import dev.mruniverse.slimelib.control.Control;
-import dev.mruniverse.slimelib.storage.FileStorage;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.storage.FileStorage;
 
 import java.util.*;
 
@@ -42,14 +42,14 @@ public abstract class PingBuilder<T, I, E, H> {
     private void load() {
         FileStorage fileStorage = plugin.getLoader().getFiles();
 
-        iconSystem = fileStorage.getControl(SlimeFile.SETTINGS).getStatus("settings.icon-system");
-        playerSystem = fileStorage.getControl(SlimeFile.SETTINGS).getStatus("settings.player-system.enabled",true);
+        iconSystem = fileStorage.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.icon-system");
+        playerSystem = fileStorage.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.player-system.enabled",true);
 
         motdsMap.clear();
 
         for (MotdType motdType : MotdType.values()) {
 
-            Control control = fileStorage.getControl(motdType.getFile());
+            ConfigurationHandler control = fileStorage.getConfigurationHandler(motdType.getFile());
 
             List<String> motds = control.getContent(
                     motdType.toString(),
@@ -66,7 +66,7 @@ public abstract class PingBuilder<T, I, E, H> {
     }
 
     public List<String> loadMotds(MotdType type) {
-        Control control = plugin.getLoader().getFiles().getControl(type.getFile());
+        ConfigurationHandler control = plugin.getConfigurationHandler(type.getFile());
 
         List<String> list = control.getContent(
                 type.toString(),

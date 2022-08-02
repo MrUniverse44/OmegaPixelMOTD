@@ -4,6 +4,7 @@ import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.ConnectionListener;
 import dev.justjustin.pixelmotd.utils.ListUtil;
 import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -40,7 +41,7 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
             return;
         }
 
-        Control settings = getControl();
+        ConfigurationHandler settings = getControl();
 
         String path = "." + getPlace().toStringLowerCase() + "." + target + ".players.by-";
 

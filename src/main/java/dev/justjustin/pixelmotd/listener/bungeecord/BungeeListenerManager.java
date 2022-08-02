@@ -10,6 +10,7 @@ import dev.justjustin.pixelmotd.listener.bungeecord.events.abstracts.AbstractSer
 import dev.justjustin.pixelmotd.listener.bungeecord.events.type.server.NormalServerListener;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.plugin.PluginManager;
 
 public class BungeeListenerManager implements ListenerManager {
 
@@ -40,9 +41,11 @@ public class BungeeListenerManager implements ListenerManager {
     public void register() {
         final Plugin plugin = slimePlugin.getPlugin();
 
-        plugin.getProxy().getPluginManager().registerListener(plugin, listener);
-        plugin.getProxy().getPluginManager().registerListener(plugin, loginListener);
-        plugin.getProxy().getPluginManager().registerListener(plugin, serverListener);
+        PluginManager manager = plugin.getProxy().getPluginManager();
+
+        manager.registerListener(plugin, listener);
+        manager.registerListener(plugin, loginListener);
+        manager.registerListener(plugin, serverListener);
 
         logs.info("ProxyPingListener has been registered to the proxy.");
     }

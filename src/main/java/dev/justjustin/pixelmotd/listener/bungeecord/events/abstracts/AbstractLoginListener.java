@@ -3,7 +3,7 @@ package dev.justjustin.pixelmotd.listener.bungeecord.events.abstracts;
 import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.listener.ConnectionListener;
 import dev.justjustin.pixelmotd.utils.ListUtil;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.PendingConnection;
@@ -53,7 +53,7 @@ public class AbstractLoginListener extends ConnectionListener<Plugin, LoginEvent
                 username
         );
 
-        Control settings = getControl();
+        ConfigurationHandler settings = getControl();
 
         String path = ".global.players.by-";
 

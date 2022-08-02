@@ -62,7 +62,7 @@ public class VelocityMOTD {
                 new File(directory, "PixelMOTD")
         );
 
-        if (instance.getLoader().getFiles().getControl(SlimeFile.SETTINGS).getStatus("settings.server-status.toggle")) {
+        if (instance.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.server-status.toggle")) {
             checker = new VelocityServerStatusChecker(instance);
         }
 

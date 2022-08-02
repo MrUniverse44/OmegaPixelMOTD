@@ -8,9 +8,9 @@ import dev.justjustin.pixelmotd.listener.PingBuilder;
 import dev.justjustin.pixelmotd.listener.bungeecord.BungeeMotdBuilder;
 import dev.justjustin.pixelmotd.listener.bungeecord.BungeePingBuilder;
 import dev.mruniverse.slimelib.SlimePlugin;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.storage.FileStorage;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
-import dev.mruniverse.slimelib.storage.FileStorage;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.event.ProxyPingEvent;
@@ -43,7 +43,7 @@ public class ProxyPingListener implements Listener, Ping {
 
     private MotdType type;
 
-    private Control modes;
+    private ConfigurationHandler modes;
 
     public ProxyPingListener(PixelMOTD<Plugin> slimePlugin, SlimeLogs logs) {
         this.pingBuilder = new BungeePingBuilder(
@@ -60,7 +60,7 @@ public class ProxyPingListener implements Listener, Ping {
     }
 
     public void updateModes() {
-        modes = slimePlugin.getLoader().getFiles().getControl(SlimeFile.MODES);
+        modes = slimePlugin.getConfigurationHandler(SlimeFile.MODES);
     }
 
     private void load() {
@@ -68,11 +68,11 @@ public class ProxyPingListener implements Listener, Ping {
 
         FileStorage fileStorage = slimePlugin.getLoader().getFiles();
 
-        final Control control = fileStorage.getControl(SlimeFile.SETTINGS);
+        final ConfigurationHandler control = fileStorage.getConfigurationHandler(SlimeFile.SETTINGS);
 
         type = MotdType.NORMAL;
 
-        unknown = slimePlugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS).getString("settings.unknown-player", "unknown#1");
+        unknown = slimePlugin.getConfigurationHandler(SlimeFile.SETTINGS).getString("settings.unknown-player", "unknown#1");
 
         if (control.getString("settings.default-priority-motd", "DEFAULT").equalsIgnoreCase("HEX")) {
             type = MotdType.NORMAL_HEX;

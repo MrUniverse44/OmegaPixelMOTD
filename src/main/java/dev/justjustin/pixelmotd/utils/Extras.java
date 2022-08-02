@@ -8,7 +8,8 @@ import dev.justjustin.pixelmotd.servers.BungeeServerHandler;
 import dev.justjustin.pixelmotd.servers.Server;
 import dev.justjustin.pixelmotd.servers.VelocityServerHandler;
 import dev.justjustin.pixelmotd.status.StatusChecker;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,7 +53,7 @@ public class Extras {
         serversMap.clear();
         onlineMap.clear();
 
-        Control settings = plugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS);
+        ConfigurationHandler settings = plugin.getConfigurationHandler(SlimeFile.SETTINGS);
 
         String path = "settings.online-variables";
 
@@ -135,7 +136,7 @@ public class Extras {
     }
 
     private String replaceEvents(String message) {
-        Control events = plugin.getLoader().getFiles().getControl(SlimeFile.EVENTS);
+        ConfigurationHandler events = plugin.getConfigurationHandler(SlimeFile.EVENTS);
 
         if (events.getStatus("events-toggle", false)) {
             if (message.contains("%event_")) {
@@ -159,7 +160,7 @@ public class Extras {
                     if (difference >= 0L) {
                         timeLeft = replaceEvent(format, events, difference);
                     } else {
-                        timeLeft = events.getColoredString(path + "end-message", "&cThe event finished.");
+                        timeLeft = events.getString(TextDecoration.LEGACY, path + "end-message", "&cThe event finished.");
                     }
 
                     message = message.replace("%event_" + event + "_name%", events.getString(path + "name", "Example Event 001"))
@@ -174,7 +175,7 @@ public class Extras {
         return message;
     }
 
-    private String replaceEvent(EventFormat format, Control events, long time) {
+    private String replaceEvent(EventFormat format, ConfigurationHandler events, long time) {
 
         String separator = events.getString("timer.separator", ",");
 
@@ -333,7 +334,7 @@ public class Extras {
         return "";
     }
 
-    private Date getSpecifiedEvent(Control control, String event) {
+    private Date getSpecifiedEvent(ConfigurationHandler control, String event) {
         SimpleDateFormat format = new SimpleDateFormat(
                 control.getString("pattern","MM/dd/yy HH:mm:ss")
         );
@@ -415,7 +416,7 @@ public class Extras {
     }
 
     private String getWhitelistAuthor() {
-        Control whitelist = plugin.getLoader().getFiles().getControl(SlimeFile.WHITELIST);
+        ConfigurationHandler whitelist = plugin.getConfigurationHandler(SlimeFile.WHITELIST);
         return whitelist.getString("whitelist.global.author");
     }
 

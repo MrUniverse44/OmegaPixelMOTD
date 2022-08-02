@@ -9,7 +9,7 @@ import dev.justjustin.pixelmotd.utils.WhitelistLocation;
 import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
 import dev.mruniverse.slimelib.commands.sender.Sender;
-import dev.mruniverse.slimelib.control.Control;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class MainCommand<T> implements SlimeCommand {
     private void load() {
         argumentsMap.clear();
 
-        Control commandSettings = plugin.getLoader().getFiles().getControl(SlimeFile.COMMANDS);
+        ConfigurationHandler commandSettings = plugin.getConfigurationHandler(SlimeFile.COMMANDS);
 
         argumentsMap.put(0, commandSettings.getString(path + "arguments.reload", "reload"));
         argumentsMap.put(1, commandSettings.getString(path + "arguments.whitelist.main", "whitelist"));
@@ -66,18 +66,18 @@ public class MainCommand<T> implements SlimeCommand {
 
     @Override
     public String getCommand() {
-        return plugin.getLoader().getFiles().getControl(SlimeFile.COMMANDS).getString(path + "cmd", "pmotd");
+        return plugin.getConfigurationHandler(SlimeFile.COMMANDS).getString(path + "cmd", "pmotd");
     }
 
     @Override
     public List<String> getAliases() {
-        return plugin.getLoader().getFiles().getControl(SlimeFile.COMMANDS).getStringList(path + "aliases");
+        return plugin.getConfigurationHandler(SlimeFile.COMMANDS).getStringList(path + "aliases");
     }
 
     @Override
     public void execute(Sender sender, String command, String[] arguments) {
-        Control commandManager = plugin.getLoader().getFiles().getControl(SlimeFile.COMMANDS);
-        Control messages  = plugin.getLoader().getFiles().getControl(SlimeFile.MESSAGES);
+        ConfigurationHandler commandManager = plugin.getConfigurationHandler(SlimeFile.COMMANDS);
+        ConfigurationHandler messages  = plugin.getMessages();
 
         if (arguments.length == 0) {
 
@@ -187,7 +187,7 @@ public class MainCommand<T> implements SlimeCommand {
 
             }
 
-            final Control settings = plugin.getLoader().getFiles().getControl(SlimeFile.SETTINGS);
+            final ConfigurationHandler settings = plugin.getConfigurationHandler(SlimeFile.SETTINGS);
 
             if (settings.getStatus("settings.update-check", true)) {
                 sender.sendColoredMessage("&9Updater Command has been used, information will be posted in Console");
@@ -217,7 +217,7 @@ public class MainCommand<T> implements SlimeCommand {
         }
     }
 
-    private void executeList(Control commandManager, Control messages, String command, Sender sender, ListType type, String[] args) {
+    private void executeList(ConfigurationHandler commandManager, ConfigurationHandler messages, String command, Sender sender, ListType type, String[] args) {
         if (args.length == 0) {
             List<String> message = commandManager.getStringList(path + "admin." + type.toString());
 
@@ -230,7 +230,7 @@ public class MainCommand<T> implements SlimeCommand {
             return;
         }
 
-        Control file = plugin.getLoader().getFiles().getControl(type.getFile());
+        ConfigurationHandler file = plugin.getConfigurationHandler(type.getFile());
 
         if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(1)))) {
             sender.sendColoredMessage("&aUser Name List: (Global Whitelist)");
@@ -288,9 +288,9 @@ public class MainCommand<T> implements SlimeCommand {
 
             valueList.add(value);
 
-            plugin.getLoader().getFiles().getControl(type.getFile()).set(path, valueList);
-            plugin.getLoader().getFiles().getControl(type.getFile()).save();
-            plugin.getLoader().getFiles().getControl(type.getFile()).reload();
+            plugin.getConfigurationHandler(type.getFile()).set(path, valueList);
+            plugin.getConfigurationHandler(type.getFile()).save();
+            plugin.getConfigurationHandler(type.getFile()).reload();
 
             sender.sendColoredMessage(
                     messages.getString("messages." + type + ".player.add", "").replace("<type>", PlayerUtil.fromUnknown(value)).replace("<player>", value)
@@ -326,9 +326,9 @@ public class MainCommand<T> implements SlimeCommand {
 
             valueList.remove(value);
 
-            plugin.getLoader().getFiles().getControl(type.getFile()).set(path, valueList);
-            plugin.getLoader().getFiles().getControl(type.getFile()).save();
-            plugin.getLoader().getFiles().getControl(type.getFile()).reload();
+            plugin.getConfigurationHandler(type.getFile()).set(path, valueList);
+            plugin.getConfigurationHandler(type.getFile()).save();
+            plugin.getConfigurationHandler(type.getFile()).reload();
 
             sender.sendColoredMessage(
                     messages.getString("messages." + type + ".player.remove", "").replace("<type>", PlayerUtil.fromUnknown(value)).replace("<player>", value)
@@ -349,28 +349,28 @@ public class MainCommand<T> implements SlimeCommand {
 
             }
 
-            plugin.getLoader().getFiles().getControl(type.getFile()).set(
+            plugin.getConfigurationHandler(type.getFile()).set(
                     path + "enabled",
                     true
             );
 
             if (!sender.isConsoleSender() || !file.getStatus("custom-console-name.enabled")) {
 
-                plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                plugin.getConfigurationHandler(type.getFile()).set(
                         path + "author",
                         sender.getName()
                 );
 
             } else {
 
-                plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                plugin.getConfigurationHandler(type.getFile()).set(
                         path + "author",
                         file.getString("custom-console-name.name", "")
                 );
 
             }
 
-            plugin.getLoader().getFiles().getControl(type.getFile()).set(
+            plugin.getConfigurationHandler(type.getFile()).set(
                     path + "reason",
                     file.getString("default-reasons." + type)
             );
@@ -380,8 +380,8 @@ public class MainCommand<T> implements SlimeCommand {
             );
 
             plugin.getListenerManager().update();
-            plugin.getLoader().getFiles().getControl(type.getFile()).save();
-            plugin.getLoader().getFiles().getControl(type.getFile()).reload();
+            plugin.getConfigurationHandler(type.getFile()).save();
+            plugin.getConfigurationHandler(type.getFile()).reload();
             return;
         }
 
@@ -396,28 +396,28 @@ public class MainCommand<T> implements SlimeCommand {
 
             }
 
-            plugin.getLoader().getFiles().getControl(type.getFile()).set(
+            plugin.getConfigurationHandler(type.getFile()).set(
                     path + "enabled",
                     false
             );
 
             if (!sender.isConsoleSender() || !file.getStatus("custom-console-name.enabled")) {
 
-                plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                plugin.getConfigurationHandler(type.getFile()).set(
                         path + "author",
                         sender.getName()
                 );
 
             } else {
 
-                plugin.getLoader().getFiles().getControl(type.getFile()).set(
+                plugin.getConfigurationHandler(type.getFile()).set(
                         path + "author",
                         file.getString("custom-console-name.name", "")
                 );
 
             }
 
-            plugin.getLoader().getFiles().getControl(type.getFile()).set(
+            plugin.getConfigurationHandler(type.getFile()).set(
                     path + "reason",
                     file.getString("default-reasons" + type)
             );
@@ -427,12 +427,12 @@ public class MainCommand<T> implements SlimeCommand {
             );
 
             plugin.getListenerManager().update();
-            plugin.getLoader().getFiles().getControl(type.getFile()).save();
-            plugin.getLoader().getFiles().getControl(type.getFile()).reload();
+            plugin.getConfigurationHandler(type.getFile()).save();
+            plugin.getConfigurationHandler(type.getFile()).reload();
         }
     }
 
-    private void sendList(Sender sender, Control file, String path) {
+    private void sendList(Sender sender, ConfigurationHandler file, String path) {
         for (String username : file.getStringList(path)) {
             sender.sendColoredMessage("  &8- &7" + username);
         }
