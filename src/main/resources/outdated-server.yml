@@ -5,7 +5,7 @@
 #   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
 #   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
 #
-#   Using version 9.3.0-SNAPSHOT
+#   Using version 9.3.1-SNAPSHOT
 #   Author: JustJustin (MrUniverse44)
 #   SpigotMC Link: https://www.spigotmc.org/resources/37177/
 #   MC-Market Link: https://www.mc-market.org/resources/22313/
@@ -55,11 +55,11 @@ outdated-server:
       lines:
         - "&7Custom Hover"
         - "<hasOnline>&8Players Online: &a%online%"
-        - "<hasOnline>%player_1%"
-        - "<hasOnline>%player_2%"
-        - "<hasOnline>%player_3%"
-        - "<hasOnline>%player_4%"
-        - "<hasOnline>%player_5%"
+        - "<hasOnline>&7- &a%player_1%"
+        - "<hasOnline>&7- &a%player_2%"
+        - "<hasOnline>&7- &a%player_3%"
+        - "<hasOnline>&7- &a%player_4%"
+        - "<hasOnline>&7- &a%player_5%"
         - "<hasMoreOnline>&7+&a%more_online% &7players."
     icons:
       icon: "test.png"
@@ -90,11 +90,11 @@ outdated-server-hex:
         - "&7Custom Hover"
         - "&eThis motd supports hex colors"
         - "<hasOnline>&8Players Online: &a%online%"
-        - "<hasOnline>%player_1%"
-        - "<hasOnline>%player_2%"
-        - "<hasOnline>%player_3%"
-        - "<hasOnline>%player_4%"
-        - "<hasOnline>%player_5%"
+        - "<hasOnline>&7- &a%player_1%"
+        - "<hasOnline>&7- &a%player_2%"
+        - "<hasOnline>&7- &a%player_3%"
+        - "<hasOnline>&7- &a%player_4%"
+        - "<hasOnline>&7- &a%player_5%"
         - "<hasMoreOnline>&7+&a%more_online% &7players."
     icons:
       icon: "test.png"
