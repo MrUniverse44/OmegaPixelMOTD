@@ -40,10 +40,8 @@ public abstract class PingBuilder<T, I, E, H> {
     }
 
     private void load() {
-        FileStorage fileStorage = plugin.getLoader().getFiles();
-
-        iconSystem = fileStorage.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.icon-system");
-        playerSystem = fileStorage.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.player-system.enabled",true);
+        iconSystem = plugin.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.icon-system");
+        playerSystem = plugin.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.player-system.enabled",true);
 
         motdsMap.clear();
 
