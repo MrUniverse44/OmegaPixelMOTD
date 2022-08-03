@@ -49,19 +49,24 @@ public abstract class PingBuilder<T, I, E, H> {
 
         for (MotdType motdType : MotdType.values()) {
 
-            ConfigurationHandler control = fileStorage.getConfigurationHandler(motdType.getFile());
+            ConfigurationHandler configuration = plugin.getConfigurationHandler(motdType.getFile());
 
-            List<String> motds = control.getContent(
-                    motdType.toString(),
-                    false
-            );
+            List<String> motds;
+
+            if (configuration == null) {
+                motds = new ArrayList<>();
+                plugin.getLogs().info("&aNo motds found in motd file: " + motdType.getFile().getFileName() + ", for motdType: " + motdType);
+            } else {
+                motds = configuration.getContent(
+                        motdType.toString(),
+                        false
+                );
+            }
 
             motdsMap.put(
                     motdType,
                     motds
             );
-
-            plugin.getLogs().info("&3Motds loaded for type &f" + motdType + "&3, motds loaded: &f" + motds.toString().replace("[","").replace("]",""));
         }
     }
 
