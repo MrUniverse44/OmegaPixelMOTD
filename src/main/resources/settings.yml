@@ -98,9 +98,9 @@ settings:
   # Toggle the 1.16+ motd, this motd includes gradient or hex colors.
   different-motd-for-116-or-higher: true
   # Toggle outdated-client motd system
-  outdated-client-motd: true
+  outdated-client-motd: false
   # Toggle outdated-server motd system
-  outdated-server-motd: true
+  outdated-server-motd: false
   # Toggle this option
   icon-system: true
 
@@ -108,8 +108,8 @@ settings:
   # You can see protocols here: https://minecraft.fandom.com/wiki/Protocol_version
   # Default protocol versions are 1.8 to 1.19
 
-  # Default max protocol: 758 = 1.19
-  max-server-protocol: 759
+  # Default max protocol: 760 = 1.19.1
+  max-server-protocol: 760
 
   # Default min protocol 47 = 1.8.X
   min-server-protocol: 47
