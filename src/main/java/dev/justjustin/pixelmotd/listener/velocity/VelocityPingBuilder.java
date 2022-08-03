@@ -199,8 +199,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
         if (isPlayerSystem()) {
             lines = getExtras().replaceHoverLine(
-                    control.getStringList(path + "hover.lines"),
-                    control.getInt(path + "hover.hasMoreOnline")
+                    control.getStringList(path + "hover.lines")
             );
         } else {
             lines = control.getStringList(path + "hover.lines");

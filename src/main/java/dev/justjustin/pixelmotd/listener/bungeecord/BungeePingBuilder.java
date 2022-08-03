@@ -180,8 +180,7 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
 
         if (isPlayerSystem()) {
             lines = getExtras().replaceHoverLine(
-                    control.getStringList(TextDecoration.LEGACY, path + "hover.lines"),
-                    control.getInt(path + "hover.hasMoreOnline")
+                    control.getStringList(TextDecoration.LEGACY, path + "hover.lines")
             );
         } else {
             lines = control.getStringList(TextDecoration.LEGACY, path + "hover.lines");

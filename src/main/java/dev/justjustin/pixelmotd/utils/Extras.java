@@ -357,10 +357,10 @@ public class Extras {
     private String replaceSpecifiedPlayer(String message) {
         Matcher matcher = pattern.matcher(message);
 
-        List<String> players = new ArrayList<>(plugin.getPlayerHandler().getPlayersNames());
-
-        if (players.size() >= 1) {
+        if (plugin.getPlayerHandler().getPlayersSize() >= 1) {
             while (matcher.find()) {
+                List<String> players = new ArrayList<>(plugin.getPlayerHandler().getPlayersNames());
+
                 int number = Integer.parseInt(matcher.group(1));
 
                 if (players.size() >= number && number != 0) {
@@ -376,12 +376,13 @@ public class Extras {
         return message;
     }
 
-    public List<String> replaceHoverLine(List<String> lines, int more) {
+    public List<String> replaceHoverLine(List<String> lines) {
         List<String> array = new ArrayList<>();
+        int showedPlayers = 0;
         for (String line : lines) {
             if (line.contains("<hasOnline>") || line.contains("<hasMoreOnline>")) {
 
-                int size = plugin.getServerHandler().getSize();
+                int size = plugin.getPlayerHandler().getPlayersSize();
 
                 if (line.contains("<hasOnline>") && size >= 1) {
                     line = line.replace("<hasOnline>", "");
@@ -390,14 +391,14 @@ public class Extras {
 
                     if (!replaceOnlineVariable.contains("%canNotFindX02_")) {
                         array.add(replaceOnlineVariable);
+                        showedPlayers++;
                     }
 
                     continue;
                 }
-                if (size >= more) {
-                    more--;
+                if (size > showedPlayers && showedPlayers != 0 && size >= 1) {
 
-                    int fixedSize = size - more;
+                    int fixedSize = size - showedPlayers;
 
                     line = line.replace("<hasMoreOnline>","")
                             .replace("%more_online%","" + fixedSize);

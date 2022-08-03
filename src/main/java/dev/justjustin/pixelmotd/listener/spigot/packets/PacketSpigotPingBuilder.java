@@ -191,8 +191,7 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
 
         if (isPlayerSystem()) {
             lines = getExtras().replaceHoverLine(
-                    control.getStringList(TextDecoration.LEGACY, path + "hover.lines"),
-                    control.getInt(path + "hover.hasMoreOnline")
+                    control.getStringList(TextDecoration.LEGACY, path + "hover.lines")
             );
         } else {
             lines = control.getStringList(TextDecoration.LEGACY, path + "hover.lines");
