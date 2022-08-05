@@ -26,14 +26,14 @@ public enum SlimeFile implements SlimeFiles {
 
     SlimeFile(String file) {
         this.file = file;
-        this.resource = file;
+        this.resource = "/" + file;
         this.differentFolder = false;
         this.folder = "";
     }
 
-    SlimeFile(String file,String folder) {
+    SlimeFile(String file, String folder) {
         this.file = file;
-        this.resource = file;
+        this.resource = "/" + folder + "/" + file;
         this.differentFolder = true;
         this.folder = folder;
     }
@@ -70,9 +70,6 @@ public enum SlimeFile implements SlimeFiles {
 
     @Override
     public String getResourceFileName(SlimePlatform platform) {
-        if (platform == SlimePlatform.VELOCITY || platform == SlimePlatform.SPONGE) {
-            return "/" + this.resource;
-        }
         return this.resource;
     }
 
