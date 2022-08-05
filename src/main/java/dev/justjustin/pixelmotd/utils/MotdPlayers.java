@@ -6,7 +6,7 @@ import java.util.List;
 
 public class MotdPlayers {
     public static int executeAdd(ConfigurationHandler configuration, String path, int value) {
-        int singleValue = configuration.getInt(path);
+        int singleValue = configuration.getInt(path, 1);
         return value + singleValue;
     }
 
@@ -25,7 +25,7 @@ public class MotdPlayers {
     }
 
     public static int executeRemove(ConfigurationHandler configuration, String path, int value) {
-        return value - configuration.getInt(path);
+        return value - configuration.getInt(path, 1);
     }
 
     public static int executeRemoveMiddle(int value) {
@@ -40,11 +40,14 @@ public class MotdPlayers {
 
     public static int executeValues(ConfigurationHandler configuration, String path) {
         List<Integer> values = configuration.getIntList(path);
-        return values.get(configuration.getRandom().nextInt(values.size()));
+        if (values.size() >= 1) {
+            return values.get(configuration.getRandom().nextInt(values.size()));
+        }
+        return 1;
     }
 
     public static int executeSingleValue(ConfigurationHandler configuration, String path) {
-        return configuration.getInt(path);
+        return configuration.getInt(path, 1);
     }
 
     public static int getModeFromText(ConfigurationHandler configuration, String paramText, int value, String path) {

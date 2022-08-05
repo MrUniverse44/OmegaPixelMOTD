@@ -51,29 +51,34 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
         int online, max;
 
         if (isIconSystem()) {
-            Favicon img = getBuilder().getFavicon(
-                    motdType,
-                    control.getString(
-                            path + "icons.icon"
-                    )
+            String iconName = control.getString(
+                    path + "icons.icon"
             );
-            if (img != null) {
-                ping.setFavicon(img);
+            if (!iconName.equalsIgnoreCase("") && !iconName.equalsIgnoreCase("disabled")) {
+                Favicon img = getBuilder().getFavicon(
+                        motdType,
+                        control.getString(
+                                path + "icons.icon"
+                        )
+                );
+                if (img != null) {
+                    ping.setFavicon(img);
+                }
             }
         }
 
-        if (control.getStatus(path + "players.online.toggle")) {
+        if (control.getStatus(path + "players.online.toggle", false)) {
             online = MotdPlayers.getModeFromText(
                     control,
-                    control.getString(path + "players.online.type", ""),
+                    control.getString(path + "players.online.type", "add"),
                     getPlugin().getPlayerHandler().getPlayersSize(),
                     path + "players.online."
             );
         } else {
             online = ping.getPlayers().getOnline();
         }
-        if (control.getStatus(path + "players.max.toggle")) {
-            String mode = control.getString(path + "players.max.type", "").toLowerCase();
+        if (control.getStatus(path + "players.max.toggle", false)) {
+            String mode = control.getString(path + "players.max.type", "add").toLowerCase();
             if (mode.contains("equal")) {
                 max = MotdPlayers.getModeFromText(
                         control,
@@ -93,7 +98,7 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
             max = ping.getPlayers().getMax();
         }
 
-        if (control.getStatus(path + "hover.toggle")) {
+        if (control.getStatus(path + "hover.toggle", false)) {
             ping.getPlayers().setSample(
                     getHover(
                             motdType,
@@ -105,9 +110,9 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
             );
         }
 
-        if (control.getStatus(path + "protocol.toggle")) {
+        if (control.getStatus(path + "protocol.toggle", true)) {
             MotdProtocol protocol = MotdProtocol.getFromText(
-                    control.getString(control.getString(path + "protocol.modifier", "")),
+                    control.getString(control.getString(path + "protocol.modifier", "ALWAYS_POSITIVE")),
                     code
             );
 
@@ -119,7 +124,7 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
                     ChatColor.translateAlternateColorCodes(
                             '&',
                             getExtras().replace(
-                                    control.getString(path + "protocol.message"),
+                                    control.getString(path + "protocol.message", "PixelMOTD System"),
                                     online,
                                     max,
                                     user

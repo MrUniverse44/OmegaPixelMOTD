@@ -51,29 +51,33 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
         int online, max;
 
         if (isIconSystem()) {
-            WrappedServerPing.CompressedImage img = getBuilder().getFavicon(
-                    motdType,
-                    control.getString(
-                            path + "icons.icon"
-                    )
+            String iconName = control.getString(
+                    path + "icons.icon", ""
             );
-            if (img != null) {
-                ping.setFavicon(img);
+
+            if (!iconName.equalsIgnoreCase("") && !iconName.equalsIgnoreCase("disabled")) {
+                WrappedServerPing.CompressedImage img = getBuilder().getFavicon(
+                        motdType,
+                        iconName
+                );
+                if (img != null) {
+                    ping.setFavicon(img);
+                }
             }
         }
 
-        if (control.getStatus(path + "players.online.toggle")) {
+        if (control.getStatus(path + "players.online.toggle", false)) {
             online = MotdPlayers.getModeFromText(
                     control,
-                    control.getString(path + "players.online.type", ""),
+                    control.getString(path + "players.online.type", "add"),
                     getPlugin().getPlayerHandler().getPlayersSize(),
                     path + "players.online."
             );
         } else {
             online = ping.getPlayersOnline();
         }
-        if (control.getStatus(path + "players.max.toggle")) {
-            String mode = control.getString(path + "players.max.type", "").toLowerCase();
+        if (control.getStatus(path + "players.max.toggle", false)) {
+            String mode = control.getString(path + "players.max.type", "add").toLowerCase();
             if (mode.contains("equal")) {
                 max = MotdPlayers.getModeFromText(
                         control,
@@ -93,7 +97,7 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
             max = ping.getPlayersMaximum();
         }
 
-        if (control.getStatus(path + "hover.toggle")) {
+        if (control.getStatus(path + "hover.toggle", false)) {
             ping.setPlayers(
                     Arrays.asList(getHover(
                             motdType,
@@ -105,9 +109,9 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
             );
         }
 
-        if (control.getStatus(path + "protocol.toggle")) {
+        if (control.getStatus(path + "protocol.toggle", true)) {
             MotdProtocol protocol = MotdProtocol.getFromText(
-                    control.getString(control.getString(path + "protocol.modifier", "")),
+                    control.getString(control.getString(path + "protocol.modifier", "ALWAYS_POSITIVE")),
                     code
             );
 
@@ -119,7 +123,7 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
                     ChatColor.translateAlternateColorCodes(
                             '&',
                             getExtras().replace(
-                                    control.getString(path + "protocol.message"),
+                                    control.getString(path + "protocol.message", "PixelMOTD System"),
                                     online,
                                     max,
                                     user

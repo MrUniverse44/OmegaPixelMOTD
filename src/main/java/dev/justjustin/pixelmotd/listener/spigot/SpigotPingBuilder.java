@@ -36,20 +36,23 @@ public class SpigotPingBuilder extends PingBuilder<JavaPlugin, CachedServerIcon,
         String path = motdType + "." + motd + ".";
 
         if (isIconSystem()) {
-            CachedServerIcon img = getBuilder().getFavicon(
-                    motdType,
-                    control.getString(
-                        path + "icons.icon"
-                    )
+            String iconName = control.getString(
+                    path + "icons.icon", ""
             );
+            if (!iconName.equalsIgnoreCase("") && !iconName.equalsIgnoreCase("disabled")) {
+                CachedServerIcon img = getBuilder().getFavicon(
+                        motdType,
+                        iconName
+                );
 
-            if (img != null) {
-                ping.setServerIcon(img);
+                if (img != null) {
+                    ping.setServerIcon(img);
+                }
             }
         }
 
-        if (control.getStatus(path + "players.max.toggle")) {
-            String mode = control.getString(path + "players.max.type", "").toLowerCase();
+        if (control.getStatus(path + "players.max.toggle", false)) {
+            String mode = control.getString(path + "players.max.type", "add").toLowerCase();
             if (mode.contains("equal")) {
                 max = MotdPlayers.getModeFromText(
                         control,

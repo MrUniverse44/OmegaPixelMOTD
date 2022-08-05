@@ -6,7 +6,6 @@ import dev.justjustin.pixelmotd.PixelMOTD;
 import dev.justjustin.pixelmotd.SlimeFile;
 import dev.justjustin.pixelmotd.utils.Extras;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.file.storage.FileStorage;
 
 import java.util.*;
 
@@ -40,7 +39,7 @@ public abstract class PingBuilder<T, I, E, H> {
     }
 
     private void load() {
-        iconSystem = plugin.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.icon-system");
+        iconSystem = plugin.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.icon-system", false);
         playerSystem = plugin.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.player-system.enabled",true);
 
         motdsMap.clear();

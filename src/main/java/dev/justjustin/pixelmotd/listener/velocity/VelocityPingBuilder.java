@@ -52,29 +52,33 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
         int online, max;
 
         if (isIconSystem()) {
-            Favicon img = getBuilder().getFavicon(
-                    motdType,
-                    control.getString(
-                            path + "icons.icon"
-                    )
+            String iconName = control.getString(
+                    path + "icons.icon"
             );
-            if (img != null) {
-                ping.favicon(img);
+
+            if (!iconName.equalsIgnoreCase("") && !iconName.equalsIgnoreCase("disabled")) {
+                Favicon img = getBuilder().getFavicon(
+                        motdType,
+                        iconName
+                );
+                if (img != null) {
+                    ping.favicon(img);
+                }
             }
         }
 
-        if (control.getStatus(path + "players.online.toggle")) {
+        if (control.getStatus(path + "players.online.toggle", false)) {
             online = MotdPlayers.getModeFromText(
                     control,
-                    control.getString(path + "players.online.type", ""),
+                    control.getString(path + "players.online.type", "add"),
                     getPlugin().getPlayerHandler().getPlayersSize(),
                     path + "players.online."
             );
         } else {
             online = ping.getOnlinePlayers();
         }
-        if (control.getStatus(path + "players.max.toggle")) {
-            String mode = control.getString(path + "players.max.type", "").toLowerCase();
+        if (control.getStatus(path + "players.max.toggle", false)) {
+            String mode = control.getString(path + "players.max.type", "add").toLowerCase();
             if (mode.contains("equal")) {
                 max = MotdPlayers.getModeFromText(
                         control,
@@ -94,7 +98,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
             max = ping.getMaximumPlayers();
         }
 
-        if (control.getStatus(path + "hover.toggle")) {
+        if (control.getStatus(path + "hover.toggle", false)) {
             ping.samplePlayers(
                     getHover(
                             motdType,
@@ -108,7 +112,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
         if (control.getStatus(path + "protocol.toggle")) {
             MotdProtocol protocol = MotdProtocol.getFromText(
-                    control.getString(control.getString(path + "protocol.modifier", "")),
+                    control.getString(control.getString(path + "protocol.modifier", "ALWAYS_POSITIVE")),
                     code
             );
 
@@ -116,7 +120,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
             Component n1 = new DefaultSlimeColor(
                     getExtras().replace(
-                            control.getString(path + "protocol.message"),
+                            control.getString(path + "protocol.message", "PixelMOTD System"),
                             online,
                             max,
                             user
