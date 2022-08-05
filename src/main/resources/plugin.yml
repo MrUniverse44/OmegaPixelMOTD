@@ -1,6 +1,6 @@
 name: PixelMOTD
 version: '${project.version}'
-main: dev.justjustin.pixelmotd.initialization.spigot.SpigotMOTD
+main: me.blueslime.pixelmotd.initialization.spigot.SpigotMOTD
 description: Motd plugin for multiplatform
 author: JustJustin
 website: "https://github.com/MrUniverse44/XPixelMotd4"

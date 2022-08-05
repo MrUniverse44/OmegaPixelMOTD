@@ -8,7 +8,7 @@
     {
       "id": "pixelmotd",
       "name": "PixelMOTD",
-      "entrypoint": "dev.justjustin.pixelmotd.initialization.sponge.SpongeMOTD",
+      "entrypoint": "me.blueslime.pixelmotd.initialization.sponge.SpongeMOTD",
       "description": "Simple MOTD Plugin"
     }
   ]
