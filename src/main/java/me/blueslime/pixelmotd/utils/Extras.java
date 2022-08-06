@@ -417,7 +417,7 @@ public class Extras {
     }
 
     private String getWhitelistAuthor() {
-        ConfigurationHandler whitelist = plugin.getConfigurationHandler(SlimeFile.WHITELIST);
+        ConfigurationHandler whitelist = plugin.getConfigurationHandler(SlimeFile.MODES);
         return whitelist.getString("whitelist.global.author", "Console");
     }
 
