@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd;
 
-import me.blueslime.pixelmotd.commands.MainCommand;
+import me.blueslime.pixelmotd.commands.PluginCommand;
 import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
 import me.blueslime.pixelmotd.metrics.MetricsHandler;
 import me.blueslime.pixelmotd.players.PlayerHandler;
@@ -81,7 +81,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
         getLoader().init();
 
-        getLoader().getCommands().register(new MainCommand<>(this));
+        getLoader().getCommands().register(new PluginCommand<>(this));
 
         listenerManager = ListenerManager.createNewInstance(
                 platform,
@@ -141,6 +141,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
     private void loadDefaults() {
         loadMessageFile("en");
+        loadMessageFile("it");
         loadMessageFile("de");
         loadMessageFile("es");
         loadMessageFile("jp");

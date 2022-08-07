@@ -20,7 +20,7 @@ import java.util.Map;
         description = "Main Command of the PixelMOTD",
         usage = "/<command> (whitelist, blacklist, reload)"
 )
-public class MainCommand<T> implements SlimeCommand {
+public class PluginCommand<T> implements SlimeCommand {
 
     private final Map<Integer, String> argumentsMap = new HashMap<>();
 
@@ -28,7 +28,7 @@ public class MainCommand<T> implements SlimeCommand {
 
     private final PixelMOTD<T> plugin;
 
-    public MainCommand(PixelMOTD<T> plugin) {
+    public PluginCommand(PixelMOTD<T> plugin) {
         this.plugin = plugin;
         load();
     }
@@ -40,28 +40,19 @@ public class MainCommand<T> implements SlimeCommand {
     private void load() {
         argumentsMap.clear();
 
-        ConfigurationHandler commandSettings = plugin.getConfigurationHandler(SlimeFile.COMMANDS);
+        for (CommandArgument argument : CommandArgument.values()) {
+            argumentsMap.put(
+                    argument.id(),
+                    argument(
+                            argument.argument(),
+                            argument.def()
+                    )
+            );
+        }
+    }
 
-        argumentsMap.put(0, commandSettings.getString(path + "arguments.reload", "reload"));
-        argumentsMap.put(1, commandSettings.getString(path + "arguments.whitelist.main", "whitelist"));
-
-
-        argumentsMap.put(11, commandSettings.getString(path + "arguments.whitelist.list", "list"));
-        argumentsMap.put(12, commandSettings.getString(path + "arguments.whitelist.add", "add"));
-        argumentsMap.put(13, commandSettings.getString(path + "arguments.whitelist.remove", "remove"));
-        argumentsMap.put(14, commandSettings.getString(path + "arguments.whitelist.toggle-on", "on"));
-        argumentsMap.put(15, commandSettings.getString(path + "arguments.whitelist.toggle-off", "off"));
-
-
-        argumentsMap.put(2, commandSettings.getString(path + "arguments.blacklist.main", "blacklist"));
-
-        argumentsMap.put(21, commandSettings.getString(path + "arguments.blacklist.list", "list"));
-        argumentsMap.put(22, commandSettings.getString(path + "arguments.blacklist.add", "add"));
-        argumentsMap.put(23, commandSettings.getString(path + "arguments.blacklist.remove", "remove"));
-        argumentsMap.put(24, commandSettings.getString(path + "arguments.blacklist.toggle-on", "on"));
-        argumentsMap.put(25, commandSettings.getString(path + "arguments.blacklist.toggle-off", "off"));
-
-        argumentsMap.put(3, commandSettings.getString(path + "arguments.updater", "updater"));
+    public String argument(String argument, String def) {
+        return plugin.getConfigurationHandler(SlimeFile.COMMANDS).getString(path + "arguments." + argument, def);
     }
 
     @Override

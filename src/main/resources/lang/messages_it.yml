@@ -1,0 +1,38 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 9.3.2-SNAPSHOT
+#   Author: MrUniverse44
+#   Translator: Ricmaranga
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#   MC-Market Link: https://www.mc-market.org/resources/22313/
+#   GitHub Link: https://github.com/MrUniverse44/XPixelMotd4
+#
+messages:
+  reload: '&aIl plugin e'' stato ricaricato correttamente in <ms>ms.'
+
+  error:
+    permission: '&cHai bisogno del permesso <permission> per eseguire questo comando.'
+    already-whitelisted: '&a<type> &e<player> &ae'' gia'' nella whitelist!'
+    already-blacklisted: '&a<type> &e<player> &ae'' gia'' nella blacklist!'
+    not-whitelisted: '&a<type> &e<player> &anon e'' nella whitelist!'
+    not-blacklisted: '&a<type> &e<player> &anon e'' nella blacklist!'
+    invalid-arguments: '&aThis command needs more arguments.'
+
+  whitelist:
+    enabled: '&aLa Whitelist e'' stata &b&lATTIVATA&a.'
+    disabled: '&aLa Whitelist e'' stata &b&lDISATTIVATA&a.'
+    player:
+      add: '&a<type> &e<player> &ae'' stato aggiunto &baggiunto &aalla whitelist.'
+      remove: '&a<type> &e<player> &ae'' stato &crimosso &adalla whitelist.'
+
+  blacklist:
+    enabled: '&aLa Blacklist e'' stata &b&lATTIVATA&a.'
+    disabled: '&aLa Blacklist e'' stata &b&lDISATTIVATA&a.'
+    player:
+      add: '&a<type> &e<player> &ae'' stato &baggiunto &aalla blacklist.'
+      remove: '&a<type> &e<player> &ae'' stato &crimosso &adalla blacklist.'
