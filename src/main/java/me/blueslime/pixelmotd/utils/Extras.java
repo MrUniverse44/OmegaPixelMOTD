@@ -91,7 +91,7 @@ public class Extras {
     }
 
     private String replaceServers(String message) {
-        if (message.contains("%variable_")) {
+        if (message.contains("%" + prefix + "_")) {
             if (onlineMap.size() != 0) {
 
                 List<Server> serverList = plugin.getServerHandler().getServers();
