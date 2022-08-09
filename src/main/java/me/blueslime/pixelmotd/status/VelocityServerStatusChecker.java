@@ -50,6 +50,10 @@ public class VelocityServerStatusChecker implements StatusChecker {
         this.control = plugin.getConfigurationHandler(SlimeFile.SETTINGS);
         online = legacy(control.getString("settings.server-status.online","&a&lONLINE"));
         offline = legacy(control.getString("settings.server-status.offline","&c&lOFFLINE"));
+
+        if (control.getStatus("settings.server-status.toggle")) {
+            start();
+        }
     }
 
     public void update() {

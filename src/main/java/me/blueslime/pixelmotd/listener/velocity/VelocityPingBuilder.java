@@ -99,6 +99,8 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
         }
 
         if (control.getStatus(path + "hover.toggle", false)) {
+            ping.clearSamplePlayers();
+
             ping.samplePlayers(
                     getHover(
                             motdType,

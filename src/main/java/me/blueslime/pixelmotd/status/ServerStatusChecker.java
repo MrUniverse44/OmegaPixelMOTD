@@ -45,6 +45,10 @@ public class ServerStatusChecker implements StatusChecker {
         this.control = plugin.getConfigurationHandler(SlimeFile.SETTINGS);
         online = control.getString(TextDecoration.LEGACY, "settings.server-status.online","&a&lONLINE");
         offline = control.getString(TextDecoration.LEGACY, "settings.server-status.offline","&c&lOFFLINE");
+
+        if (control.getStatus("settings.server-status.toggle")) {
+            start();
+        }
     }
 
     public void update() {
