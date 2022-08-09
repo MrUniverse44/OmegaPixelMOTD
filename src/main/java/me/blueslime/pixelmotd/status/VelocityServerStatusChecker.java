@@ -4,11 +4,14 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.scheduler.ScheduledTask;
 import com.velocitypowered.api.scheduler.Scheduler;
+import dev.mruniverse.slimelib.colors.platforms.velocity.DefaultSlimeColor;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
 import me.blueslime.pixelmotd.initialization.velocity.VelocityMOTD;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.file.configuration.TextDecoration;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -45,12 +48,21 @@ public class VelocityServerStatusChecker implements StatusChecker {
 
     private void load() {
         this.control = plugin.getConfigurationHandler(SlimeFile.SETTINGS);
-        online = control.getString(TextDecoration.LEGACY, "settings.server-status.online","&a&lONLINE");
-        offline = control.getString(TextDecoration.LEGACY, "settings.server-status.offline","&c&lOFFLINE");
+        online = legacy(control.getString("settings.server-status.online","&a&lONLINE"));
+        offline = legacy(control.getString("settings.server-status.offline","&c&lOFFLINE"));
     }
 
     public void update() {
         load();
+    }
+
+    private @NotNull String legacy(String content) {
+        Component color = new DefaultSlimeColor(content, true)
+                .build();
+
+        return LegacyComponentSerializer.legacySection().serialize(
+                color
+        );
     }
 
     public void start() {
