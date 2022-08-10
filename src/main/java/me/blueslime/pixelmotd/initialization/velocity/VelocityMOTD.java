@@ -24,7 +24,7 @@ import java.nio.file.Path;
 @Plugin(
         id = "pixelmotd",
         name = "PixelMOTD",
-        version = "9.3.2-SNAPSHOT",
+        version = "9.3.3-SNAPSHOT",
         description = "Simple Motd Plugin",
         url = "https://github.com/MrUniverse44/XPixelMotds4",
         authors = { "JustJustin" }
