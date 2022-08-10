@@ -12,7 +12,6 @@ import me.blueslime.pixelmotd.listener.PingBuilder;
 import me.blueslime.pixelmotd.utils.MotdPlayers;
 import dev.mruniverse.slimelib.colors.platforms.velocity.DefaultSlimeColor;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -146,8 +145,13 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
         if (motdType.isHexMotd()) {
 
-            line1 = control.getString(path + "line1", "");
-            line2 = control.getString(path + "line2", "");
+            line1 = legacy(
+                    control.getString(path + "line1", "")
+            );
+
+            line2 = legacy(
+                    control.getString(path + "line2", "")
+            );
 
             completed = getExtras().replace(
                     line1,
@@ -166,8 +170,8 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
         } else {
 
-            line1 = control.getString(TextDecoration.LEGACY, path + "line1", "");
-            line2 = control.getString(TextDecoration.LEGACY, path + "line2", "");
+            line1 = control.getString(path + "line1", "");
+            line2 = control.getString(path + "line2", "");
 
             completed = getExtras().replace(
                     line1,
