@@ -14,7 +14,7 @@ public enum CommandArgument {
     BLACKLIST_OFF(23, "blacklist.remove", "remove"),
     BLACKLIST_ON(24, "blacklist.toggle-on", "on"),
     UPDATER(3, "updater"),
-    RELOAD(1, "reload");
+    RELOAD(0, "reload");
 
     private final String argument;
     private final String def;
