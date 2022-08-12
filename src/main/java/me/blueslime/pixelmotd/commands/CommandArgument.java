@@ -14,7 +14,10 @@ public enum CommandArgument {
     BLACKLIST_OFF(23, "blacklist.remove", "remove"),
     BLACKLIST_ON(24, "blacklist.toggle-on", "on"),
     UPDATER(3, "updater"),
-    RELOAD(0, "reload");
+    RELOAD(0, "reload"),
+    ADMIN(97, "admin"),
+    HELP(98, "help"),
+    NONE(99,"none");
 
     private final String argument;
     private final String def;
@@ -47,5 +50,39 @@ public enum CommandArgument {
     @Override
     public String toString() {
         return super.toString().toLowerCase();
+    }
+
+    public static CommandArgument[] getWhitelist() {
+        return new CommandArgument[] {
+                WHITELIST_REMOVE,
+                WHITELIST_LIST,
+                WHITELIST_MAIN,
+                WHITELIST_ADD,
+                WHITELIST_OFF,
+                WHITELIST_ON,
+        };
+    }
+
+    public static CommandArgument[] getBlacklist() {
+        return new CommandArgument[] {
+                BLACKLIST_REMOVE,
+                BLACKLIST_LIST,
+                BLACKLIST_MAIN,
+                BLACKLIST_ADD,
+                BLACKLIST_OFF,
+                BLACKLIST_ON,
+        };
+    }
+
+    public static CommandArgument parseArgument(int id) {
+        for (CommandArgument arg : values()) {
+            if (arg == CommandArgument.HELP || arg == CommandArgument.NONE || arg ==CommandArgument.ADMIN) {
+                continue;
+            }
+            if (arg.id() == id) {
+                return arg;
+            }
+        }
+        return NONE;
     }
 }
