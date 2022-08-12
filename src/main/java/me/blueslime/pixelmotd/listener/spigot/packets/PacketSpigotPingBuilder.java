@@ -5,6 +5,7 @@ import com.comphenix.protocol.wrappers.WrappedServerPing;
 import me.blueslime.pixelmotd.MotdProtocol;
 import me.blueslime.pixelmotd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
+import me.blueslime.pixelmotd.iridiumcolorapi.IridiumColorAPI;
 import me.blueslime.pixelmotd.listener.MotdBuilder;
 import me.blueslime.pixelmotd.listener.PingBuilder;
 import me.blueslime.pixelmotd.utils.MotdPlayers;
@@ -162,20 +163,28 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
                 line2 = PlaceholderParser.parse(getPlugin().getLogs(), user, line2);
             }
 
-            completed = new StringSlimeColor(
-                    getExtras().replace(
-                            line1,
-                            online,
-                            max,
-                            user
-                    ) + "\n" + getExtras().replace(
-                            line2,
-                            online,
-                            max,
-                            user
-                    ),
-                    true
-            ).build();
+            completed = getExtras().replace(
+                    line1,
+                    online,
+                    max,
+                    user
+            ) + "\n" + getExtras().replace(
+                    line2,
+                    online,
+                    max,
+                    user
+            );
+
+            if (!completed.contains("<GRADIENT:") && !completed.contains("<RAINBOW") && !completed.contains("<SOLID:")) {
+
+                completed = IridiumColorAPI.process(completed);
+
+            } else {
+                completed = new StringSlimeColor(
+                        completed,
+                        true
+                ).build();
+            }
 
             completed = ChatColor.translateAlternateColorCodes('&', completed);
         }
