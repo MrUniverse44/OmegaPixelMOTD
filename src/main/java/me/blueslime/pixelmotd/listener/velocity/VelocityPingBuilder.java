@@ -145,13 +145,9 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
         if (motdType.isHexMotd()) {
 
-            line1 = legacy(
-                    control.getString(path + "line1", "")
-            );
+            line1 = control.getString(path + "line1", "");
 
-            line2 = legacy(
-                    control.getString(path + "line2", "")
-            );
+            line2 = control.getString(path + "line2", "");
 
             completed = getExtras().replace(
                     line1,
@@ -170,8 +166,13 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
         } else {
 
-            line1 = control.getString(path + "line1", "");
-            line2 = control.getString(path + "line2", "");
+            line1 = legacy(
+                    control.getString(path + "line1", "")
+            );
+
+            line2 = legacy(
+                    control.getString(path + "line2", "")
+            );
 
             completed = getExtras().replace(
                     line1,
