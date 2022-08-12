@@ -8,10 +8,11 @@ import me.blueslime.pixelmotd.utils.Extras;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("unused")
 public abstract class PingBuilder<T, I, E, H> {
-    private final Map<MotdType, List<String>> motdsMap = new HashMap<>();
+    private final Map<MotdType, List<String>> motdsMap = new ConcurrentHashMap<>();
 
     private final Random random = new Random();
 

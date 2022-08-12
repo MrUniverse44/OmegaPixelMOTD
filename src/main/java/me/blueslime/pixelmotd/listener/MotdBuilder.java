@@ -3,6 +3,7 @@ package me.blueslime.pixelmotd.listener;
 import me.blueslime.pixelmotd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.pixelmotd.SlimeFile;
 
 import java.io.File;
 import java.util.*;
@@ -16,6 +17,8 @@ public abstract class MotdBuilder<T, I> {
 
     private final SlimeLogs logs;
 
+    private boolean debug;
+
     public MotdBuilder(PixelMOTD<T> plugin, SlimeLogs logs) {
         this.plugin = plugin;
         this.logs = logs;
@@ -28,6 +31,8 @@ public abstract class MotdBuilder<T, I> {
 
     private void load() {
         icons.clear();
+
+        debug = plugin.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.debug-mode", false);
 
         load(MotdType.NORMAL);
         load(MotdType.WHITELIST);
@@ -49,7 +54,11 @@ public abstract class MotdBuilder<T, I> {
         File folder = new File(data, motdType.toString());
 
         if (!folder.exists()) {
-            logs.info("Icon-Folder (" + folder.getName() + ") has been created. [" + folder.mkdirs() + "]");
+            boolean created = folder.mkdirs();
+
+            if (debug) {
+                logs.info("Icon-Folder (" + folder.getName() + ") has been created. [" + created + "]");
+            }
         }
 
         File[] files = folder.listFiles((d, fn) -> fn.endsWith(".png"));

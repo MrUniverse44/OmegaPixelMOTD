@@ -5,7 +5,6 @@ import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
 import me.blueslime.pixelmotd.metrics.MetricsHandler;
 import me.blueslime.pixelmotd.players.PlayerHandler;
 import me.blueslime.pixelmotd.servers.ServerHandler;
-import me.blueslime.pixelmotd.storage.MotdStorage;
 import me.blueslime.pixelmotd.utils.FileUtilities;
 import me.blueslime.pixelmotd.utils.Updater;
 import dev.mruniverse.slimelib.SlimeFiles;
@@ -36,8 +35,6 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
     private final ServerHandler serverHandler;
 
     private ConfigurationHandler messages;
-
-    private final MotdStorage motdStorage;
 
     private final SlimePlatform platform;
 
@@ -101,8 +98,6 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
             }
 
         }
-
-        motdStorage = new MotdStorage(getLoader().getFiles());
 
         lang = new File(dataFolder, "lang");
 
@@ -216,10 +211,6 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         slimeLoader.reload();
 
         listenerManager.update();
-
-        motdStorage.update(
-                slimeLoader.getFiles()
-        );
     }
 
     @Override
