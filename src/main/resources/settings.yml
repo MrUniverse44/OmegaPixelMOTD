@@ -5,7 +5,7 @@
 #   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
 #   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
 #
-#   Using version 9.3.3-SNAPSHOT
+#   Using version 9.3.4-SNAPSHOT
 #   Author: JustJustin (MrUniverse44)
 #   SpigotMC Link: https://www.spigotmc.org/resources/37177/
 #   MC-Market Link: https://www.mc-market.org/resources/22313/
@@ -81,6 +81,7 @@ settings:
   # messages_jp.yml    | code: jp   | language: jp
   # messages_pl.yml    | code: pl   | language: pl
   # messages_de.yml    | code: de   | language: de
+  # messages_cz.yml    | code: cz   | language: cz
   # messages_zh-CN.yml | code zh-CN | language: zn-CH
   # messages_zh-CN.yml | code zh-TW | language: zn-TW
   language: "en"

@@ -135,6 +135,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
     }
 
     private void loadDefaults() {
+        loadMessageFile("cz");
         loadMessageFile("en");
         loadMessageFile("it");
         loadMessageFile("de");
