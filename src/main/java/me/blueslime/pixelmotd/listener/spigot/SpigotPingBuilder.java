@@ -29,6 +29,13 @@ public class SpigotPingBuilder extends PingBuilder<JavaPlugin, CachedServerIcon,
 
         String motd = getMotd(motdType);
 
+        if (motd.equals("8293829382382732127413475y42732749832748327472fyfs")) {
+            if (isDebug()) {
+                getPlugin().getLogs().debug("The plugin don't detect motds for MotdType: " + motdType);
+            }
+            return;
+        }
+
         String line1, line2, completed;
 
         int max;

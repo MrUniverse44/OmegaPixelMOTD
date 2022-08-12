@@ -35,12 +35,12 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
         ServerPing.Builder ping = event.getPing().asBuilder();
 
-        String motd;
+        String motd = getMotd(motdType);
 
-        try {
-            motd = getMotd(motdType);
-        } catch (Exception ignored) {
-            logs.error("This file isn't updated to the latest file or the motd-path is incorrect, can't find motds for MotdType: " + motdType);
+        if (motd.equals("8293829382382732127413475y42732749832748327472fyfs")) {
+            if (isDebug()) {
+                logs.debug("The plugin don't detect motds for MotdType: " + motdType);
+            }
             return;
         }
 

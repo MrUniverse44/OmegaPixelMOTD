@@ -35,12 +35,12 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
 
         final ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
 
-        String motd;
+        String motd = getMotd(motdType);
 
-        try {
-            motd = getMotd(motdType);
-        } catch (Exception ignored) {
-            logs.error("This file isn't updated to the latest file or the motd-path is incorrect, can't find motds for MotdType: " + motdType);
+        if (motd.equals("8293829382382732127413475y42732749832748327472fyfs")) {
+            if (isDebug()) {
+                logs.debug("The plugin don't detect motds for MotdType: " + motdType);
+            }
             return;
         }
 
@@ -142,7 +142,11 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
 
             completed = getExtras().replace(line1, online, max, user) + "\n" + getExtras().replace(line2, online, max, user);
 
-            if (completed.contains("%(slimecolor")) {
+            if (line1.contains("%(slimecolor") || line2.contains("%(slimecolor")) {
+
+                if (isDebug()) {
+                    logs.debug("Using SlimeColorAPI for the motd lines:" + completed);
+                }
 
                 result.addExtra(
                         new BungeeSlimeColor(completed, HAS_RGB_SUPPORT)
@@ -150,7 +154,9 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
                 );
 
             }  else {
-
+                if (isDebug()) {
+                    logs.debug("Using MineDown for the motd lines:" + completed);
+                }
                 result = new TextComponent(
                         new MineDown(
                                 completed.replace('§', '&')).urlDetection(false).toComponent()
@@ -164,6 +170,11 @@ public class BungeePingBuilder extends PingBuilder<Plugin, Favicon, ServerPing, 
             line2 = control.getString(TextDecoration.LEGACY, path + "line2", "");
 
             completed = getExtras().replace(line1, online, max, user) + "\n" + getExtras().replace(line2, online, max, user);
+
+            if (completed.contains("<#") && completed.contains(">") && isDebug()) {
+                logs.info("Are you trying to use gradients in a MotdType without support to gradients? :(, please remove <# or > from your motd lines");
+                logs.info("to stop this spam, motd type and motd name causing this issue: " + motdType + "." + motd);
+            }
 
             result.addExtra(completed);
 

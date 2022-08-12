@@ -21,6 +21,8 @@ public abstract class PingBuilder<T, I, E, H> {
 
     private final PixelMOTD<T> plugin;
 
+    private boolean debug = false;
+
 
     private boolean iconSystem = true;
 
@@ -42,6 +44,8 @@ public abstract class PingBuilder<T, I, E, H> {
         iconSystem = plugin.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.icon-system", false);
         playerSystem = plugin.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.player-system.enabled",true);
 
+        debug = plugin.getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.debug-mode", false);
+
         motdsMap.clear();
 
         for (MotdType motdType : MotdType.values()) {
@@ -52,7 +56,10 @@ public abstract class PingBuilder<T, I, E, H> {
 
             if (configuration == null) {
                 motds = new ArrayList<>();
-                plugin.getLogs().info("&aNo motds found in motd file: " + motdType.getFile().getFileName() + ", for motdType: " + motdType);
+
+                if (isDebug()) {
+                    plugin.getLogs().info("&aNo motds found in motd file: " + motdType.getFile().getFileName() + ", for motdType: " + motdType);
+                }
             } else {
                 motds = configuration.getContent(
                         motdType.toString(),
@@ -89,6 +96,14 @@ public abstract class PingBuilder<T, I, E, H> {
             motds = loadMotds(type);
         }
 
+        if (motds.size() == 0) {
+            return "8293829382382732127413475y42732749832748327472fyfs";
+        }
+
+        if (motds.size() == 1) {
+            return motds.get(0);
+        }
+
         return motds.get(random.nextInt(motds.size()));
     }
 
@@ -112,6 +127,10 @@ public abstract class PingBuilder<T, I, E, H> {
 
     public boolean isPlayerSystem() {
         return playerSystem;
+    }
+
+    public boolean isDebug() {
+        return debug;
     }
 
     public Extras getExtras() {

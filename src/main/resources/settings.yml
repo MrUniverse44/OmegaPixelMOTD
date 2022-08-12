@@ -32,6 +32,10 @@ settings:
   # Toggle update-check for Alpha and Beta Versions
   check-alpha-updates: false
 
+  #Show extra information, this is disabled by default, This option will spam extra information
+  #when a motd is being loaded.
+  debug-mode: false
+
   # EXTRA SETTINGS
 
   # Online servers w/ sub-servers system.
