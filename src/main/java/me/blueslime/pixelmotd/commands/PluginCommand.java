@@ -454,28 +454,36 @@ public class PluginCommand<T> implements SlimeCommand {
         List<String> arguments = new ArrayList<>();
 
         if (args.length == 0) {
-            arguments.add(argumentsMap.get(0));
-            arguments.add(argumentsMap.get(1));
-            arguments.add(argumentsMap.get(2));
-            arguments.add(argumentsMap.get(3));
+            for (CommandArgument commandArgument : CommandArgument.getMain()) {
+                arguments.add(
+                        argumentsMap.get(
+                                commandArgument.id()
+                        )
+                );
+            }
+            arguments.add("admin");
             return arguments;
         }
 
-        if (args[0].equalsIgnoreCase(argumentsMap.get(1))) {
-            arguments.add(argumentsMap.get(11));
-            arguments.add(argumentsMap.get(12));
-            arguments.add(argumentsMap.get(13));
-            arguments.add(argumentsMap.get(14));
-            arguments.add(argumentsMap.get(15));
+        if (args[0].equalsIgnoreCase(argumentsMap.get(CommandArgument.WHITELIST_MAIN.id()))) {
+            for (CommandArgument commandArgument : CommandArgument.getWhitelist()) {
+                arguments.add(
+                        argumentsMap.get(
+                                commandArgument.id()
+                        )
+                );
+            }
             return arguments;
         }
 
-        if (args[0].equalsIgnoreCase(argumentsMap.get(2))) {
-            arguments.add(argumentsMap.get(21));
-            arguments.add(argumentsMap.get(22));
-            arguments.add(argumentsMap.get(23));
-            arguments.add(argumentsMap.get(24));
-            arguments.add(argumentsMap.get(25));
+        if (args[0].equalsIgnoreCase(argumentsMap.get(CommandArgument.BLACKLIST_MAIN.id()))) {
+            for (CommandArgument commandArgument : CommandArgument.getBlacklist()) {
+                arguments.add(
+                        argumentsMap.get(
+                                commandArgument.id()
+                        )
+                );
+            }
             return arguments;
         }
         return arguments;

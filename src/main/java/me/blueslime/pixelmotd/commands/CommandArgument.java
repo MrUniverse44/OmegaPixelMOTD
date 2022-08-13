@@ -56,7 +56,6 @@ public enum CommandArgument {
         return new CommandArgument[] {
                 WHITELIST_REMOVE,
                 WHITELIST_LIST,
-                WHITELIST_MAIN,
                 WHITELIST_ADD,
                 WHITELIST_OFF,
                 WHITELIST_ON,
@@ -67,10 +66,18 @@ public enum CommandArgument {
         return new CommandArgument[] {
                 BLACKLIST_REMOVE,
                 BLACKLIST_LIST,
-                BLACKLIST_MAIN,
                 BLACKLIST_ADD,
                 BLACKLIST_OFF,
                 BLACKLIST_ON,
+        };
+    }
+
+    public static CommandArgument[] getMain() {
+        return new CommandArgument[] {
+                BLACKLIST_MAIN,
+                WHITELIST_MAIN,
+                UPDATER,
+                RELOAD
         };
     }
 
