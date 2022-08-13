@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class RainbowPattern implements IridiumPattern {
 
-    Pattern pattern = java.util.regex.Pattern.compile("<RAINBOW([0-9]{1,3})>(.*?)</RAINBOW>");
+    Pattern pattern = java.util.regex.Pattern.compile("<RAINBOW(\\d{1,3})>(.*?)</RAINBOW>");
 
     /**
      * Applies a rainbow pattern to the provided String.
