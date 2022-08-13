@@ -2,6 +2,7 @@ package me.blueslime.pixelmotd.listener.spigot.events.abstracts;
 
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.ConnectionListener;
+import me.blueslime.pixelmotd.utils.ListType;
 import me.blueslime.pixelmotd.utils.ListUtil;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import net.md_5.bungee.api.ChatColor;
@@ -11,9 +12,16 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.UUID;
+
 public abstract class AbstractTeleportListener extends ConnectionListener<JavaPlugin, PlayerTeleportEvent, String> implements Listener, EventExecutor {
     public AbstractTeleportListener(PixelMOTD<JavaPlugin> plugin) {
         super(plugin);
+    }
+
+    @Override
+    public void update() {
+        super.update();
     }
 
     @Override
@@ -26,7 +34,7 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
 
         final String username = connection.getName();
 
-        final String uuid = connection.getUniqueId().toString();
+        final UUID uuid = connection.getUniqueId();
 
         final String playerWorld = connection.getWorld().getName();
 
@@ -42,12 +50,10 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
 
         ConfigurationHandler settings = getControl();
 
-        String path = "." + getPlace().toStringLowerCase() + "." + target + ".players.by-";
+        String path = getPlace().toStringLowerCase() + "." + target;
 
-        if (settings.getStatus("whitelist" + target + ".enabled", false)) {
-            if (!settings.getStringList("whitelist" + path + "name").contains(username) ||
-                    !settings.getStringList("whitelist" + path + "uuid").contains(uuid)
-            ) {
+        if (settings.getStatus("whitelist." + path + ".enabled", false)) {
+            if (!checkPlayer(ListType.WHITELIST, path, username) || !checkUUID(ListType.WHITELIST, path, uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.whitelist"));
 
                 connection.sendMessage(
@@ -56,7 +62,7 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
                                         reason,
                                         "whitelist." + target,
                                         username,
-                                        uuid
+                                        uuid.toString()
                                 )
                         )
                 );
@@ -66,10 +72,8 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
             }
         }
 
-        if (hasBlacklist()) {
-            if (settings.getStringList("blacklist" + path + "name").contains(username) ||
-                    settings.getStringList("blacklist" + path + "uuid").contains(uuid)
-            ) {
+        if (settings.getStatus("blacklist." + path + ".enabled", false)) {
+            if (!checkPlayer(ListType.BLACKLIST, path, username) || !checkUUID(ListType.BLACKLIST, path, uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.blacklist"));
 
                 connection.sendMessage(
@@ -78,7 +82,7 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
                                         reason,
                                         "blacklist." + target,
                                         username,
-                                        uuid
+                                        uuid.toString()
                                 )
                         )
                 );

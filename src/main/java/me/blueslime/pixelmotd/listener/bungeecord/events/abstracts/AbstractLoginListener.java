@@ -2,6 +2,7 @@ package me.blueslime.pixelmotd.listener.bungeecord.events.abstracts;
 
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.ConnectionListener;
+import me.blueslime.pixelmotd.utils.ListType;
 import me.blueslime.pixelmotd.utils.ListUtil;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import net.md_5.bungee.api.ChatColor;
@@ -12,11 +13,17 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.net.SocketAddress;
+import java.util.UUID;
 
 public class AbstractLoginListener extends ConnectionListener<Plugin, LoginEvent, TextComponent> implements Listener {
 
     public AbstractLoginListener(PixelMOTD<Plugin> plugin) {
         super(plugin);
+    }
+
+    @Override
+    public void update() {
+        super.update();
     }
 
     @Override
@@ -46,7 +53,7 @@ public class AbstractLoginListener extends ConnectionListener<Plugin, LoginEvent
 
         final String username = connection.getName();
 
-        final String uuid = connection.getUniqueId().toString();
+        final UUID uuid = connection.getUniqueId();
 
         getPlayerDatabase().fromSocket(
                 address.toString(),
@@ -55,12 +62,8 @@ public class AbstractLoginListener extends ConnectionListener<Plugin, LoginEvent
 
         ConfigurationHandler settings = getControl();
 
-        String path = ".global.players.by-";
-
         if (hasWhitelist()) {
-            if (settings.getStringList("whitelist" + path + "name").contains(username) ||
-                    !settings.getStringList("whitelist" + path + "uuid").contains(uuid)
-            ) {
+            if (!checkPlayer(ListType.WHITELIST, "global", username) || !checkUUID(ListType.WHITELIST, "global", uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.global-whitelist"));
 
                 event.setCancelReason(
@@ -69,7 +72,7 @@ public class AbstractLoginListener extends ConnectionListener<Plugin, LoginEvent
                                         reason,
                                         "whitelist.global",
                                         username,
-                                        uuid
+                                        uuid.toString()
                                 )
                         )
                 );
@@ -80,9 +83,7 @@ public class AbstractLoginListener extends ConnectionListener<Plugin, LoginEvent
         }
 
         if (hasBlacklist()) {
-            if (settings.getStringList("blacklist" + path + "name").contains(username) ||
-                    !settings.getStringList("blacklist" + path + "uuid").contains(uuid)
-            ) {
+            if (!checkPlayer(ListType.BLACKLIST, "global", username) || !checkUUID(ListType.BLACKLIST, "global", uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.global-blacklist"));
 
                 event.setCancelReason(
@@ -91,7 +92,7 @@ public class AbstractLoginListener extends ConnectionListener<Plugin, LoginEvent
                                         reason,
                                         "blacklist.global",
                                         username,
-                                        uuid
+                                        uuid.toString()
                                 )
                         )
                 );

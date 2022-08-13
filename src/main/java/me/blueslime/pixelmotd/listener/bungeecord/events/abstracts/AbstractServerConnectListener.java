@@ -2,6 +2,7 @@ package me.blueslime.pixelmotd.listener.bungeecord.events.abstracts;
 
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.ConnectionListener;
+import me.blueslime.pixelmotd.utils.ListType;
 import me.blueslime.pixelmotd.utils.ListUtil;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import net.md_5.bungee.api.ChatColor;
@@ -11,10 +12,17 @@ import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 
+import java.util.UUID;
+
 public class AbstractServerConnectListener extends ConnectionListener<Plugin, ServerConnectEvent, TextComponent> implements Listener {
 
     public AbstractServerConnectListener(PixelMOTD<Plugin> plugin) {
         super(plugin);
+    }
+
+    @Override
+    public void update() {
+        super.update();
     }
 
     @Override
@@ -42,27 +50,25 @@ public class AbstractServerConnectListener extends ConnectionListener<Plugin, Se
 
         final String username = connection.getName();
 
-        final String uuid = connection.getUniqueId().toString();
+        final UUID uuid = connection.getUniqueId();
 
         final String serverName = event.getTarget().getName();
 
         ConfigurationHandler settings = getControl();
 
-        String path = "." + getPlace().toStringLowerCase() + "." + serverName + ".players.by-";
+        String path = getPlace().toStringLowerCase() + "." + serverName;
 
-        if (settings.getStatus("whitelist" + serverName + ".enabled", false)) {
-            if (!settings.getStringList("whitelist" + path + "name").contains(username) ||
-                    !settings.getStringList("whitelist" + path + "uuid").contains(uuid)
-            ) {
+        if (settings.getStatus("whitelist." + path + ".enabled", false)) {
+            if (!checkPlayer(ListType.WHITELIST, path, username) || !checkUUID(ListType.WHITELIST, path, uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.whitelist"));
 
                 connection.sendMessage(
                         colorize(
                                 replace(
                                         reason,
-                                        "whitelist." + serverName,
+                                        "whitelist." + path,
                                         username,
-                                        uuid
+                                        uuid.toString()
                                 )
                         )
                 );
@@ -72,19 +78,17 @@ public class AbstractServerConnectListener extends ConnectionListener<Plugin, Se
             }
         }
 
-        if (hasBlacklist()) {
-            if (settings.getStringList("blacklist" + path + "name").contains(username) ||
-                    settings.getStringList("blacklist" + path + "uuid").contains(uuid)
-            ) {
+        if (settings.getStatus("blacklist." + path + ".enabled", false)) {
+            if (!checkPlayer(ListType.BLACKLIST, path, username) || !checkUUID(ListType.BLACKLIST, path, uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.blacklist"));
 
                 connection.sendMessage(
                         colorize(
                                 replace(
                                         reason,
-                                        "blacklist." + serverName,
+                                        "blacklist." + path,
                                         username,
-                                        uuid
+                                        uuid.toString()
                                 )
                         )
                 );

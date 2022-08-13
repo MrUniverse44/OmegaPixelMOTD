@@ -8,12 +8,14 @@ import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.ConnectionListener;
+import me.blueslime.pixelmotd.utils.ListType;
 import me.blueslime.pixelmotd.utils.ListUtil;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class AbstractServerConnectListener extends ConnectionListener<ProxyServer, ServerPreConnectEvent, Component> {
 
@@ -69,27 +71,25 @@ public class AbstractServerConnectListener extends ConnectionListener<ProxyServe
 
         final String username = connection.getUsername();
 
-        final String uuid = connection.getUniqueId().toString();
+        final UUID uuid = connection.getUniqueId();
 
         final String serverName = target.getName();
 
         ConfigurationHandler settings = getControl();
 
-        String path = "." + getPlace().toStringLowerCase() + "." + serverName + ".players.by-";
+        String path = getPlace().toStringLowerCase() + "." + serverName;
 
-        if (settings.getStatus("whitelist" + serverName + ".enabled", false)) {
-            if (!settings.getStringList("whitelist" + path + "name").contains(username) ||
-                    !settings.getStringList("whitelist" + path + "uuid").contains(uuid)
-            ) {
+        if (settings.getStatus("whitelist." + path + ".enabled", false)) {
+            if (!checkPlayer(ListType.WHITELIST, path, username) || !checkUUID(ListType.WHITELIST, path, uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.whitelist"));
 
                 connection.sendMessage(
                         colorize(
                                 replace(
                                         reason,
-                                        "whitelist." + serverName,
+                                        "whitelist." + path,
                                         username,
-                                        uuid
+                                        uuid.toString()
                                 )
                         )
                 );
@@ -101,19 +101,17 @@ public class AbstractServerConnectListener extends ConnectionListener<ProxyServe
             }
         }
 
-        if (hasBlacklist()) {
-            if (settings.getStringList("blacklist" + path + "name").contains(username) ||
-                    settings.getStringList("blacklist" + path + "uuid").contains(uuid)
-            ) {
+        if (settings.getStatus("blacklist." + path + ".enabled", false)) {
+            if (!checkPlayer(ListType.BLACKLIST, path, username) || !checkUUID(ListType.BLACKLIST, path, uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.blacklist"));
 
                 connection.sendMessage(
                         colorize(
                                 replace(
                                         reason,
-                                        "blacklist." + serverName,
+                                        "blacklist." + path,
                                         username,
-                                        uuid
+                                        uuid.toString()
                                 )
                         )
                 );

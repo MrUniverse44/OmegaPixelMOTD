@@ -4,9 +4,12 @@ import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
 import me.blueslime.pixelmotd.players.PlayerDatabase;
 import me.blueslime.pixelmotd.utils.Extras;
+import me.blueslime.pixelmotd.utils.ListType;
 import me.blueslime.pixelmotd.utils.WhitelistLocation;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
+
+import java.util.UUID;
 
 public abstract class ConnectionListener<T, E, S> {
 
@@ -64,6 +67,14 @@ public abstract class ConnectionListener<T, E, S> {
 
     public ConfigurationHandler getControl() {
         return plugin.getConfigurationHandler(SlimeFile.MODES);
+    }
+
+    public boolean checkPlayer(ListType listType, String path, String username) {
+        return getControl().getStringList(listType.toString() + "." + path + ".players.by-name").contains(username);
+    }
+
+    public boolean checkUUID(ListType listType, String path, UUID uniqueId) {
+        return getControl().getStringList(listType.toString() + "." + path + ".players.by-uuid").contains(uniqueId.toString());
     }
 
     public Extras getExtras() {
