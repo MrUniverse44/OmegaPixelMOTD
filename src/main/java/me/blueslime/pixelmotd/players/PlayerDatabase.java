@@ -1,11 +1,11 @@
 package me.blueslime.pixelmotd.players;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerDatabase {
 
-    private final Map<String, String> playersMap = new HashMap<>();
+    private final Map<String, String> playersMap = new ConcurrentHashMap<>();
 
     public boolean exists(String key) {
         return playersMap.containsKey(key);
