@@ -72,7 +72,7 @@ public class AbstractLoginListener  extends ConnectionListener<ProxyServer, Logi
         ConfigurationHandler settings = getControl();
 
         if (hasWhitelist()) {
-            if (!checkPlayer(ListType.WHITELIST, "global", username) || !checkUUID(ListType.WHITELIST, "global", uuid)) {
+            if (!checkPlayer(ListType.WHITELIST, "global", username) && !checkUUID(ListType.WHITELIST, "global", uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.global-whitelist"));
 
                 event.setResult(
@@ -90,7 +90,7 @@ public class AbstractLoginListener  extends ConnectionListener<ProxyServer, Logi
         }
 
         if (hasBlacklist()) {
-            if (!checkPlayer(ListType.BLACKLIST, "global", username) || !checkUUID(ListType.BLACKLIST, "global", uuid)) {
+            if (checkPlayer(ListType.BLACKLIST, "global", username) || checkUUID(ListType.BLACKLIST, "global", uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.global-blacklist"));
 
                 event.setResult(
