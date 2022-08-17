@@ -53,7 +53,7 @@ public abstract class AbstractLoginListener  extends ConnectionListener<JavaPlug
         ConfigurationHandler settings = getControl();
 
         if (hasWhitelist()) {
-            if (!checkPlayer(ListType.WHITELIST, "global", username) || !checkUUID(ListType.WHITELIST, "global", uuid)) {
+            if (!checkPlayer(ListType.WHITELIST, "global", username) && !checkUUID(ListType.WHITELIST, "global", uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.global-whitelist"));
 
                 event.disallow(
@@ -72,7 +72,7 @@ public abstract class AbstractLoginListener  extends ConnectionListener<JavaPlug
         }
 
         if (hasBlacklist()) {
-            if (!checkPlayer(ListType.BLACKLIST, "global", username) || !checkUUID(ListType.BLACKLIST, "global", uuid)) {
+            if (checkPlayer(ListType.BLACKLIST, "global", username) || checkUUID(ListType.BLACKLIST, "global", uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.global-blacklist"));
 
                 event.disallow(

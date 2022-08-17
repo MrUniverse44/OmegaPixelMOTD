@@ -53,7 +53,7 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
         String path = getPlace().toStringLowerCase() + "." + target;
 
         if (settings.getStatus("whitelist." + path + ".enabled", false)) {
-            if (!checkPlayer(ListType.WHITELIST, path, username) || !checkUUID(ListType.WHITELIST, path, uuid)) {
+            if (!checkPlayer(ListType.WHITELIST, path, username) && !checkUUID(ListType.WHITELIST, path, uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.whitelist"));
 
                 connection.sendMessage(
@@ -73,7 +73,7 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
         }
 
         if (settings.getStatus("blacklist." + path + ".enabled", false)) {
-            if (!checkPlayer(ListType.BLACKLIST, path, username) || !checkUUID(ListType.BLACKLIST, path, uuid)) {
+            if (checkPlayer(ListType.BLACKLIST, path, username) || checkUUID(ListType.BLACKLIST, path, uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.blacklist"));
 
                 connection.sendMessage(

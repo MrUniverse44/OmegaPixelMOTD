@@ -80,7 +80,7 @@ public class AbstractServerConnectListener extends ConnectionListener<ProxyServe
         String path = getPlace().toStringLowerCase() + "." + serverName;
 
         if (settings.getStatus("whitelist." + path + ".enabled", false)) {
-            if (!checkPlayer(ListType.WHITELIST, path, username) || !checkUUID(ListType.WHITELIST, path, uuid)) {
+            if (!checkPlayer(ListType.WHITELIST, path, username) && !checkUUID(ListType.WHITELIST, path, uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.whitelist"));
 
                 connection.sendMessage(
@@ -102,7 +102,7 @@ public class AbstractServerConnectListener extends ConnectionListener<ProxyServe
         }
 
         if (settings.getStatus("blacklist." + path + ".enabled", false)) {
-            if (!checkPlayer(ListType.BLACKLIST, path, username) || !checkUUID(ListType.BLACKLIST, path, uuid)) {
+            if (checkPlayer(ListType.BLACKLIST, path, username) || checkUUID(ListType.BLACKLIST, path, uuid)) {
                 String reason = ListUtil.ListToString(settings.getStringList("kick-message.blacklist"));
 
                 connection.sendMessage(
