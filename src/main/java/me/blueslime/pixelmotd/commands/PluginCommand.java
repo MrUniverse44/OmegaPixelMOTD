@@ -10,7 +10,6 @@ import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
 import dev.mruniverse.slimelib.commands.sender.Sender;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,155 +70,148 @@ public class PluginCommand<T> implements SlimeCommand {
         ConfigurationHandler commandManager = plugin.getConfigurationHandler(SlimeFile.COMMANDS);
         ConfigurationHandler messages  = plugin.getMessages();
 
-        CommandArgument argument;
+        String argument;
 
         if (arguments.length == 0) {
-            argument = CommandArgument.HELP;
+            argument = "help";
         } else {
-            argument = parseArgument(
-                    arguments[0]
-            );
+            argument = arguments[0].toLowerCase();
         }
 
         String permission;
 
-        switch (argument) {
-            case HELP:
-                permission = commandManager.getString(path + "permissions.main", "pixelmotd.command.main");
+        if (checkArgument(argument, CommandArgument.HELP)) {
+            permission = commandManager.getString(path + "permissions.main", "pixelmotd.command.main");
 
-                if (!sender.hasPermission(permission)) {
+            if (!sender.hasPermission(permission)) {
 
-                    String message = messages.getString("messages.error.permission", "");
+                String message = messages.getString("messages.error.permission", "");
 
-                    sender.sendColoredMessage(message.replace("<permission>", permission));
-                    return;
-                }
-
-                List<String> stringList = commandManager.getStringList(path + "no-arguments");
-
-                stringList.replaceAll(line -> line.replace("%plugin version%", plugin.getPluginInformation().getVersion()));
-
-                for (String line : stringList) {
-                    sender.sendColoredMessage(line);
-                }
-
+                sender.sendColoredMessage(message.replace("<permission>", permission));
                 return;
-            case RELOAD:
-                long before = System.currentTimeMillis();
+            }
 
-                permission = commandManager.getString(path + "permissions.reload", "pixelmotd.command.reload");
+            List<String> stringList = commandManager.getStringList(path + "no-arguments");
 
-                if (!sender.hasPermission(permission)) {
+            stringList.replaceAll(line -> line.replace("%plugin version%", plugin.getPluginInformation().getVersion()));
 
-                    String message = messages.getString("messages.error.permission", "");
+            for (String line : stringList) {
+                sender.sendColoredMessage(line);
+            }
 
-                    sender.sendColoredMessage(message.replace("<permission>", permission));
-                    return;
+            return;
+        }
+        if (checkArgument(argument, CommandArgument.RELOAD)) {
+            long before = System.currentTimeMillis();
 
+            permission = commandManager.getString(path + "permissions.reload", "pixelmotd.command.reload");
+
+            if (!sender.hasPermission(permission)) {
+
+                String message = messages.getString("messages.error.permission", "");
+
+                sender.sendColoredMessage(message.replace("<permission>", permission));
+                return;
+
+            }
+
+            plugin.reload();
+            update();
+
+            long after = System.currentTimeMillis();
+
+            sender.sendColoredMessage(
+                    messages.getString("messages.reload", "").replace("<ms>", (after - before) + "")
+            );
+
+            return;
+        }
+        if (checkArgument(argument, CommandArgument.WHITELIST_MAIN)) {
+            permission = commandManager.getString(path + "permissions.whitelist", "pixelmotd.command.whitelist");
+
+            if (!sender.hasPermission(permission)) {
+
+                String message = messages.getString("messages.error.permission", "");
+
+                sender.sendColoredMessage(message.replace("<permission>", permission));
+                return;
+            }
+
+            executeList(commandManager, messages, command, sender, ListType.WHITELIST, removeArgument(arguments));
+            return;
+        }
+        if (checkArgument(argument, CommandArgument.BLACKLIST_MAIN)) {
+            permission = commandManager.getString(path + "permissions.blacklist", "pixelmotd.command.blacklist");
+
+            if (!sender.hasPermission(permission)) {
+
+                String message = messages.getString("messages.error.permission", "");
+
+                sender.sendColoredMessage(message.replace("<permission>", permission));
+                return;
+            }
+
+            executeList(commandManager, messages, command, sender, ListType.BLACKLIST, removeArgument(arguments));
+            return;
+        }
+        if (argument.equalsIgnoreCase(
+                CommandArgument.ADMIN.argument()
+        )) {
+            if (sender.hasPermission("pixelmotd.admin")) {
+
+                for (String message : commandManager.getStringList("commands.main-command.admin.main")) {
+                    sender.sendColoredMessage(
+                            message.replace("%used command%", command)
+                    );
+                }
+            }
+            return;
+        }
+        if (checkArgument(argument, CommandArgument.UPDATER)) {
+            permission = commandManager.getString(path + "permissions.reload", "pixelmotd.command.reload");
+
+            if (!sender.hasPermission(permission)) {
+
+                String message = messages.getString("messages.error.permission", "");
+
+                sender.sendColoredMessage(message.replace("<permission>", permission));
+                return;
+            }
+
+            final ConfigurationHandler settings = plugin.getConfigurationHandler(SlimeFile.SETTINGS);
+
+            if (settings.getStatus("settings.update-check", true)) {
+                sender.sendColoredMessage("&9Updater Command has been used, information will be posted in Console");
+
+                Updater.UpdateType type = Updater.UpdateType.VERSION_CHECK;
+
+                if (settings.getStatus("settings.auto-download-updates", true)) {
+                    type = Updater.UpdateType.CHECK_DOWNLOAD;
                 }
 
-                plugin.reload();
-                update();
-
-                long after = System.currentTimeMillis();
-
-                sender.sendColoredMessage(
-                        messages.getString("messages.reload", "").replace("<ms>", (after - before) + "")
+                new Updater(
+                        plugin.getLogs(),
+                        plugin.getPluginInformation().getVersion(),
+                        37177, plugin.getDataFolder(),
+                        type
                 );
 
-                return;
-            case UPDATER:
-                permission = commandManager.getString(path + "permissions.reload", "pixelmotd.command.reload");
-
-                if (!sender.hasPermission(permission)) {
-
-                    String message = messages.getString("messages.error.permission", "");
-
-                    sender.sendColoredMessage(message.replace("<permission>", permission));
-                    return;
-                }
-
-                final ConfigurationHandler settings = plugin.getConfigurationHandler(SlimeFile.SETTINGS);
-
-                if (settings.getStatus("settings.update-check", true)) {
-                    sender.sendColoredMessage("&9Updater Command has been used, information will be posted in Console");
-
-                    Updater.UpdateType type = Updater.UpdateType.VERSION_CHECK;
-
-                    if (settings.getStatus("settings.auto-download-updates", true)) {
-                        type = Updater.UpdateType.CHECK_DOWNLOAD;
-                    }
-
-                    new Updater(
-                            plugin.getLogs(),
-                            plugin.getPluginInformation().getVersion(),
-                            37177, plugin.getDataFolder(),
-                            type
-                    );
-
-                    sender.sendColoredMessage("&bUpdater has been applied read info in Console.");
-                } else {
-                    sender.sendColoredMessage("&cUpdater is not enabled in settings.yml");
-                }
-                return;
-            case WHITELIST_MAIN:
-                permission = commandManager.getString(path + "permissions.whitelist", "pixelmotd.command.whitelist");
-
-                if (!sender.hasPermission(permission)) {
-
-                    String message = messages.getString("messages.error.permission", "");
-
-                    sender.sendColoredMessage(message.replace("<permission>", permission));
-                    return;
-                }
-
-                executeList(commandManager, messages, command, sender, ListType.WHITELIST, removeArgument(arguments));
-                return;
-            case BLACKLIST_MAIN:
-                permission = commandManager.getString(path + "permissions.blacklist", "pixelmotd.command.blacklist");
-
-                if (!sender.hasPermission(permission)) {
-
-                    String message = messages.getString("messages.error.permission", "");
-
-                    sender.sendColoredMessage(message.replace("<permission>", permission));
-                    return;
-
-                }
-
-                executeList(commandManager, messages, command, sender, ListType.BLACKLIST, removeArgument(arguments));
-                return;
-            case ADMIN:
-                if (sender.hasPermission("pixelmotd.admin")) {
-
-                    for (String message : commandManager.getStringList("commands.main-command.admin.main")) {
-                        sender.sendColoredMessage(
-                                message.replace("%used command%", command)
-                        );
-                    }
-                }
-                return;
-            case NONE:
-                sender.sendColoredMessage("&eThis command doesn't exist. Use &f/pmotd &eto get all commands");
-                if (sender.hasPermission("pixelmotd.admin")) {
-                    sender.sendColoredMessage("&a(Admin Permission Detected) &6Or use &f/pmotd admin &6to get all admin commands");
-                }
-                break;
+                sender.sendColoredMessage("&bUpdater has been applied read info in Console.");
+            } else {
+                sender.sendColoredMessage("&cUpdater is not enabled in settings.yml");
+            }
+            return;
+        }
+        sender.sendColoredMessage("&eThis command doesn't exist. Use &f/pmotd &eto get all commands");
+        if (sender.hasPermission("pixelmotd.admin")) {
+            sender.sendColoredMessage("&a(Admin Permission Detected) &6Or use &f/pmotd admin &6to get all admin commands");
         }
     }
 
-    public CommandArgument parseArgument(@NotNull String text) {
-        if (text.equalsIgnoreCase("admin")) {
-            return CommandArgument.ADMIN;
-        }
-        for (Map.Entry<Integer, String> entry : argumentsMap.entrySet()) {
-            if (entry.getValue().equalsIgnoreCase(text)) {
-                return CommandArgument.parseArgument(
-                        entry.getKey()
-                );
-            }
-        }
-        return CommandArgument.NONE;
+    private boolean checkArgument(String arg, CommandArgument argument) {
+        return arg.equalsIgnoreCase(
+                argumentsMap.get(argument.id())
+        );
     }
 
     private void executeList(ConfigurationHandler commandManager, ConfigurationHandler messages, String command, Sender sender, ListType type, String[] args) {
