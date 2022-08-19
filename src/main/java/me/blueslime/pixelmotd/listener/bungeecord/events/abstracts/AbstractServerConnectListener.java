@@ -72,7 +72,9 @@ public class AbstractServerConnectListener extends ConnectionListener<Plugin, Se
                                 )
                         )
                 );
-
+                if (getSettings().getStatus("settings.debug-mode")) {
+                    getLogs().debug("Event ServerConnectEvent will be cancelled because the path: whitelist." + path + ".enabled is true");
+                }
                 event.setCancelled(true);
                 return;
             }
@@ -92,7 +94,9 @@ public class AbstractServerConnectListener extends ConnectionListener<Plugin, Se
                                 )
                         )
                 );
-
+                if (getSettings().getStatus("settings.debug-mode")) {
+                    getLogs().debug("Event ServerConnectEvent will be cancelled because the path: blacklist." + path + ".enabled is true");
+                }
                 event.setCancelled(true);
             }
         }

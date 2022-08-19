@@ -69,6 +69,10 @@ public abstract class ConnectionListener<T, E, S> {
         return plugin.getConfigurationHandler(SlimeFile.MODES);
     }
 
+    public ConfigurationHandler getSettings() {
+        return plugin.getConfigurationHandler(SlimeFile.SETTINGS);
+    }
+
     public boolean checkPlayer(ListType listType, String path, String username) {
         return getControl().getStringList(listType.toString() + "." + path + ".players.by-name").contains(username);
     }
