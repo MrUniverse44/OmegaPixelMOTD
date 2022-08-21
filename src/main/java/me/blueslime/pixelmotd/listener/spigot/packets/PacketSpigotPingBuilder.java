@@ -116,7 +116,7 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
                     code
             );
 
-            if (protocol != MotdProtocol.ALWAYS_NEGATIVE) {
+            if (protocol != MotdProtocol.DEFAULT) {
                 ping.setVersionProtocol(protocol.getCode());
             }
 
