@@ -112,9 +112,8 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
         }
 
         if (control.getStatus(path + "protocol.toggle")) {
-            MotdProtocol protocol = MotdProtocol.getFromText(
-                    control.getString(control.getString(path + "protocol.modifier", "ALWAYS_POSITIVE")),
-                    code
+            MotdProtocol protocol = MotdProtocol.fromString(
+                    control.getString(path + "protocol.modifier", "ALWAYS_POSITIVE")
             );
 
             int p1 = ping.getVersion().getProtocol();
@@ -129,8 +128,15 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
                     true
             ).build();
 
-            if (protocol != MotdProtocol.DEFAULT) {
-                p1 = protocol.getCode();
+            switch (protocol) {
+                case DEFAULT:
+                    break;
+                case ALWAYS_NEGATIVE:
+                    p1 = protocol.getCode();
+                    break;
+                case ALWAYS_POSITIVE:
+                    p1 = code;
+                    break;
             }
 
             ping.version(

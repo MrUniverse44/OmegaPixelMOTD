@@ -111,13 +111,19 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
         }
 
         if (control.getStatus(path + "protocol.toggle", true)) {
-            MotdProtocol protocol = MotdProtocol.getFromText(
-                    control.getString(path + "protocol.modifier", "ALWAYS_POSITIVE"),
-                    code
+            MotdProtocol protocol = MotdProtocol.fromString(
+                    control.getString(path + "protocol.modifier", "ALWAYS_POSITIVE")
             );
 
-            if (protocol != MotdProtocol.DEFAULT) {
-                ping.setVersionProtocol(protocol.getCode());
+            switch (protocol) {
+                case DEFAULT:
+                    break;
+                case ALWAYS_NEGATIVE:
+                    ping.setVersionProtocol(protocol.getCode());
+                    break;
+                case ALWAYS_POSITIVE:
+                    ping.setVersionProtocol(code);
+                    break;
             }
 
             ping.setVersionName(

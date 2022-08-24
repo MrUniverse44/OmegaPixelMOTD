@@ -2,44 +2,28 @@ package me.blueslime.pixelmotd;
 
 public enum MotdProtocol {
     ALWAYS_POSITIVE,
-    ALWAYS_NEGATIVE(-1),
+    ALWAYS_NEGATIVE,
     DEFAULT;
 
-    MotdProtocol() {
-        code = 0;
-    }
-
-    MotdProtocol(int code) {
-        this.code = code;
-    }
-
-    private int code;
-
-    public MotdProtocol setCode(int code) {
-        this.code = code;
-        return this;
-    }
-
     public int getCode() {
-        return code;
+        if (this == ALWAYS_NEGATIVE) {
+            return -1;
+        }
+        return 0;
     }
 
-    public static MotdProtocol getFromText(String paramText, int code) {
-
-        if (paramText.equalsIgnoreCase("ALWAYS_NEGATIVE")) {
-            return ALWAYS_NEGATIVE;
-        }
+    public static MotdProtocol fromString(String paramText) {
 
         paramText = paramText.toLowerCase();
-
-        if (paramText.contains("positive")) {
-            return ALWAYS_POSITIVE.setCode(code);
-        }
 
         if (paramText.contains("negative")) {
             return ALWAYS_NEGATIVE;
         }
 
-        return DEFAULT.setCode(code);
+        if (paramText.contains("positive")) {
+            return ALWAYS_POSITIVE;
+        }
+
+        return DEFAULT;
     }
 }
