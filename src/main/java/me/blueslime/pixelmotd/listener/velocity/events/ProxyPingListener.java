@@ -141,10 +141,18 @@ public class ProxyPingListener implements Ping {
             return;
         }
         if (MAX_PROTOCOL < protocol && hasOutdatedServer) {
+            if (protocol >= 735) {
+                pingBuilder.execute(MotdType.OUTDATED_SERVER_HEX, event, protocol, user);
+                return;
+            }
             pingBuilder.execute(MotdType.OUTDATED_SERVER, event, protocol, user);
             return;
         }
         if (MIN_PROTOCOL > protocol && hasOutdatedClient) {
+            if (protocol >= 735) {
+                pingBuilder.execute(MotdType.OUTDATED_CLIENT_HEX, event, protocol, user);
+                return;
+            }
             pingBuilder.execute(MotdType.OUTDATED_CLIENT, event, protocol, user);
         }
     }
