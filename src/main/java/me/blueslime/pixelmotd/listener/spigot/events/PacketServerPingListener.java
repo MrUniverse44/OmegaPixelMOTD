@@ -174,10 +174,18 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
             return;
         }
         if (MAX_PROTOCOL < protocol && hasOutdatedServer) {
+            if (protocol >= 735) {
+                pingBuilder.execute(MotdType.OUTDATED_SERVER_HEX, ping, protocol, user);
+                return;
+            }
             pingBuilder.execute(MotdType.OUTDATED_SERVER, ping, protocol, user);
             return;
         }
         if (MIN_PROTOCOL > protocol && hasOutdatedClient) {
+            if (protocol >= 735) {
+                pingBuilder.execute(MotdType.OUTDATED_CLIENT_HEX, ping, protocol, user);
+                return;
+            }
             pingBuilder.execute(MotdType.OUTDATED_CLIENT, ping, protocol, user);
         }
     }
