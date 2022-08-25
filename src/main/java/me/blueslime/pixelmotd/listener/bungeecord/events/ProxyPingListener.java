@@ -88,6 +88,8 @@ public class ProxyPingListener implements Listener, Ping {
 
         MAX_PROTOCOL = control.getInt("settings.max-server-protocol",756);
         MIN_PROTOCOL = control.getInt("settings.min-server-protocol",47);
+
+        isDebug = control.getStatus("settings.debug-mode", false);
     }
 
     @EventHandler
