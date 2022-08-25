@@ -63,4 +63,8 @@ public enum MotdType {
     public String toString() {
         return path;
     }
+
+    public String original() {
+        return super.toString();
+    }
 }
