@@ -6,6 +6,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
+import dev.mruniverse.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
@@ -43,6 +44,8 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
     private int MIN_PROTOCOL;
 
     private int MAX_PROTOCOL;
+
+    private boolean isDebug;
 
     private String unknown;
 
@@ -139,54 +142,96 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
 
         final int protocol = playerVersionHandler.getProtocol(event.getPlayer());
 
+        SlimeLogs logs = slimePlugin.getLogs();
+
+        if (isDebug) {
+            logs.debug("Loading motd for a specified user, client-protocol: " + protocol);
+        }
+
         if (socketAddress != null) {
             final InetAddress address = socketAddress.getAddress();
 
             user = getPlayerDatabase().getPlayer(address.getHostAddress(), unknown);
+            if (isDebug) {
+                logs.debug("User has been found in the database: " + user + ", client-protocol: " + protocol);
+            }
         } else {
             user = unknown;
+            if (isDebug) {
+                logs.debug("This user is not in cache so it will show unknown player to the current loading motd, client-protocol: " + protocol);
+            }
         }
 
         if (isBlacklisted && modes.getStringList("blacklist.global.players.by-name").contains(user)) {
             if (protocol >= 735) {
                 pingBuilder.execute(MotdType.BLACKLIST_HEX, ping, protocol, user);
+                if (isDebug) {
+                    logs.debug("Showing BLACKLIST_HEX, client-protocol: " + protocol);
+                }
                 return;
             }
             pingBuilder.execute(MotdType.BLACKLIST, ping, protocol, user);
+            if (isDebug) {
+                logs.debug("Showing BLACKLIST, client-protocol: " + protocol);
+            }
             return;
         }
 
         if (isWhitelisted) {
             if (protocol >= 735) {
                 pingBuilder.execute(MotdType.WHITELIST_HEX, ping, protocol, user);
+                if (isDebug) {
+                    logs.debug("Showing WHITELIST_HEX, client-protocol: " + protocol);
+                }
                 return;
             }
             pingBuilder.execute(MotdType.WHITELIST, ping, protocol, user);
+            if (isDebug) {
+                logs.debug("Showing WHITELIST, client-protocol: " + protocol);
+            }
             return;
         }
 
         if (!hasOutdatedClient && !hasOutdatedServer || protocol >= MIN_PROTOCOL && protocol <= MAX_PROTOCOL) {
             if (protocol >= 735) {
                 pingBuilder.execute(MotdType.NORMAL_HEX, ping, protocol, user);
+                if (isDebug) {
+                    logs.debug("Showing NORMAL_HEX, client-protocol: " + protocol);
+                }
                 return;
             }
             pingBuilder.execute(type, ping, protocol, user);
+            if (isDebug) {
+                logs.debug("Showing MOTD Priority from settings.yml:" + type.original() + ", client-protocol: " + protocol);
+            }
             return;
         }
         if (MAX_PROTOCOL < protocol && hasOutdatedServer) {
             if (protocol >= 735) {
                 pingBuilder.execute(MotdType.OUTDATED_SERVER_HEX, ping, protocol, user);
+                if (isDebug) {
+                    logs.debug("Showing OUTDATED_SERVER_HEX, client-protocol: " + protocol);
+                }
                 return;
             }
             pingBuilder.execute(MotdType.OUTDATED_SERVER, ping, protocol, user);
+            if (isDebug) {
+                logs.debug("Showing OUTDATED_SERVER, client-protocol: " + protocol);
+            }
             return;
         }
         if (MIN_PROTOCOL > protocol && hasOutdatedClient) {
             if (protocol >= 735) {
                 pingBuilder.execute(MotdType.OUTDATED_CLIENT_HEX, ping, protocol, user);
+                if (isDebug) {
+                    logs.debug("Showing OUTDATED_CLIENT_HEX, client-protocol: " + protocol);
+                }
                 return;
             }
             pingBuilder.execute(MotdType.OUTDATED_CLIENT, ping, protocol, user);
+            if (isDebug) {
+                logs.debug("Showing OUTDATED_CLIENT, client-protocol: " + protocol);
+            }
         }
     }
 
