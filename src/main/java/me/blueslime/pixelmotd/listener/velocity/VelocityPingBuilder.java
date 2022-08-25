@@ -130,11 +130,20 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
 
             switch (protocol) {
                 case DEFAULT:
+                    if (isDebug()) {
+                        logs.debug("The plugin will not modify the protocol because was detected in DEFAULT Modifier, client-protocol: " + code);
+                    }
                     break;
                 case ALWAYS_NEGATIVE:
+                    if (isDebug()) {
+                        logs.debug("The plugin will modify the protocol because was detected in NEGATIVE Modifier, client-protocol: " + code);
+                    }
                     p1 = protocol.getCode();
                     break;
                 case ALWAYS_POSITIVE:
+                    if (isDebug()) {
+                        logs.debug("The plugin will modify the protocol because was detected in POSITIVE Modifier, client-protocol: " + code);
+                    }
                     p1 = code;
                     break;
             }
