@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd.commands;
 
+import dev.mruniverse.slimelib.source.SlimeSource;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
 import me.blueslime.pixelmotd.utils.ListType;
@@ -8,7 +9,6 @@ import me.blueslime.pixelmotd.utils.Updater;
 import me.blueslime.pixelmotd.utils.WhitelistLocation;
 import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
-import dev.mruniverse.slimelib.commands.sender.Sender;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class PluginCommand<T> implements SlimeCommand {
     }
 
     @Override
-    public void execute(Sender sender, String command, String[] arguments) {
+    public void execute(SlimeSource sender, String command, String[] arguments) {
         ConfigurationHandler commandManager = plugin.getConfigurationHandler(SlimeFile.COMMANDS);
         ConfigurationHandler messages  = plugin.getMessages();
 
@@ -214,7 +214,7 @@ public class PluginCommand<T> implements SlimeCommand {
         );
     }
 
-    private void executeList(ConfigurationHandler commandManager, ConfigurationHandler messages, String command, Sender sender, ListType type, String[] args) {
+    private void executeList(ConfigurationHandler commandManager, ConfigurationHandler messages, String command, SlimeSource<?> sender, ListType type, String[] args) {
         if (args.length == 0) {
             List<String> message = commandManager.getStringList(path + "admin." + type.toString());
 
@@ -429,7 +429,7 @@ public class PluginCommand<T> implements SlimeCommand {
         }
     }
 
-    private void sendList(Sender sender, ConfigurationHandler file, String path) {
+    private void sendList(SlimeSource<?> sender, ConfigurationHandler file, String path) {
         for (String username : file.getStringList(path)) {
             sender.sendColoredMessage("  &8- &7" + username);
         }
@@ -442,7 +442,7 @@ public class PluginCommand<T> implements SlimeCommand {
     }
 
     @Override
-    public List<String> onTabComplete(Sender sender, String commandLabel, String[] args) {
+    public List<String> onTabComplete(SlimeSource sender, String commandLabel, String[] args) {
         List<String> arguments = new ArrayList<>();
 
         if (args.length == 0) {

@@ -6,7 +6,7 @@
 
     <groupId>me.blueslime.pixelmotd</groupId>
     <artifactId>PixelMOTD</artifactId>
-    <version>9.3.4-SNAPSHOT</version>
+    <version>9.3.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>PixelMOTD</name>
@@ -136,7 +136,7 @@
         <dependency>
             <groupId>com.github.MrUniverse44</groupId>
             <artifactId>SlimeLib</artifactId>
-            <version>1.0.6</version>
+            <version>1.0.7</version>
         </dependency>
 
         <dependency>
