@@ -1,7 +1,7 @@
 # PixelMOTD 4
 ---
 
-<img align="center" alt="Features Image" src="https://cdn.discordapp.com/attachments/987409771302883341/987454796376207360/FeatureList.png">
+<img align="center" alt="Features Image" src="https://i.imgur.com/zcciRXO.png">
 
 
 
@@ -14,7 +14,6 @@
 * Per Server & World Whitelist
 * UUID System & Player Name System for Whitelist
 * Different Motd for 1.16+ and 1.8-1.15 in the same motd-config.
-* Center Text System
 * Countdown System
 * Customizable Motd Lines
 * Customizable Protocol Version
@@ -31,15 +30,16 @@
 ---
 
 
-<img align="center" alt="Features Image" src="https://cdn.discordapp.com/attachments/987409771302883341/987454795906433054/DownloadLink.png">
+<img align="center" alt="Information Image" src="https://i.imgur.com/U1xMUbd.png">
 
-- You can download the plugin releases from our [Spigot MC](https://www.spigotmc.org/resources/%E2%9E%A5-pixel-motd-1-8-1-19.37177) page!
-> - Bleeding edge releases are available through the [GitHub Actions page](https://github.com/MrUniverse44/XPixelMotd4/actions)  |  *This build can be unstable! Please report any issue!*
+- You can download the plugin releases from our [Spigot MC](https://www.spigotmc.org/resources/%E2%9E%A5-pixel-motd-1-8-1-19.37177) page or [MC-Market](https://builtbybit.com/resources/pixel-motd-free-version.22313/) page!
+> - Bleeding edge releases are available through the [GitHub Actions page](https://github.com/ShieldCommunity/PixelMOTD/actions) or [CodeMC page](https://ci.codemc.io/job/MrUniverse44/job/XPixelMotd4/)  |  *This build can be unstable! Please report any issue!*
 
 ---
 
-<img align="center" src="https://i.imgur.com/GIDYa8z.png">
+<img align="center" alt="Wiki" src="https://i.imgur.com/fXa8FKe.png">
 
+Files in the motd:
 > - events.yml
 > - commands.yml
 > - modes.yml
@@ -50,16 +50,28 @@
 > - modes/outdated-client.yml
 > - modes/outdated-server.yml
 > - modes/whitelist.yml
-> - translations/messages_en.yml
-> - translations/messages_es.yml
-> - translations/messages_jp.yml
-> - translations/messages_de.yml
-> - translations/messages_pl.yml
+> - lang/en.yml
+> - lang/es.yml
+> - lang/jp.yml
+> - lang/de.yml
+> - lang/pl.yml
+> - lang/cz.yml
+> - lang/zh-CN.yml
+> - lang/zh-TW.yml
+> - lang/it.yml
+---
+
+You can find gradient information or motd configuration in our wiki ;)
 
 ---
+
+bStats from old versions (9.2.0-):
+<img align="center" alt="statics" src="https://bstats.org/signatures/bungeecord/PixelMOTD.svg">
+bStats from newest versions (9.3.0+):
+<img align="center" alt="statics" src="https://bstats.org/signatures/bungeecord/PixelMOTD%20Bungeecord.svg">
+<img align="center" alt="statics" src="https://bstats.org/signatures/bukkit/PixelMOTD%20Spigot.svg">
+<img align="center" alt="statics" src="https://bstats.org/signatures/velocity/PixelMOTD%20Velocity.svg">
 
 Presented by:
 
 <img align="left" alt="PixelMOTD Image" src="https://i.imgur.com/jUBJjHy.png" />
-
-*//TODO : Improve README.md*

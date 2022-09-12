@@ -50,7 +50,7 @@ public class Updater {
     private static final String PAGE = "?page=";
     private static final String API_RESOURCE = "https://api.spiget.org/v2/resources/";
 
-    private static final String GITHUB_DOWNLOAD_LINK = "https://github.com/MrUniverse44/XPixelMotd4/releases/download/";
+    private static final String GITHUB_DOWNLOAD_LINK = "https://github.com/ShieldCommunity/PixelMOTD/releases/download/";
 
     private static final String GITHUB_API_RESOURCE = "https://api.github.com/repos/MrUniverse44/XPixelMotd4/releases/latest";
 

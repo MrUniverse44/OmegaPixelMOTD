@@ -3,6 +3,6 @@ version: '${project.version}'
 main: me.blueslime.pixelmotd.initialization.spigot.SpigotMOTD
 description: Motd plugin for multiplatform
 author: JustJustin
-website: "https://github.com/MrUniverse44/XPixelMotd4"
+website: "https://github.com/ShieldCommunity/PixelMOTD"
 softdepend:
   - ProtocolLib
