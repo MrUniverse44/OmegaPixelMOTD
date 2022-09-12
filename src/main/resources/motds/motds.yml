@@ -1,8 +1,8 @@
 #
-# █████████████████████████████████████████████████████████████████████
-# █▄─▄▄─█▄─▄█▄─▀─▄█▄─▄▄─█▄─▄███▄─▀█▀─▄█─▄▄─█─▄─▄─█▄─▄▄▀███ ▄▄ ████ █ ██
-# ██─▄▄▄██─███▀─▀███─▄█▀██─██▀██─█▄█─██─██─███─████─██─███▄▄▄ █  █▄▄ ██
-# █▄▄▄███▄▄▄█▄▄█▄▄█▄▄▄▄▄█▄▄▄▄▄█▄▄▄█▄▄▄█▄▄▄▄██▄▄▄██▄▄▄▄████▄▄▄▄██████▄██
+# █████████████████████████████████████████████████████████████████████████
+# █▄─▄▄─█▄─▄█▄─▀─▄█▄─▄▄─█▄─▄███▄─▀█▀─▄█─▄▄─█─▄─▄─█▄─▄▄▀███▀ ██─▄▄─████─▄▄─█
+# ██─▄▄▄██─███▀─▀███─▄█▀██─██▀██─█▄█─██─██─███─████─██─████ ██─██─█  █─██─█
+# █▄▄▄███▄▄▄█▄▄█▄▄█▄▄▄▄▄█▄▄▄▄▄█▄▄▄█▄▄▄█▄▄▄▄██▄▄▄██▄▄▄▄████▄▄▄█▄▄▄▄█▄▄█▄▄▄▄█
 #
 # Using version: 9.4.0-SNAPSHOT by JustJustin
 #
@@ -16,14 +16,25 @@
 # * If you want to add Placeholders to your motd lines, Click here: (tutorial link for hex here in the future)
 
 # Configurable Motd Types:
-# * Normal (Default)
-# * Whitelist
-# * Blacklist
-# * OutdatedClient
-# * OutdatedServer
-# * BannedUser
-# * TempBannedUser
-type: Normal
+# * 0 = Normal (Default)
+# * 1 = Whitelist
+# * 2 = Blacklist
+# * 3 = OutdatedClient
+# * 4 = OutdatedServer
+# * 5 = BannedUser
+# * 6 = TempBannedUser
+# * 7 = DomainMotd
+type: 0
+
+# This path will be only if you are in type = 7, for the Domain Motd.
+# This path will be the domain to check if the player is using a specified domain
+domain-setup:
+  # This option has two types: 0 = IS, 1 = IS_NOT
+  # 0 - IS = If the player is calling the server motd using a specified domain.
+  # 1 - IS_NOT = If the player is not calling the server motd using a specified domain.
+  type: 1
+  # Domains to check this setup, add more using ',' as a separator. Please don't use spaces.
+  value: "mc.spigot.org,play.spigot.org"
 
 # If you enable this option, this motd will only appear for users with
 # 1.16+ and If you are in Spigot or Paper your server version need to be 1.16+
