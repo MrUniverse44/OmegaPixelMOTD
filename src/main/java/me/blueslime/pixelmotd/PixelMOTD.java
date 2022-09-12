@@ -148,8 +148,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         FileUtilities.load(
                 logs,
                 lang,
-                "messages_" + file + ".yml",
-                "/lang/messages_" +  file  +  ".yml"
+                file + ".yml",
+                "/lang/" +  file  +  ".yml"
         );
     }
 

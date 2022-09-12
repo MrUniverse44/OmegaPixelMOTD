@@ -1,10 +1,10 @@
 package me.blueslime.pixelmotd;
 
-import me.blueslime.pixelmotd.listener.Ping;
-import me.blueslime.pixelmotd.listener.bungeecord.BungeeListenerManager;
-import me.blueslime.pixelmotd.listener.spigot.SpigotListenerManager;
-import me.blueslime.pixelmotd.listener.sponge.SpongeListenerManager;
-import me.blueslime.pixelmotd.listener.velocity.VelocityListenerManager;
+import me.blueslime.pixelmotd.motd.listener.Ping;
+import me.blueslime.pixelmotd.motd.listener.manager.bungeecord.BungeeListenerManager;
+import me.blueslime.pixelmotd.motd.listener.manager.spigot.SpigotListenerManager;
+import me.blueslime.pixelmotd.motd.listener.manager.sponge.SpongeListenerManager;
+import me.blueslime.pixelmotd.motd.listener.manager.velocity.VelocityListenerManager;
 import dev.mruniverse.slimelib.SlimePlatform;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 

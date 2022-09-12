@@ -1,70 +1,53 @@
 package me.blueslime.pixelmotd;
 
 public enum MotdType {
+    INVALID(-1),
 
-    NORMAL(SlimeFile.SERVER_MOTDS, "motds", false),
-    NORMAL_HEX(SlimeFile.SERVER_MOTDS, "motds-hex", true),
-    WHITELIST(SlimeFile.WHITELIST, "whitelist", false),
-    WHITELIST_HEX(SlimeFile.WHITELIST, "whitelist-hex", true),
-    BLACKLIST(SlimeFile.BLACKLIST, "blacklist", false),
-    BLACKLIST_HEX(SlimeFile.BLACKLIST, "blacklist-hex", true),
-    OUTDATED_SERVER(SlimeFile.OUTDATED_SERVER, "outdated-server", false),
-    OUTDATED_SERVER_HEX(SlimeFile.OUTDATED_SERVER, "outdated-server-hex", true),
-    OUTDATED_CLIENT(SlimeFile.OUTDATED_CLIENT, "outdated-client", false),
-    OUTDATED_CLIENT_HEX(SlimeFile.OUTDATED_CLIENT, "outdated-client-hex", true);
+    NORMAL(0),
+    WHITELIST(1),
+    BLACKLIST(2),
+    OUTDATED_CLIENT(3),
+    OUTDATED_SERVER(4),
+    MOTD_BANNED_USER(5),
+    TEMP_BANNED_USER(6);
 
-    private final String path;
+    private final int id;
 
-    private final SlimeFile file;
+    private boolean hex;
 
-    private final boolean hexMode;
-
-    MotdType(SlimeFile file, String path, boolean hexMode) {
-        this.path = path;
-        this.file = file;
-        this.hexMode = hexMode;
+    MotdType(int id) {
+        this.hex = false;
+        this.id  = id;
     }
 
-    public static MotdType fromText(String text) {
-        switch (text.toLowerCase()) {
-            case "outdated-client-hex":
-                return OUTDATED_CLIENT_HEX;
-            case "outdated-client":
-                return OUTDATED_CLIENT;
-            case "outdated-server-hex":
-                return OUTDATED_SERVER_HEX;
-            case "outdated-server":
-                return OUTDATED_SERVER;
-            case "blacklist-hex":
-                return BLACKLIST_HEX;
-            case "blacklist":
-                return BLACKLIST;
-            case "whitelist-hex":
-                return WHITELIST_HEX;
-            case "whitelist":
-                return WHITELIST;
-            case "motds-hex":
-                return NORMAL_HEX;
-            default:
-            case "motds":
-                return NORMAL;
-        }
-    }
-
-    public SlimeFile getFile() {
-        return file;
+    public int getId() {
+        return this.id;
     }
 
     public boolean isHexMotd() {
-        return hexMode;
+        return hex;
+    }
+
+    public MotdType switchToHex() {
+        this.hex = !hex;
+        return this;
     }
 
     @Override
     public String toString() {
-        return path;
+        return super.toString().toLowerCase();
     }
 
     public String original() {
         return super.toString();
+    }
+
+    public static MotdType parseMotd(int id) {
+        for (MotdType type : MotdType.values()) {
+            if (id == type.getId()) {
+                return type;
+            }
+        }
+        return INVALID;
     }
 }

@@ -9,7 +9,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
-import me.blueslime.pixelmotd.listener.velocity.VelocityListenerManager;
+import me.blueslime.pixelmotd.motd.listener.manager.velocity.VelocityListenerManager;
 import me.blueslime.pixelmotd.metrics.velocity.Metrics;
 import me.blueslime.pixelmotd.status.StatusChecker;
 import me.blueslime.pixelmotd.status.VelocityServerStatusChecker;
@@ -24,7 +24,7 @@ import java.nio.file.Path;
 @Plugin(
         id = "pixelmotd",
         name = "PixelMOTD",
-        version = "9.3.5-SNAPSHOT",
+        version = "10.0.0-SNAPSHOT",
         description = "Simple Motd Plugin",
         url = "https://github.com/MrUniverse44/XPixelMotds4",
         authors = { "JustJustin" }
