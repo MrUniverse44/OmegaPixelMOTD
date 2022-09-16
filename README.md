@@ -59,6 +59,7 @@ Files in the motd:
 > - lang/zh-CN.yml
 > - lang/zh-TW.yml
 > - lang/it.yml
+> - lang/id.yml
 ---
 
 You can find gradient information or motd configuration in our wiki ;)
