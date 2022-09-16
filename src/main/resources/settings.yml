@@ -84,6 +84,7 @@ settings:
   # messages_cz.yml    | code: cz   | language: cz
   # messages_zh-CN.yml | code zh-CN | language: zn-CH
   # messages_zh-CN.yml | code zh-TW | language: zn-TW
+  # messages_id.yml    | code id    | language: id
   language: "en"
 
   # This option is only for bungee-cord!
