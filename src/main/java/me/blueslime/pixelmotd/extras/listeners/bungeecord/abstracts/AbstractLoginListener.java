@@ -34,19 +34,14 @@ public class AbstractLoginListener extends ConnectionListener<Plugin, LoginEvent
 
         final PendingConnection connection = event.getConnection();
 
-        if (connection == null) {
-            return;
-        }
+        if (connection == null || connection.getUniqueId() == null) {
 
-        if (connection.getUniqueId() == null) {
-
-            getLogs().info("The plugin will not apply the whitelist or blacklist check for a null-ip and will block player from joining to the server");
+            getLogs().info("PixelMOTD will not frame the connection, because the connection is null or the UUID is null.");
             event.setCancelled(true);
             event.setCancelReason(
-                    colorize("&cBlocking you from joining to the server, reason: &6Null IP&c, if this is a error, contact to the server staff")
+                    colorize("&cBlocking you from joining to the server, reason: &6Unframed connection&c, if this is a error, contact to the server staff")
             );
             return;
-
         }
 
         final SocketAddress address = connection.getSocketAddress();
