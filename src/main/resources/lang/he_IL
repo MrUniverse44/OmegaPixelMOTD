@@ -1,0 +1,37 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 10.0.0-SNAPSHOT
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#   MC-Market Link: https://www.mc-market.org/resources/22313/
+#   GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
+#
+messages:
+  reload: '&aהפלאגין עשה הפעלה מחדש ב <ms>ms.'
+
+  error:
+    permission: '&cחסר לך את הגישה <permission> בשביל להשתמש בפקודה הזאת.'
+    already-whitelisted: '&a<type> &e<player> &aנמצא כבר ברשימת המורשים!'
+    already-blacklisted: '&a<type> &e<player> &aכבר ברשימה השחורה!'
+    not-whitelisted: '&a<type> &e<player> &aלא ברשימת המורשים!'
+    not-blacklisted: '&a<type> &e<player> &aלא ברשימה השחורה!'
+    invalid-arguments: '&aהפקודה הזאת זקוקה לנתונים נוספים.'
+
+  whitelist:
+    enabled: '&aרשימת מורשים עכשיו is &b&lמופעלת&a.'
+    disabled: '&aרשימת מורשים עכשיו &c&lכבויה&a.'
+    player:
+      add: '&a<type> &e<player> &aהשחקן&b נוסף &aלרשימת המורשים.'
+      remove: '&a<type> &e<player> &aהשחקן&b נמחק&a מרשימת המורשים.'
+
+  blacklist:
+    enabled: '&aהרשימה השחורה &b&lהופעלה&a.'
+    disabled: '&aהרשימה השחורה &c&lכבויה&a.'
+    player:
+      add: '&a<type> &e<player> &aהשחקן&b נוסף &aלרשימה השחורה.'
+      remove: '&a<type> &e<player> &aהשחקן&b הוסר&a מהרשימה השחורה.'
