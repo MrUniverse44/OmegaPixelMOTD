@@ -2,7 +2,7 @@ package me.blueslime.pixelmotd;
 
 import me.blueslime.pixelmotd.commands.PluginCommand;
 import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
-import me.blueslime.pixelmotd.metrics.MetricsHandler;
+import me.blueslime.pixelmotd.external.MetricsHandler;
 import me.blueslime.pixelmotd.players.PlayerHandler;
 import me.blueslime.pixelmotd.servers.ServerHandler;
 import me.blueslime.pixelmotd.utils.FileUtilities;

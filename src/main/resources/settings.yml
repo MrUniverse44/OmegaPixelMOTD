@@ -13,7 +13,15 @@
 #
 settings:
 
-  # MOTD SETTINGS
+  # Config your max-server-protocol and min-server-protocol for the check of the outdated-client and outdated-server.
+  # You can see protocols here: https://minecraft.fandom.com/wiki/Protocol_version
+  # Default protocol versions are 1.8 to 1.19
+
+  # Default max protocol: 760 = 1.19.1
+  max-server-protocol: 760
+
+  # Default min protocol 47 = 1.8.X
+  min-server-protocol: 47
 
   # This motd will appear when:
   #   - You don't have installed ProtocolLib
@@ -21,16 +29,8 @@ settings:
   # values: DEFAULT, HEX
   default-priority-motd: "DEFAULT"
 
-  # CONFIGURATION SETTINGS
-
   # Configuration version to prevent issues
   config-version: 5
-  # Enable Check update when the plugin is loading
-  update-check: true
-  # Download automatically Updates
-  auto-download-updates: true
-  # Toggle update-check for Alpha and Beta Versions
-  check-alpha-updates: false
 
   #Show extra information, this is disabled by default, This option will spam extra information
   #when a motd is being loaded.
@@ -97,24 +97,3 @@ settings:
       online: 10
       offline: 10
       timeout: 500
-
-  # MOTD CONFIGURATION
-
-  # Toggle the 1.16+ motd, this motd includes gradient or hex colors.
-  different-motd-for-116-or-higher: true
-  # Toggle outdated-client motd system
-  outdated-client-motd: false
-  # Toggle outdated-server motd system
-  outdated-server-motd: false
-  # Toggle this option
-  icon-system: true
-
-  # Config your max-server-protocol and min-server-protocol for the check of the outdated-client and outdated-server.
-  # You can see protocols here: https://minecraft.fandom.com/wiki/Protocol_version
-  # Default protocol versions are 1.8 to 1.19
-
-  # Default max protocol: 760 = 1.19.1
-  max-server-protocol: 760
-
-  # Default min protocol 47 = 1.8.X
-  min-server-protocol: 47

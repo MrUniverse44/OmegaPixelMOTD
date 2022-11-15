@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.motd.builder;
 
-import me.blueslime.pixelmotd.MotdType;
+import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.SlimeFile;

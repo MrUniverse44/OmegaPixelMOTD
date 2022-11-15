@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.motd.builder.icons.bungeecord;
 
-import me.blueslime.pixelmotd.MotdType;
+import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.motd.builder.icons.Icon;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import net.md_5.bungee.api.Favicon;

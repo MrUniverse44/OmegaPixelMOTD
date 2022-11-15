@@ -3,7 +3,6 @@ package me.blueslime.pixelmotd.commands;
 import dev.mruniverse.slimelib.source.SlimeSource;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
-import me.blueslime.pixelmotd.utils.ListType;
 import me.blueslime.pixelmotd.utils.PlayerUtil;
 import me.blueslime.pixelmotd.utils.Updater;
 import me.blueslime.pixelmotd.utils.WhitelistLocation;

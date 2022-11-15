@@ -2,7 +2,6 @@ package me.blueslime.pixelmotd.extras.listeners.bungeecord.abstracts;
 
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.extras.listeners.ConnectionListener;
-import me.blueslime.pixelmotd.utils.ListType;
 import me.blueslime.pixelmotd.utils.ListUtil;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import net.md_5.bungee.api.ChatColor;

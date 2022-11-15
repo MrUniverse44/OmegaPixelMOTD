@@ -5,16 +5,15 @@ import dev.mruniverse.slimelib.SlimePlatform;
 
 @SuppressWarnings("unused")
 public enum SlimeFile implements SlimeFiles {
-    SETTINGS("settings.yml"),
-    SERVER_MOTDS("server-motds.yml", "motds"),
-    JOIN_MOTDS("join-motds.yml", "motds"),
-    EVENTS("events.yml"),
-    MODES("modes.yml"),
+    WHITELIST_LIST("storage.yml", "whitelist"),
+    BLACKLIST_LIST("storage.yml", "blacklist"),
+    WHITELIST("settings.yml", "whitelist", "settings-whitelist.yml"),
+    BLACKLIST("settings.yml", "blacklist", "settings-blacklist.yml"),
     COMMANDS("commands.yml"),
-    WHITELIST("whitelist.yml", "modes"),
-    BLACKLIST("blacklist.yml", "modes"),
-    OUTDATED_SERVER("outdated-server.yml", "modes"),
-    OUTDATED_CLIENT("outdated-client.yml", "modes");
+    SETTINGS("settings.yml"),
+    EVENTS("events.yml");
+
+
 
     private final boolean differentFolder;
 

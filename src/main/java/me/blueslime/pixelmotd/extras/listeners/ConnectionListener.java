@@ -4,11 +4,12 @@ import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
 import me.blueslime.pixelmotd.players.PlayerDatabase;
 import me.blueslime.pixelmotd.utils.Extras;
-import me.blueslime.pixelmotd.utils.ListType;
+import me.blueslime.pixelmotd.extras.ListType;
 import me.blueslime.pixelmotd.utils.WhitelistLocation;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
+import java.util.List;
 import java.util.UUID;
 
 public abstract class ConnectionListener<T, E, S> {
@@ -28,8 +29,8 @@ public abstract class ConnectionListener<T, E, S> {
     }
 
     private void load() {
-        isWhitelisted = plugin.getConfigurationHandler(SlimeFile.MODES).getStatus("whitelist.global.enabled", false);
-        isBlacklisted = plugin.getConfigurationHandler(SlimeFile.MODES).getStatus("blacklist.global.enabled", false);
+        isWhitelisted = plugin.getConfigurationHandler(SlimeFile.WHITELIST).getStatus("enabled", false);
+        isBlacklisted = plugin.getConfigurationHandler(SlimeFile.BLACKLIST).getStatus("enabled", false);
     }
 
     public void update() {
@@ -44,16 +45,12 @@ public abstract class ConnectionListener<T, E, S> {
 
     public abstract S colorize(String message);
 
-    public String replace(String message, String key, String username, String uniqueId) {
-        ConfigurationHandler settings = getControl();
-
+    public String replace(String message, String username, String uniqueId) {
         return getExtras().replace(
                 message.replace("%username%", username)
                         .replace("%nick%", username)
                         .replace("%uniqueId%", uniqueId)
-                        .replace("%uuid%", uniqueId)
-                        .replace("%reason%", settings.getString(key + ".reason", ""))
-                        .replace("%author%", settings.getString(key + ".author", "")),
+                        .replace("%uuid%", uniqueId),
                 plugin.getPlayerHandler().getPlayersSize(),
                 plugin.getPlayerHandler().getMaxPlayers(),
                 username
@@ -68,8 +65,30 @@ public abstract class ConnectionListener<T, E, S> {
         return isBlacklisted;
     }
 
-    public ConfigurationHandler getControl() {
-        return plugin.getConfigurationHandler(SlimeFile.MODES);
+    public ConfigurationHandler getWhitelist() {
+        return plugin.getConfigurationHandler(SlimeFile.WHITELIST);
+    }
+
+    public ConfigurationHandler getBlacklist() {
+        return plugin.getConfigurationHandler(SlimeFile.BLACKLIST);
+    }
+
+    public ConfigurationHandler getSpecifiedList(ListType listType) {
+        switch (listType) {
+            case BLACKLIST:
+                return plugin.getConfigurationHandler(SlimeFile.BLACKLIST_LIST);
+            default:
+            case WHITELIST:
+                return plugin.getConfigurationHandler(SlimeFile.WHITELIST_LIST);
+        }
+    }
+
+    public List<String> getPlayers(ListType listType) {
+        return getSpecifiedList(listType).getStringList("names");
+    }
+
+    public List<String> getUniqueIds(ListType listType) {
+        return getSpecifiedList(listType).getStringList("unique-ids");
     }
 
     public ConfigurationHandler getSettings() {
@@ -77,11 +96,17 @@ public abstract class ConnectionListener<T, E, S> {
     }
 
     public boolean checkPlayer(ListType listType, String path, String username) {
-        return getControl().getStringList(listType.toString() + "." + path + ".players.by-name").contains(username);
+        if (path.isEmpty()) {
+            return getPlayers(listType).contains(username);
+        }
+        return getSpecifiedList(listType).getStringList(path + ".names").contains(username);
     }
 
     public boolean checkUUID(ListType listType, String path, UUID uniqueId) {
-        return getControl().getStringList(listType.toString() + "." + path + ".players.by-uuid").contains(uniqueId.toString());
+        if (path.isEmpty()) {
+            return getUniqueIds(listType).contains(uniqueId.toString());
+        }
+        return getSpecifiedList(listType).getStringList(path + ".unique-ids").contains(uniqueId.toString());
     }
 
     public Extras getExtras() {
@@ -95,5 +120,4 @@ public abstract class ConnectionListener<T, E, S> {
     public PlayerDatabase getPlayerDatabase() {
         return plugin.getListenerManager().getPing().getPlayerDatabase();
     }
-
 }

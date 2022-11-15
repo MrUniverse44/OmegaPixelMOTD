@@ -1,4 +1,4 @@
 name: PixelMOTD
 version: '${project.version}'
 main: me.blueslime.pixelmotd.initialization.bungeecord.BungeeMOTD
-description: Motd plugin for multiplatform
+description: fully configurable motd plugin for multiplatform

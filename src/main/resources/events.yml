@@ -1,31 +1,29 @@
-#   _____ _          _ __  __  ____ _______ _____
-#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
-#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
-#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
-#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
-#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
-#
-#   Using version 10.0.0-SNAPSHOT
-#   Author: JustJustin (MrUniverse44)
-#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
 #   MC-Market Link: https://www.mc-market.org/resources/22313/
 #   GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
 #
-#   Toggle Events,if this option is disabled, events will not load and variables will not work. Recommended: false, if you have +1000 users.
-#   Only enable this option when you have an event running.
+#  Toggle Events,if this option is disabled, events will not load and variables will not work.
+#  Recommended: false, if you have +1000 users.
+#
+#  Only enable this option when you have an event running.
 events-toggle: false
+
 # Default: 12/21/21 23:59:00
-# If you change this pattern you need to change the pattern of your eventDate
+# If you change this pattern you need to change the pattern of your event date
 pattern: "MM/dd/yy HH:mm:ss"
+
 #   Customize your own events
 events:
   # This is the default event, to add more events only copy and paste it
   # (obviously replacing the name 'exampleEvent' with another name)
+  # This plugin have 3 format types:
+  # * 0 = "X hours X minutes X seconds"
+  # * 1 = "XX:XX:XX"
+  # * 2 = "Xh,Xm,Xs"
   exampleEvent:
     name: Example Event
     date: 12/21/21 23:59:00
     time-zone: ECT
-    format-type: FIRST
+    format-type: 1
     end-message: '&cThe event finished.'
 # Time Option
 timer:

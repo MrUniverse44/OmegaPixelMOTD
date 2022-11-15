@@ -2,7 +2,7 @@ package me.blueslime.pixelmotd.motd.builder;
 
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.util.Favicon;
-import me.blueslime.pixelmotd.MotdType;
+import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.motd.builder.icons.Icon;
 import dev.mruniverse.slimelib.logs.SlimeLogs;

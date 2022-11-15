@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.motd.builder.icons;
 
-import me.blueslime.pixelmotd.MotdType;
+import me.blueslime.pixelmotd.motd.MotdType;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
 import java.io.File;
