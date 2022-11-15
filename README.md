@@ -1,4 +1,6 @@
-# PixelMOTD 4
+<div align="center">
+<h1 style="font-size:40px"> PixelMOTD 4 </h1>
+</div>
 ---
 
 <img align="center" alt="Features Image" src="https://i.imgur.com/zcciRXO.png">
