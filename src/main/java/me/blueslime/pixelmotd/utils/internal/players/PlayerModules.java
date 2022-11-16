@@ -12,31 +12,33 @@ public class PlayerModules {
     public static PlayerModule SPLIT_MODULE = SplitModule.INSTANCE;
     public static PlayerModule ADD_MODULE = AdderModule.INSTANCE;
 
-    public static int execute(int type, Object... objects) {
+    public static int execute(int type, int online, String values) {
         switch (type) {
             default:
             case -1:
             case 0:
-                return (int) objects[0];
+                return online;
             case 1:
-                return DEFAULT_MODULE.execute(objects);
+                return DEFAULT_MODULE.execute(online, values);
             case 2:
-                return ADD_MODULE.execute(objects);
+                return ADD_MODULE.execute(online, values);
             case 3:
-                return REMOVE_MODULE.execute(objects);
+                return REMOVE_MODULE.execute(online, values);
             case 4:
-                return MULTIPLIER_MODULE.execute(objects);
+                return MULTIPLIER_MODULE.execute(online, values);
             case 5:
-                return SPLIT_MODULE.execute(objects);
+                return SPLIT_MODULE.execute(online, values);
             case 6:
-                return MIDDLE_MODULE.execute(objects);
+                return MIDDLE_MODULE.execute(online, values);
             case 7:
-                return ((int) objects[0]) + MIDDLE_MODULE.execute(objects);
+                return online + MIDDLE_MODULE.execute(online, values);
             case 8:
-                int minimum = ((int) objects[0]) - MIDDLE_MODULE.execute(objects);
+                int minimum = online - MIDDLE_MODULE.execute(online, values);
+
                 if (minimum < 1) {
                     minimum = 0;
                 }
+
                 return minimum;
         }
     }

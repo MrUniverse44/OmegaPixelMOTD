@@ -7,7 +7,7 @@ public class MiddleModule extends PlayerModule {
     public static final MiddleModule INSTANCE = new MiddleModule();
 
     @Override
-    public int execute(Object... objects) {
-        return 0;
+    public int execute(int online, String values) {
+        return online / 2;
     }
 }

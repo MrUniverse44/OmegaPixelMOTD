@@ -7,7 +7,11 @@ public class RemoverModule extends PlayerModule {
     public static final RemoverModule INSTANCE = new RemoverModule();
 
     @Override
-    public int execute(Object... objects) {
-        return 0;
+    public int execute(int online, String values) {
+        if (values.contains(";")) {
+            return online - generateRandomParameter(values);
+        }
+
+        return online - Integer.parseInt(values);
     }
 }

@@ -12,6 +12,7 @@ import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import me.blueslime.pixelmotd.utils.OnlineList;
 import me.blueslime.pixelmotd.utils.internal.events.EventFormatEnum;
+import me.blueslime.pixelmotd.utils.internal.storage.PluginStorage;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,28 +22,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PluginPlaceholders {
+
+    private final PluginStorage<String, List<String>> serversMap = PluginStorage.initAsConcurrentHash();
+    private final PluginStorage<String, OnlineList> onlineMap = PluginStorage.initAsConcurrentHash();
+    private final static Pattern PLAYER_PATTERN = Pattern.compile("%player_(\\d)+%");
     private final boolean IS_VELOCITY_PLATFORM;
-
     private final boolean IS_BUNGEE_PLATFORM;
-
-    private final Map<String, List<String>> serversMap = new HashMap<>();
-
-    private final Map<String, OnlineList> onlineMap = new HashMap<>();
-
-    private final Pattern pattern = Pattern.compile("%player_(\\d)+%");
-
     private final PixelMOTD<?> plugin;
-
     private String prefix;
-
     private final int max;
 
     public PluginPlaceholders(PixelMOTD<?> plugin) {
+        this.IS_VELOCITY_PLATFORM = plugin.getServerHandler() instanceof VelocityServerHandler;
+        this.IS_BUNGEE_PLATFORM = plugin.getServerHandler() instanceof BungeeServerHandler;
         this.plugin = plugin;
         this.max    = plugin.getPlayerHandler().getMaxPlayers();
 
-        this.IS_BUNGEE_PLATFORM = plugin.getServerHandler() instanceof BungeeServerHandler;
-        this.IS_VELOCITY_PLATFORM = plugin.getServerHandler() instanceof VelocityServerHandler;
 
         load();
     }
@@ -72,8 +67,8 @@ public class PluginPlaceholders {
 
                     List<String> values = settings.getStringList(path + "." + key + ".values");
 
-                    serversMap.put(key, values);
-                    onlineMap.put(key, mode);
+                    serversMap.replace(key, values);
+                    onlineMap.replace(key, mode);
                 }
             }
         }
@@ -98,8 +93,9 @@ public class PluginPlaceholders {
 
                 List<Server> serverList = plugin.getServerHandler().getServers();
 
-                for (String key : onlineMap.keySet()) {
+                for (String key : onlineMap.getKeys()) {
                     int online = 0;
+
                     switch (onlineMap.get(key)) {
                         case NAME:
                             online = getOnlineByNames(serverList, serversMap.get(key));
@@ -107,10 +103,12 @@ public class PluginPlaceholders {
                         case CONTAINS:
                             online = getOnlineByContains(serverList, serversMap.get(key));
                     }
+
                     message = message.replace("%" + prefix + "_" + key + "%", "" + online);
                 }
             }
         }
+
         if (message.contains("%online_") || message.contains("%status_")) {
 
             StatusChecker checker = null;
@@ -165,11 +163,34 @@ public class PluginPlaceholders {
                         timeLeft = events.getString(TextDecoration.LEGACY, path + "end-message", "&cThe event finished.");
                     }
 
-                    message = message.replace("%event_" + event + "_name%", events.getString(path + "name", "Example Event 001"))
-                            .replace("%event_" + event + "_TimeZone%", events.getString(path + "time-zone", "12/21/24 23:59:00"))
-                            .replace("%event_" + event + "_zone%", events.getString(path + "time-zone", "12/21/24 23:59:00"))
-                            .replace("%event_" + event + "_TimeLeft%", timeLeft)
-                            .replace("%event_" + event + "_left%", timeLeft);
+                    String simplifiedPrefix = "%event_" + event + "_";
+
+                    String zone = events.getString(path + "time-zone", "12/21/24 23:59:00");
+                    String name = events.getString(path + "name", "Example Event 001");
+
+                    message = message.replace(
+                            simplifiedPrefix + "name%", name
+                    ).replace(
+                            simplifiedPrefix + "Name%", name
+                    ).replace(
+                            simplifiedPrefix + "TimeZone%", zone
+                    ).replace(
+                            simplifiedPrefix + "timeZone%" , zone
+                    ).replace(
+                            simplifiedPrefix + "Timezone", zone
+                    ).replace(
+                            simplifiedPrefix + "timezone%", zone
+                    ).replace(
+                            simplifiedPrefix + "TimeLeft%", timeLeft
+                    ).replace(
+                            simplifiedPrefix + "timeLeft%", timeLeft
+                    ).replace(
+                            simplifiedPrefix + "timeleft%", timeLeft
+                    ).replace(
+                            simplifiedPrefix + "Timeleft%", timeLeft
+                    ).replace(
+                            simplifiedPrefix + "left%", timeLeft
+                    );
                 }
             }
             return message;
@@ -177,6 +198,7 @@ public class PluginPlaceholders {
         return message;
     }
 
+    //BIG MENTAL SKILL ISSUE
     private String replaceEvent(EventFormatEnum format, ConfigurationHandler events, long time) {
 
         String separator = events.getString("timer.separator", ",");
@@ -357,7 +379,7 @@ public class PluginPlaceholders {
     }
 
     private String replaceSpecifiedPlayer(String message) {
-        Matcher matcher = pattern.matcher(message);
+        Matcher matcher = PLAYER_PATTERN.matcher(message);
 
         if (plugin.getPlayerHandler().getPlayersSize() >= 1) {
             while (matcher.find()) {
