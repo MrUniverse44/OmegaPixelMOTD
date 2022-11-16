@@ -3,17 +3,15 @@ package me.blueslime.pixelmotd.commands;
 import dev.mruniverse.slimelib.source.SlimeSource;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
+import me.blueslime.pixelmotd.extras.ListType;
 import me.blueslime.pixelmotd.utils.PlayerUtil;
 import me.blueslime.pixelmotd.utils.Updater;
-import me.blueslime.pixelmotd.utils.WhitelistLocation;
+import me.blueslime.pixelmotd.utils.UserSide;
 import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Command(
         description = "Main Command of the PixelMOTD",
@@ -213,9 +211,9 @@ public class PluginCommand<T> implements SlimeCommand {
         );
     }
 
-    private void executeList(ConfigurationHandler commandManager, ConfigurationHandler messages, String command, SlimeSource<?> sender, ListType type, String[] args) {
+    private void executeList(ConfigurationHandler commandInformation, ConfigurationHandler messages, String command, SlimeSource<?> sender, ListType type, String[] args) {
         if (args.length == 0) {
-            List<String> message = commandManager.getStringList(path + "admin." + type.toString());
+            List<String> message = commandInformation.getStringList(type.toString());
 
             message.replaceAll(line -> line.replace("%used command%", command));
 
@@ -226,9 +224,11 @@ public class PluginCommand<T> implements SlimeCommand {
             return;
         }
 
-        ConfigurationHandler file = plugin.getConfigurationHandler(type.getFile());
+        String argument = args[0].toLowerCase(Locale.ENGLISH);
 
-        if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(1)))) {
+        ConfigurationHandler file = plugin.getC;
+
+        if (argument.equals("list")) {
             sender.sendColoredMessage("&aUser Name List: (Global Whitelist)");
 
             sendList(sender, file, "whitelist.global.players.by-name");
@@ -237,7 +237,7 @@ public class PluginCommand<T> implements SlimeCommand {
 
             sendList(sender, file, "whitelist.global.players.by-uuid");
 
-            WhitelistLocation place = WhitelistLocation.fromPlatform(plugin.getServerType());
+            UserSide place = UserSide.fromPlatform(plugin.getServerType());
 
             for (String keys : file.getContent(type + "." + place.toStringLowerCase(), false)) {
 
@@ -267,7 +267,7 @@ public class PluginCommand<T> implements SlimeCommand {
 
             String path = type + ".global.players." + PlayerUtil.getDestinyPath(value);
 
-            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+            UserSide whitelistLocation = UserSide.fromPlatform(plugin.getServerType());
 
             if (args.length == 3) {
                 path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[2] + ".players." + PlayerUtil.getDestinyPath(value);
@@ -305,7 +305,7 @@ public class PluginCommand<T> implements SlimeCommand {
 
             String path = type + ".global.players." + PlayerUtil.getDestinyPath(value);
 
-            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+            UserSide whitelistLocation = UserSide.fromPlatform(plugin.getServerType());
 
             if (args.length == 3) {
                 path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[2] + ".players." + PlayerUtil.getDestinyPath(value);
@@ -337,7 +337,7 @@ public class PluginCommand<T> implements SlimeCommand {
 
             String path = type + ".global.";
 
-            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+            UserSide whitelistLocation = UserSide.fromPlatform(plugin.getServerType());
 
             if (args.length >= 2) {
 
@@ -384,7 +384,7 @@ public class PluginCommand<T> implements SlimeCommand {
         if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(5)))) {
             String path = type + ".global.";
 
-            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+            UserSide whitelistLocation = UserSide.fromPlatform(plugin.getServerType());
 
             if (args.length >= 2) {
 

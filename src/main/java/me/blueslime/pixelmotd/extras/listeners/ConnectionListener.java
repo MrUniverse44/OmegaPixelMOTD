@@ -3,9 +3,9 @@ package me.blueslime.pixelmotd.extras.listeners;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
 import me.blueslime.pixelmotd.players.PlayerDatabase;
-import me.blueslime.pixelmotd.utils.Extras;
+import me.blueslime.pixelmotd.utils.internal.placeholders.PluginPlaceholders;
 import me.blueslime.pixelmotd.extras.ListType;
-import me.blueslime.pixelmotd.utils.WhitelistLocation;
+import me.blueslime.pixelmotd.utils.UserSide;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
@@ -20,10 +20,10 @@ public abstract class ConnectionListener<T, E, S> {
 
     private boolean isBlacklisted;
 
-    private final Extras extras;
+    private final PluginPlaceholders pluginPlaceholders;
 
     public ConnectionListener(PixelMOTD<T> plugin) {
-        this.extras = new Extras(plugin);
+        this.pluginPlaceholders = new PluginPlaceholders(plugin);
         this.plugin = plugin;
         load();
     }
@@ -37,8 +37,8 @@ public abstract class ConnectionListener<T, E, S> {
         load();
     }
 
-    public WhitelistLocation getPlace() {
-        return WhitelistLocation.fromPlatform(plugin.getServerType());
+    public UserSide getPlace() {
+        return UserSide.fromPlatform(plugin.getServerType());
     }
 
     public abstract void execute(E event);
@@ -109,8 +109,8 @@ public abstract class ConnectionListener<T, E, S> {
         return getSpecifiedList(listType).getStringList(path + ".unique-ids").contains(uniqueId.toString());
     }
 
-    public Extras getExtras() {
-        return extras;
+    public PluginPlaceholders getExtras() {
+        return pluginPlaceholders;
     }
 
     public SlimeLogs getLogs() {

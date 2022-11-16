@@ -2,11 +2,11 @@ package me.blueslime.pixelmotd.utils;
 
 import dev.mruniverse.slimelib.SlimePlatform;
 
-public enum WhitelistLocation {
+public enum UserSide {
     SERVERS,
     WORLDS;
 
-    public static WhitelistLocation fromPlatform(SlimePlatform platform) {
+    public static UserSide fromPlatform(SlimePlatform platform) {
         switch (platform) {
             default:
             case VELOCITY:

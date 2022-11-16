@@ -1,43 +1,54 @@
 package me.blueslime.pixelmotd;
 
-import me.blueslime.pixelmotd.commands.PluginCommand;
 import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
 import me.blueslime.pixelmotd.external.MetricsHandler;
 import me.blueslime.pixelmotd.players.PlayerHandler;
 import me.blueslime.pixelmotd.servers.ServerHandler;
 import me.blueslime.pixelmotd.utils.FileUtilities;
 import me.blueslime.pixelmotd.utils.Updater;
-import dev.mruniverse.slimelib.SlimeFiles;
 import dev.mruniverse.slimelib.SlimePlatform;
 import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.SlimePluginInformation;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationProvider;
 import dev.mruniverse.slimelib.loader.BaseSlimeLoader;
-import dev.mruniverse.slimelib.loader.DefaultSlimeLoader;
 import dev.mruniverse.slimelib.logs.SlimeLogger;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.pixelmotd.utils.internal.LoggerSetup;
+import me.blueslime.pixelmotd.utils.internal.loader.PluginLoader;
 
 import java.io.File;
 
 @SuppressWarnings("unused")
 public class PixelMOTD<T> implements SlimePlugin<T> {
 
-    private final SlimePluginInformation information;
+    private final SlimePluginInformation information = new SlimePluginInformation(
+            getServerType(),
+            getPlugin()
+    );
 
     private final ListenerManager listenerManager;
 
-    private final BaseSlimeLoader<T> slimeLoader;
+    private final BaseSlimeLoader<T> slimeLoader = new PluginLoader<>(this);
 
-    private final PlayerHandler playerHandler;
+    private final PlayerHandler playerHandler = PlayerHandler.fromPlatform(
+            getServerType(),
+            getPlugin()
+    );
 
-    private final ServerHandler serverHandler;
+    private final ServerHandler serverHandler = ServerHandler.fromPlatform(
+            getServerType(),
+            getPlugin()
+    );
 
     private ConfigurationHandler messages;
 
     private final SlimePlatform platform;
 
-    private final SlimeLogs logs;
+    private final SlimeLogs logs = SlimeLogger.createLogs(
+            getServerType(),
+            this
+    );;
 
     private final File folder;
 
@@ -51,32 +62,11 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         this.platform      = platform;
         this.plugin        = plugin;
 
-        this.playerHandler = PlayerHandler.fromPlatform(platform, plugin);
-
-        this.serverHandler = ServerHandler.fromPlatform(platform, plugin);
-
-        this.information   = new SlimePluginInformation(platform, plugin);
-
-        this.logs          = SlimeLogger.createLogs(platform, this);
-
-        SlimeLogger logger = new SlimeLogger();
-
-        logger.setPluginName("PixelMOTD");
-        logger.setHidePackage("dev.mruniverse.pixelmotd.");
-        logger.setContainIdentifier("mruniverse");
-        logger.getProperties().getPrefixes().changeMainText("&9PixelMOTD");
-
-        this.logs.setSlimeLogger(logger);
-
-        this.slimeLoader   = new DefaultSlimeLoader<>(
-                this
-        );
+        LoggerSetup.initialize(logs);
 
         getLoader().setFiles(SlimeFile.class);
 
         getLoader().init();
-
-        getLoader().getCommands().register(new PluginCommand<>(this));
 
         listenerManager = ListenerManager.createNewInstance(
                 platform,
@@ -88,8 +78,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
             listenerManager.register();
         }
 
-        if (getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.update-check", true)) {
-            if (getConfigurationHandler(SlimeFile.SETTINGS).getStatus("settings.auto-download-updates", true)) {
+        if (getSettings().getStatus("settings.update-check", true)) {
+            if (getSettings().getStatus("settings.auto-download-updates", true)) {
                 new Updater(logs, information.getVersion(), 37177, getDataFolder(), Updater.UpdateType.CHECK_DOWNLOAD);
             } else {
                 new Updater(logs, information.getVersion(), 37177, getDataFolder(), Updater.UpdateType.VERSION_CHECK);
@@ -100,10 +90,10 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         lang = new File(dataFolder, "lang");
 
         if (!lang.exists()) {
-            loadDefaults();
+            loadMessageFile("cz", "en", "it", "de", "es", "jp", "pl", "zh-CN", "zh-TW");
         }
 
-        String code = getConfigurationHandler(SlimeFile.SETTINGS).getString("settings.language", "en");
+        String code = getSettings().getString("settings.language", "en");
 
         File langFile = new File(
                 lang,
@@ -132,25 +122,15 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         ).initialize();
     }
 
-    private void loadDefaults() {
-        loadMessageFile("cz");
-        loadMessageFile("en");
-        loadMessageFile("it");
-        loadMessageFile("de");
-        loadMessageFile("es");
-        loadMessageFile("jp");
-        loadMessageFile("pl");
-        loadMessageFile("zh-CN");
-        loadMessageFile("zh-TW");
-    }
-
-    private void loadMessageFile(String file) {
-        FileUtilities.load(
-                logs,
-                lang,
-                file + ".yml",
-                "/lang/" +  file  +  ".yml"
-        );
+    private void loadMessageFile(String... files) {
+        for (String file : files) {
+            FileUtilities.load(
+                    logs,
+                    lang,
+                    file + ".yml",
+                    "/lang/" + file + ".yml"
+            );
+        }
     }
 
     public ConfigurationHandler getMessages() {
@@ -164,8 +144,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         new NotFoundLanguageException("The current language in the settings file doesn't exists, probably you will see errors in console").printStackTrace();
     }
 
-    public ConfigurationHandler getConfigurationHandler(SlimeFiles file) {
-        return getLoader().getFiles().getConfigurationHandler(file);
+    public ConfigurationHandler getSettings() {
+        return getConfigurationHandler(SlimeFile.SETTINGS);
     }
 
     public ListenerManager getListenerManager() {

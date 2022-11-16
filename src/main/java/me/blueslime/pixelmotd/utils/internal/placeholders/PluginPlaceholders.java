@@ -1,4 +1,4 @@
-package me.blueslime.pixelmotd.utils;
+package me.blueslime.pixelmotd.utils.internal.placeholders;
 
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
@@ -10,6 +10,8 @@ import me.blueslime.pixelmotd.servers.VelocityServerHandler;
 import me.blueslime.pixelmotd.status.StatusChecker;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.file.configuration.TextDecoration;
+import me.blueslime.pixelmotd.utils.OnlineList;
+import me.blueslime.pixelmotd.utils.internal.events.EventFormatEnum;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Extras {
+public class PluginPlaceholders {
     private final boolean IS_VELOCITY_PLATFORM;
 
     private final boolean IS_BUNGEE_PLATFORM;
@@ -35,7 +37,7 @@ public class Extras {
 
     private final int max;
 
-    public Extras(PixelMOTD<?> plugin) {
+    public PluginPlaceholders(PixelMOTD<?> plugin) {
         this.plugin = plugin;
         this.max    = plugin.getPlayerHandler().getMaxPlayers();
 
@@ -155,7 +157,7 @@ public class Extras {
 
                     String path = "events." + event + ".";
 
-                    EventFormat format = EventFormat.fromText(events.getString(path + "format-type", "FIRST"));
+                    EventFormatEnum format = EventFormatEnum.fromText(events.getString(path + "format-type", "FIRST"));
 
                     if (difference >= 0L) {
                         timeLeft = replaceEvent(format, events, difference);
@@ -175,7 +177,7 @@ public class Extras {
         return message;
     }
 
-    private String replaceEvent(EventFormat format, ConfigurationHandler events, long time) {
+    private String replaceEvent(EventFormatEnum format, ConfigurationHandler events, long time) {
 
         String separator = events.getString("timer.separator", ",");
 
@@ -417,8 +419,9 @@ public class Extras {
     }
 
     private String getWhitelistAuthor() {
-        ConfigurationHandler whitelist = plugin.getConfigurationHandler(SlimeFile.MODES);
-        return whitelist.getString("whitelist.global.author", "Console");
+        ConfigurationHandler whitelist = plugin.getConfigurationHandler(SlimeFile.WHITELIST);
+
+        return whitelist.getString("author", "Console");
     }
 
 

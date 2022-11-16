@@ -1,8 +1,9 @@
-package me.blueslime.pixelmotd.utils;
+package me.blueslime.pixelmotd.utils.internal.storage;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@SuppressWarnings("unused")
 public class PluginStorage<K, V> {
     private final Map<K, V> map;
 
@@ -58,6 +59,10 @@ public class PluginStorage<K, V> {
 
     public void clear() {
         map.clear();
+    }
+
+    public int size() {
+        return map.size();
     }
 
     public static <K, V> PluginStorage<K, V> initAsHash() {

@@ -10,6 +10,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,8 +26,9 @@ public class SpigotListenerManager implements ListenerManager {
 
     @SuppressWarnings("unchecked")
     public <T> SpigotListenerManager(PixelMOTD<T> plugin, SlimeLogs logs) {
-        this.logs = logs;
         this.slimePlugin    = (PixelMOTD<JavaPlugin>) plugin;
+        this.logs = logs;
+
         this.teleportListener = new AbstractTeleportListener(slimePlugin) {
             @Override
             public void execute(@NotNull Listener listener, @NotNull Event event) {
@@ -49,7 +51,19 @@ public class SpigotListenerManager implements ListenerManager {
 
     @Override
     public void register() {
+        PluginManager manager = slimePlugin.getPlugin().getServer().getPluginManager();
 
+        manager.registerEvents(
+                loginListener,
+                slimePlugin.getPlugin()
+        );
+
+        manager.registerEvents(
+                teleportListener,
+                slimePlugin.getPlugin()
+        );
+
+        logs.info("&9Events has been registered without issues reported! listeners loaded!");
     }
 
     @Override

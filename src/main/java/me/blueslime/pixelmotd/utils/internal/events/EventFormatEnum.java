@@ -1,11 +1,11 @@
-package me.blueslime.pixelmotd.utils;
+package me.blueslime.pixelmotd.utils.internal.events;
 
-public enum EventFormat {
+public enum EventFormatEnum {
     FIRST,
     SECOND,
     THIRD;
 
-    public static EventFormat fromText(String format) {
+    public static EventFormatEnum fromText(String format) {
         switch (format.toLowerCase()) {
             case "first":
             case "1":
