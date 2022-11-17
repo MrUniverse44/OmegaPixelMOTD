@@ -133,6 +133,9 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         }
     }
 
+    public ConfigurationHandler getCommandSettings() {
+        return getConfigurationHandler(SlimeFile.COMMANDS);
+    }
     public ConfigurationHandler getMessages() {
         if (messages == null) {
             exception();

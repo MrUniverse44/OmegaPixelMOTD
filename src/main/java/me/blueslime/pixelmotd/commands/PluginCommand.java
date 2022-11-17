@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd.commands;
 
+import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import dev.mruniverse.slimelib.source.SlimeSource;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
@@ -10,6 +11,9 @@ import me.blueslime.pixelmotd.utils.UserSide;
 import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.pixelmotd.utils.internal.storage.PluginList;
+import me.blueslime.pixelmotd.utils.internal.text.TemporalFormatText;
+import me.blueslime.pixelmotd.utils.internal.text.TextPosition;
 
 import java.util.*;
 
@@ -18,53 +22,25 @@ import java.util.*;
         usage = "/<command> (whitelist, blacklist, reload)"
 )
 public class PluginCommand<T> implements SlimeCommand {
-
-    private final Map<Integer, String> argumentsMap = new HashMap<>();
-
-    private final String path = "commands.main-command.";
-
     private final PixelMOTD<T> plugin;
 
     public PluginCommand(PixelMOTD<T> plugin) {
         this.plugin = plugin;
-        load();
-    }
-
-    public void update() {
-        load();
-    }
-
-    private void load() {
-        argumentsMap.clear();
-
-        for (CommandArgument argument : CommandArgument.values()) {
-            argumentsMap.put(
-                    argument.id(),
-                    argument(
-                            argument.argument(),
-                            argument.def()
-                    )
-            );
-        }
-    }
-
-    public String argument(String argument, String def) {
-        return plugin.getConfigurationHandler(SlimeFile.COMMANDS).getString(path + "arguments." + argument, def);
     }
 
     @Override
     public String getCommand() {
-        return plugin.getConfigurationHandler(SlimeFile.COMMANDS).getString(path + "cmd", "pmotd");
+        return plugin.getCommandSettings().getString("command", "pmotd");
     }
 
     @Override
     public List<String> getAliases() {
-        return plugin.getConfigurationHandler(SlimeFile.COMMANDS).getStringList(path + "aliases");
+        return plugin.getCommandSettings().getStringList("aliases");
     }
 
     @Override
     public void execute(SlimeSource sender, String command, String[] arguments) {
-        ConfigurationHandler commandManager = plugin.getConfigurationHandler(SlimeFile.COMMANDS);
+        ConfigurationHandler commandManager = plugin.getCommandSettings();
         ConfigurationHandler messages  = plugin.getMessages();
 
         String argument;
@@ -77,8 +53,8 @@ public class PluginCommand<T> implements SlimeCommand {
 
         String permission;
 
-        if (checkArgument(argument, CommandArgument.HELP)) {
-            permission = commandManager.getString(path + "permissions.main", "pixelmotd.command.main");
+        if (argument.equals("help")) {
+            permission = commandManager.getString("permissions.main", "pixelmotd.command.main");
 
             if (!sender.hasPermission(permission)) {
 
@@ -88,7 +64,7 @@ public class PluginCommand<T> implements SlimeCommand {
                 return;
             }
 
-            List<String> stringList = commandManager.getStringList(path + "no-arguments");
+            List<String> stringList = commandManager.getStringList("no-arguments");
 
             stringList.replaceAll(line -> line.replace("%plugin version%", plugin.getPluginInformation().getVersion()));
 
@@ -98,10 +74,10 @@ public class PluginCommand<T> implements SlimeCommand {
 
             return;
         }
-        if (checkArgument(argument, CommandArgument.RELOAD)) {
+        if (argument.equals("reload")) {
             long before = System.currentTimeMillis();
 
-            permission = commandManager.getString(path + "permissions.reload", "pixelmotd.command.reload");
+            permission = commandManager.getString("permissions.reload", "pixelmotd.command.reload");
 
             if (!sender.hasPermission(permission)) {
 
@@ -113,7 +89,6 @@ public class PluginCommand<T> implements SlimeCommand {
             }
 
             plugin.reload();
-            update();
 
             long after = System.currentTimeMillis();
 
@@ -123,8 +98,8 @@ public class PluginCommand<T> implements SlimeCommand {
 
             return;
         }
-        if (checkArgument(argument, CommandArgument.WHITELIST_MAIN)) {
-            permission = commandManager.getString(path + "permissions.whitelist", "pixelmotd.command.whitelist");
+        if (argument.equals("whitelist")) {
+            permission = commandManager.getString("permissions.whitelist", "pixelmotd.command.whitelist");
 
             if (!sender.hasPermission(permission)) {
 
@@ -137,8 +112,8 @@ public class PluginCommand<T> implements SlimeCommand {
             executeList(commandManager, messages, command, sender, ListType.WHITELIST, removeArgument(arguments));
             return;
         }
-        if (checkArgument(argument, CommandArgument.BLACKLIST_MAIN)) {
-            permission = commandManager.getString(path + "permissions.blacklist", "pixelmotd.command.blacklist");
+        if (argument.equals("blacklist")) {
+            permission = commandManager.getString("permissions.blacklist", "pixelmotd.command.blacklist");
 
             if (!sender.hasPermission(permission)) {
 
@@ -151,9 +126,7 @@ public class PluginCommand<T> implements SlimeCommand {
             executeList(commandManager, messages, command, sender, ListType.BLACKLIST, removeArgument(arguments));
             return;
         }
-        if (argument.equalsIgnoreCase(
-                CommandArgument.ADMIN.argument()
-        )) {
+        if (argument.equals("admin")) {
             if (sender.hasPermission("pixelmotd.admin")) {
 
                 for (String message : commandManager.getStringList("commands.main-command.admin.main")) {
@@ -164,8 +137,8 @@ public class PluginCommand<T> implements SlimeCommand {
             }
             return;
         }
-        if (checkArgument(argument, CommandArgument.UPDATER)) {
-            permission = commandManager.getString(path + "permissions.reload", "pixelmotd.command.reload");
+        if (argument.equals("updater")) {
+            permission = commandManager.getString("permissions.reload", "pixelmotd.command.reload");
 
             if (!sender.hasPermission(permission)) {
 
@@ -203,12 +176,6 @@ public class PluginCommand<T> implements SlimeCommand {
         if (sender.hasPermission("pixelmotd.admin")) {
             sender.sendColoredMessage("&a(Admin Permission Detected) &6Or use &f/pmotd admin &6to get all admin commands");
         }
-    }
-
-    private boolean checkArgument(String arg, CommandArgument argument) {
-        return arg.equalsIgnoreCase(
-                argumentsMap.get(argument.id())
-        );
     }
 
     private void executeList(ConfigurationHandler commandInformation, ConfigurationHandler messages, String command, SlimeSource<?> sender, ListType type, String[] args) {
@@ -428,9 +395,47 @@ public class PluginCommand<T> implements SlimeCommand {
         }
     }
 
-    private void sendList(SlimeSource<?> sender, ConfigurationHandler file, String path) {
-        for (String username : file.getStringList(path)) {
-            sender.sendColoredMessage("  &8- &7" + username);
+    private void sendConvertedList(SlimeSource<?> sender, String path) {
+        sendConvertedList(sender, getConvertedList(sender, path));
+    }
+
+    private void sendConvertedList(SlimeSource<?> sender, List<String> list) {
+        for (String message : list) {
+            if (message.contains("<isAdmin>")) {
+                if (sender.hasPermission("blitzskywars.admin")) {
+                    sender.sendColoredMessage(
+                            message.replace("<isAdmin>", "")
+                    );
+                }
+            } else {
+                sender.sendColoredMessage(
+                        message
+                );
+            }
+        }
+    }
+
+    private void sendList(SlimeSource<?> sender, ConfigurationHandler configuration, TemporalFormatText temporalFormatter) {
+        sendList(
+                sender,
+                temporalFormatter.findIn(
+                        configuration,
+                        true
+                )
+        );
+    }
+
+    private void sendList(SlimeSource<?> sender, PluginList<String> pluginList) {
+        for (String value : pluginList.toOriginalList()) {
+            sender.sendColoredMessage(value);
+        }
+    }
+
+    private void sendSeveralMessages(SlimeSource<?> source, String... messages) {
+        for (String message : messages) {
+            source.sendColoredMessage(
+                    message
+            );
         }
     }
 
@@ -442,41 +447,20 @@ public class PluginCommand<T> implements SlimeCommand {
 
     @Override
     public List<String> onTabComplete(SlimeSource sender, String commandLabel, String[] args) {
-        List<String> arguments = new ArrayList<>();
+        return Collections.emptyList();
+    }
 
-        if (args.length == 0) {
-            for (CommandArgument commandArgument : CommandArgument.getMain()) {
-                arguments.add(
-                        argumentsMap.get(
-                                commandArgument.id()
-                        )
-                );
-            }
-            arguments.add("admin");
-            return arguments;
-        }
-
-        if (args[0].equalsIgnoreCase(argumentsMap.get(CommandArgument.WHITELIST_MAIN.id()))) {
-            for (CommandArgument commandArgument : CommandArgument.getWhitelist()) {
-                arguments.add(
-                        argumentsMap.get(
-                                commandArgument.id()
-                        )
-                );
-            }
-            return arguments;
-        }
-
-        if (args[0].equalsIgnoreCase(argumentsMap.get(CommandArgument.BLACKLIST_MAIN.id()))) {
-            for (CommandArgument commandArgument : CommandArgument.getBlacklist()) {
-                arguments.add(
-                        argumentsMap.get(
-                                commandArgument.id()
-                        )
-                );
-            }
-            return arguments;
-        }
-        return arguments;
+    private List<String> getConvertedList(SlimeSource<?> source, String path) {
+        List<String> clone = new ArrayList<>(
+                plugin.getCommandSettings().getStringList(path)
+        );
+        clone.replaceAll(
+                line -> line = TextPosition.getCentered(
+                        line.replace("%sender%", source.getName())
+                                .replace("%plugin version%", plugin.getPluginInformation().getVersion())
+                                .replace("%plugin ver%", plugin.getPluginInformation().getVersion())
+                )
+        );
+        return clone;
     }
 }

@@ -1,6 +1,8 @@
 #
 #   All commands and aliases are configurable!
-commands:
+command: pmotd
+
+aliases:
   - pmotd
   - motd
   - pixelmotd
