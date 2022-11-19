@@ -64,61 +64,6 @@ public class AbstractServerConnectListener extends ConnectionListener<ProxyServe
             connection.sendMessage(
                     colorize("&cBlocking you from joining to the server, reason: &6Null IP&c, if this is a error, contact to the server staff")
             );
-            return;
-
-        }
-
-        final String username = connection.getUsername();
-
-        final UUID uuid = connection.getUniqueId();
-
-        final String serverName = target.getName();
-
-        ConfigurationHandler settings = getControl();
-
-        String path = getPlace().toStringLowerCase() + "." + serverName;
-
-        if (settings.getStatus("whitelist." + path + ".enabled", false)) {
-            if (!checkPlayer(ListType.WHITELIST, path, username) && !checkUUID(ListType.WHITELIST, path, uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.whitelist"));
-
-                connection.sendMessage(
-                        colorize(
-                                replace(
-                                        reason,
-                                        "whitelist." + path,
-                                        username,
-                                        uuid.toString()
-                                )
-                        )
-                );
-
-                event.setResult(
-                        deny()
-                );
-                return;
-            }
-        }
-
-        if (settings.getStatus("blacklist." + path + ".enabled", false)) {
-            if (checkPlayer(ListType.BLACKLIST, path, username) || checkUUID(ListType.BLACKLIST, path, uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.blacklist"));
-
-                connection.sendMessage(
-                        colorize(
-                                replace(
-                                        reason,
-                                        "blacklist." + path,
-                                        username,
-                                        uuid.toString()
-                                )
-                        )
-                );
-
-                event.setResult(
-                        deny()
-                );
-            }
         }
     }
 

@@ -1,6 +1,7 @@
 package me.blueslime.pixelmotd.extras.listeners.bungeecord.abstracts;
 
 import me.blueslime.pixelmotd.PixelMOTD;
+import me.blueslime.pixelmotd.extras.ListType;
 import me.blueslime.pixelmotd.extras.listeners.ConnectionListener;
 import me.blueslime.pixelmotd.utils.ListUtil;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
@@ -47,53 +48,10 @@ public class AbstractLoginListener extends ConnectionListener<Plugin, LoginEvent
 
         final String username = connection.getName();
 
-        final UUID uuid = connection.getUniqueId();
-
         getPlayerDatabase().fromSocket(
                 address.toString(),
                 username
         );
-
-        ConfigurationHandler settings = getControl();
-
-        if (hasWhitelist()) {
-            if (!checkPlayer(ListType.WHITELIST, "global", username) && !checkUUID(ListType.WHITELIST, "global", uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.global-whitelist"));
-
-                event.setCancelReason(
-                        colorize(
-                                replace(
-                                        reason,
-                                        "whitelist.global",
-                                        username,
-                                        uuid.toString()
-                                )
-                        )
-                );
-
-                event.setCancelled(true);
-                return;
-            }
-        }
-
-        if (hasBlacklist()) {
-            if (checkPlayer(ListType.BLACKLIST, "global", username) || checkUUID(ListType.BLACKLIST, "global", uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.global-blacklist"));
-
-                event.setCancelReason(
-                        colorize(
-                                replace(
-                                        reason,
-                                        "blacklist.global",
-                                        username,
-                                        uuid.toString()
-                                )
-                        )
-                );
-
-                event.setCancelled(true);
-            }
-        }
 
 
 

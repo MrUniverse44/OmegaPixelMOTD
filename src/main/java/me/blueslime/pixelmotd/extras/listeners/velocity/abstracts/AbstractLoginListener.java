@@ -63,50 +63,6 @@ public class AbstractLoginListener  extends ConnectionListener<ProxyServer, Logi
                     connection.getUsername()
             );
         }
-
-        final String username = connection.getUsername();
-
-        final UUID uuid = connection.getUniqueId();
-
-        ConfigurationHandler settings = getControl();
-
-        if (hasWhitelist()) {
-            if (!checkPlayer(ListType.WHITELIST, "global", username) && !checkUUID(ListType.WHITELIST, "global", uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.global-whitelist"));
-
-                event.setResult(
-                        result(
-                                replace(
-                                        reason,
-                                        "whitelist.global",
-                                        username,
-                                        uuid.toString()
-                                )
-                        )
-                );
-                return;
-            }
-        }
-
-        if (hasBlacklist()) {
-            if (checkPlayer(ListType.BLACKLIST, "global", username) || checkUUID(ListType.BLACKLIST, "global", uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.global-blacklist"));
-
-                event.setResult(
-                        result(
-                                replace(
-                                        reason,
-                                        "blacklist.global",
-                                        username,
-                                        uuid.toString()
-                                )
-                        )
-                );
-            }
-        }
-
-
-
     }
 
     private ResultedEvent.ComponentResult result(String message) {

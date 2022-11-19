@@ -47,58 +47,7 @@ public class AbstractServerConnectListener extends ConnectionListener<Plugin, Se
 
         }
 
-        final String username = connection.getName();
-
-        final UUID uuid = connection.getUniqueId();
-
         final String serverName = event.getTarget().getName();
-
-        ConfigurationHandler settings = getControl();
-
-        String path = getPlace().toStringLowerCase() + "." + serverName;
-
-        if (settings.getStatus("whitelist." + path + ".enabled", false)) {
-            if (!checkPlayer(ListType.WHITELIST, path, username) && !checkUUID(ListType.WHITELIST, path, uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.whitelist"));
-
-                connection.sendMessage(
-                        colorize(
-                                replace(
-                                        reason,
-                                        "whitelist." + path,
-                                        username,
-                                        uuid.toString()
-                                )
-                        )
-                );
-                if (getSettings().getStatus("settings.debug-mode")) {
-                    getLogs().debug("Event ServerConnectEvent will be cancelled because the path: whitelist." + path + ".enabled is true");
-                }
-                event.setCancelled(true);
-                return;
-            }
-        }
-
-        if (settings.getStatus("blacklist." + path + ".enabled", false)) {
-            if (checkPlayer(ListType.BLACKLIST, path, username) || checkUUID(ListType.BLACKLIST, path, uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.blacklist"));
-
-                connection.sendMessage(
-                        colorize(
-                                replace(
-                                        reason,
-                                        "blacklist." + path,
-                                        username,
-                                        uuid.toString()
-                                )
-                        )
-                );
-                if (getSettings().getStatus("settings.debug-mode")) {
-                    getLogs().debug("Event ServerConnectEvent will be cancelled because the path: blacklist." + path + ".enabled is true");
-                }
-                event.setCancelled(true);
-            }
-        }
     }
 
     @Override
