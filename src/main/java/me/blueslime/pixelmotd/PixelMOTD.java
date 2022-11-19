@@ -90,7 +90,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         lang = new File(dataFolder, "lang");
 
         if (!lang.exists()) {
-            loadMessageFile("cz", "en", "it", "de", "es", "jp", "pl", "zh-CN", "zh-TW");
+            loadMessageFile("cz", "en", "it", "de", "es", "jp", "pl", "zh-CN", "zh-TW", "he_IL", "id", "ko");
         }
 
         String code = getSettings().getString("settings.language", "en");

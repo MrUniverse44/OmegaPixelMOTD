@@ -150,7 +150,8 @@
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
             <version>5.0.0-SNAPSHOT</version>
-            <scope>provided</scope>
+            <systemPath>${project.basedir}/lib/ProtocolLib.jar</systemPath>
+            <scope>system</scope>
         </dependency>
 
         <dependency>

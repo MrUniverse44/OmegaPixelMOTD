@@ -76,15 +76,17 @@ settings:
   unknown-player: "unknown#1"
 
   # Plugin language file, if you want to add your custom lang file you need put the name ("messages_<code>.yml") and in the language you put the code, example:
-  # messages_en.yml    | code: en   | language: en
-  # messages_es.yml    | code: es   | language: es
-  # messages_jp.yml    | code: jp   | language: jp
-  # messages_pl.yml    | code: pl   | language: pl
-  # messages_de.yml    | code: de   | language: de
-  # messages_cz.yml    | code: cz   | language: cz
-  # messages_zh-CN.yml | code zh-CN | language: zn-CH
-  # messages_zh-CN.yml | code zh-TW | language: zn-TW
-  # messages_id.yml    | code id    | language: id
+  # en.yml    | code: en   | language code: en
+  # es.yml    | code: es   | language code: es
+  # jp.yml    | code: jp   | language code: jp
+  # pl.yml    | code: pl   | language code: pl
+  # de.yml    | code: de   | language code: de
+  # cz.yml    | code: cz   | language code: cz
+  # zh-CN.yml | code zh-CN | language code: zn-CH
+  # zh-CN.yml | code zh-TW | language code: zn-TW
+  # id.yml    | code id    | language code: id
+  # ko.yml    | code: ko   | language code: kr
+  # he_IL.yml | code: he_IL| language code: he_IL
   language: "en"
 
   # This option is only for bungee-cord!
