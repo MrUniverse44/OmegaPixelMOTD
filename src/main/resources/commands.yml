@@ -18,6 +18,13 @@ help:
   - " "
   - "&7Created by JustJustin"
 
+wrong:
+  - "&7Wrong command usage: &f%wrong command%"
+  - "&7Correct Usage: &f%command usage%"
+
+wrong-optional-info-format:
+  - "&a%name%: &f%description%"
+
 no-permission:
   - "&7You don't have permissions for this command, maybe this command is only for &c&lADMINS &7or &e&lVIPS&7."
 
@@ -48,8 +55,9 @@ blacklist:
   - "&7Created by JustJustin"
 
 permissions:
-  bypass-permissions: "pixelmotd.command.*"
-  whitelist: "pixelmotd.command.whitelist"
-  blacklist: "pixelmotd.command.blacklist"
-  reload: "pixelmotd.command.reload"
-  main: "pixelmotd.command.main"
+  bypass-permissions: "pixelmotd.*"
+  whitelist: "pixelmotd.whitelist"
+  blacklist: "pixelmotd.blacklist"
+  updater: "pixelmotd.updater"
+  reload: "pixelmotd.reload"
+  help: "pixelmotd.help"

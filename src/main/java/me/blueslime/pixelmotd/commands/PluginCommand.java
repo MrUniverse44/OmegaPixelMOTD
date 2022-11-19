@@ -1,13 +1,10 @@
 package me.blueslime.pixelmotd.commands;
 
-import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import dev.mruniverse.slimelib.source.SlimeSource;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
 import me.blueslime.pixelmotd.extras.ListType;
-import me.blueslime.pixelmotd.utils.PlayerUtil;
 import me.blueslime.pixelmotd.utils.Updater;
-import me.blueslime.pixelmotd.utils.UserSide;
 import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
@@ -21,6 +18,7 @@ import java.util.*;
         description = "Main Command of the PixelMOTD",
         usage = "/<command> (whitelist, blacklist, reload)"
 )
+@SuppressWarnings("unused")
 public class PluginCommand<T> implements SlimeCommand {
     private final PixelMOTD<T> plugin;
 
@@ -51,41 +49,22 @@ public class PluginCommand<T> implements SlimeCommand {
             argument = arguments[0].toLowerCase();
         }
 
-        String permission;
-
         if (argument.equals("help")) {
-            permission = commandManager.getString("permissions.main", "pixelmotd.command.main");
-
-            if (!sender.hasPermission(permission)) {
-
-                String message = messages.getString("messages.error.permission", "");
-
-                sender.sendColoredMessage(message.replace("<permission>", permission));
+            if (isDeniedByPermission(sender, "help")) {
+                sendConvertedList(sender, "no-permission");
                 return;
             }
 
-            List<String> stringList = commandManager.getStringList("no-arguments");
-
-            stringList.replaceAll(line -> line.replace("%plugin version%", plugin.getPluginInformation().getVersion()));
-
-            for (String line : stringList) {
-                sender.sendColoredMessage(line);
-            }
-
+            sendConvertedList(sender, "help");
             return;
         }
+
         if (argument.equals("reload")) {
             long before = System.currentTimeMillis();
 
-            permission = commandManager.getString("permissions.reload", "pixelmotd.command.reload");
-
-            if (!sender.hasPermission(permission)) {
-
-                String message = messages.getString("messages.error.permission", "");
-
-                sender.sendColoredMessage(message.replace("<permission>", permission));
+            if (isDeniedByPermission(sender, "reload")) {
+                sendConvertedList(sender, "no-permission");
                 return;
-
             }
 
             plugin.reload();
@@ -99,13 +78,8 @@ public class PluginCommand<T> implements SlimeCommand {
             return;
         }
         if (argument.equals("whitelist")) {
-            permission = commandManager.getString("permissions.whitelist", "pixelmotd.command.whitelist");
-
-            if (!sender.hasPermission(permission)) {
-
-                String message = messages.getString("messages.error.permission", "");
-
-                sender.sendColoredMessage(message.replace("<permission>", permission));
+            if (isDeniedByPermission(sender, "whitelist")) {
+                sendConvertedList(sender, "no-permission");
                 return;
             }
 
@@ -113,38 +87,17 @@ public class PluginCommand<T> implements SlimeCommand {
             return;
         }
         if (argument.equals("blacklist")) {
-            permission = commandManager.getString("permissions.blacklist", "pixelmotd.command.blacklist");
-
-            if (!sender.hasPermission(permission)) {
-
-                String message = messages.getString("messages.error.permission", "");
-
-                sender.sendColoredMessage(message.replace("<permission>", permission));
+            if (isDeniedByPermission(sender, "blacklist")) {
+                sendConvertedList(sender, "no-permission");
                 return;
             }
 
             executeList(commandManager, messages, command, sender, ListType.BLACKLIST, removeArgument(arguments));
             return;
         }
-        if (argument.equals("admin")) {
-            if (sender.hasPermission("pixelmotd.admin")) {
-
-                for (String message : commandManager.getStringList("commands.main-command.admin.main")) {
-                    sender.sendColoredMessage(
-                            message.replace("%used command%", command)
-                    );
-                }
-            }
-            return;
-        }
         if (argument.equals("updater")) {
-            permission = commandManager.getString("permissions.reload", "pixelmotd.command.reload");
-
-            if (!sender.hasPermission(permission)) {
-
-                String message = messages.getString("messages.error.permission", "");
-
-                sender.sendColoredMessage(message.replace("<permission>", permission));
+            if (isDeniedByPermission(sender, "updater")) {
+                sendConvertedList(sender, "no-permission");
                 return;
             }
 
@@ -170,12 +123,15 @@ public class PluginCommand<T> implements SlimeCommand {
             } else {
                 sender.sendColoredMessage("&cUpdater is not enabled in settings.yml");
             }
-            return;
         }
-        sender.sendColoredMessage("&eThis command doesn't exist. Use &f/pmotd &eto get all commands");
-        if (sender.hasPermission("pixelmotd.admin")) {
-            sender.sendColoredMessage("&a(Admin Permission Detected) &6Or use &f/pmotd admin &6to get all admin commands");
-        }
+    }
+
+    private boolean isDeniedByPermission(SlimeSource<?> source, String id) {
+        return !source.hasPermission(
+                obtainPermissionPath("permissions." + id, "pixelmotd." + id)
+        ) && !source.hasPermission(
+                obtainPermissionPath("permissions.bypass-permissions", "pixelmotd.*")
+        );
     }
 
     private void executeList(ConfigurationHandler commandInformation, ConfigurationHandler messages, String command, SlimeSource<?> sender, ListType type, String[] args) {
@@ -193,206 +149,34 @@ public class PluginCommand<T> implements SlimeCommand {
 
         String argument = args[0].toLowerCase(Locale.ENGLISH);
 
-        ConfigurationHandler file = plugin.getC;
-
         if (argument.equals("list")) {
-            sender.sendColoredMessage("&aUser Name List: (Global Whitelist)");
-
-            sendList(sender, file, "whitelist.global.players.by-name");
-
-            sender.sendColoredMessage("&aUUID List: (Global Whitelist)");
-
-            sendList(sender, file, "whitelist.global.players.by-uuid");
-
-            UserSide place = UserSide.fromPlatform(plugin.getServerType());
-
-            for (String keys : file.getContent(type + "." + place.toStringLowerCase(), false)) {
-
-                if (keys.equalsIgnoreCase("global")) {
-                    continue;
-                }
-
-                sender.sendColoredMessage("&aUser Name List: (" + place.toSingular() + "-" + keys + " " + type + ")");
-
-                sendList(sender, file, type + "." + place.toStringLowerCase() + "." + keys + ".players.by-name");
-
-                sender.sendColoredMessage("&aUUID List: (" + place.toSingular() + "-" + keys + " " + type + ")");
-
-                sendList(sender, file, type + "." + place.toStringLowerCase() + "." + keys + ".players.by-uuid");
-
-            }
+            //TODO: Set List Command
             return;
         }
 
-        if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(2)))) {
-            if (args.length == 1 || args.length >= 4) {
-                sender.sendColoredMessage(messages.getString("messages.error.invalid-arguments", ""));
-                return;
-            }
-
-            String value = args[1];
-
-            String path = type + ".global.players." + PlayerUtil.getDestinyPath(value);
-
-            UserSide whitelistLocation = UserSide.fromPlatform(plugin.getServerType());
-
-            if (args.length == 3) {
-                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[2] + ".players." + PlayerUtil.getDestinyPath(value);
-            }
-
-            List<String> valueList = file.getStringList(path);
-
-            if (valueList.contains(value)) {
-                sender.sendColoredMessage(
-                        messages.getString("messages.error.already-" + type + "ed", "").replace("<type>", PlayerUtil.fromUnknown(value)).replace("<player>", value)
-                );
-                return;
-            }
-
-            valueList.add(value);
-
-            plugin.getConfigurationHandler(type.getFile()).set(path, valueList);
-            plugin.getConfigurationHandler(type.getFile()).save();
-            plugin.getConfigurationHandler(type.getFile()).reload();
-
-            sender.sendColoredMessage(
-                    messages.getString("messages." + type + ".player.add", "").replace("<type>", PlayerUtil.fromUnknown(value)).replace("<player>", value)
-            );
+        if (argument.equals("add")) {
+            //TODO: Add command Argument
 
             return;
         }
 
-        if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(3)))) {
-            if (args.length == 1 || args.length >= 4) {
-                sender.sendColoredMessage(messages.getString("messages.error.invalid-arguments", ""));
-                return;
-            }
-
-            String value = args[1];
-
-            String path = type + ".global.players." + PlayerUtil.getDestinyPath(value);
-
-            UserSide whitelistLocation = UserSide.fromPlatform(plugin.getServerType());
-
-            if (args.length == 3) {
-                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[2] + ".players." + PlayerUtil.getDestinyPath(value);
-            }
-
-            List<String> valueList = file.getStringList(path);
-
-            if (!valueList.contains(value)) {
-                sender.sendColoredMessage(
-                        messages.getString("messages.error.not-" + type + "ed", "").replace("<type>", PlayerUtil.fromUnknown(value)).replace("<player>", value)
-                );
-                return;
-            }
-
-            valueList.remove(value);
-
-            plugin.getConfigurationHandler(type.getFile()).set(path, valueList);
-            plugin.getConfigurationHandler(type.getFile()).save();
-            plugin.getConfigurationHandler(type.getFile()).reload();
-
-            sender.sendColoredMessage(
-                    messages.getString("messages." + type + ".player.remove", "").replace("<type>", PlayerUtil.fromUnknown(value)).replace("<player>", value)
-            );
-
+        if (argument.equals("remove")) {
+            //TODO: Add the remove argument
             return;
         }
 
-        if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(4)))) {
-
-            String path = type + ".global.";
-
-            UserSide whitelistLocation = UserSide.fromPlatform(plugin.getServerType());
-
-            if (args.length >= 2) {
-
-                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[1] + ".";
-
-            }
-
-            plugin.getConfigurationHandler(type.getFile()).set(
-                    path + "enabled",
-                    true
-            );
-
-            if (!sender.isConsoleSender() || !file.getStatus("custom-console-name.enabled")) {
-
-                plugin.getConfigurationHandler(type.getFile()).set(
-                        path + "author",
-                        sender.getName()
-                );
-
-            } else {
-
-                plugin.getConfigurationHandler(type.getFile()).set(
-                        path + "author",
-                        file.getString("custom-console-name.name", "")
-                );
-
-            }
-
-            plugin.getConfigurationHandler(type.getFile()).set(
-                    path + "reason",
-                    file.getString("default-reasons." + type)
-            );
-
-            sender.sendColoredMessage(
-                    messages.getString("messages." + type + ".enabled", "")
-            );
-
-            plugin.getListenerManager().update();
-            plugin.getConfigurationHandler(type.getFile()).save();
-            plugin.getConfigurationHandler(type.getFile()).reload();
+        if (argument.equals("on")) {
+            //TODO: Toggle on the whitelist or blacklist
             return;
         }
 
-        if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(5)))) {
-            String path = type + ".global.";
-
-            UserSide whitelistLocation = UserSide.fromPlatform(plugin.getServerType());
-
-            if (args.length >= 2) {
-
-                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[1] + ".";
-
-            }
-
-            plugin.getConfigurationHandler(type.getFile()).set(
-                    path + "enabled",
-                    false
-            );
-
-            if (!sender.isConsoleSender() || !file.getStatus("custom-console-name.enabled")) {
-
-                plugin.getConfigurationHandler(type.getFile()).set(
-                        path + "author",
-                        sender.getName()
-                );
-
-            } else {
-
-                plugin.getConfigurationHandler(type.getFile()).set(
-                        path + "author",
-                        file.getString("custom-console-name.name", "")
-                );
-
-            }
-
-            plugin.getConfigurationHandler(type.getFile()).set(
-                    path + "reason",
-                    file.getString("default-reasons" + type)
-            );
-
-            sender.sendColoredMessage(
-                    messages.getString("messages." + type + ".disabled", "")
-            );
-
-            plugin.getListenerManager().update();
-            plugin.getConfigurationHandler(type.getFile()).save();
-            plugin.getConfigurationHandler(type.getFile()).reload();
+        if (argument.equals("off")) {
+            //TODO: Toggle of the blacklist or whitelist
         }
+    }
+
+    private String obtainPermissionPath(String path, String defaultPermission) {
+        return plugin.getCommandSettings().getString(path, defaultPermission);
     }
 
     private void sendConvertedList(SlimeSource<?> sender, String path) {
@@ -402,7 +186,7 @@ public class PluginCommand<T> implements SlimeCommand {
     private void sendConvertedList(SlimeSource<?> sender, List<String> list) {
         for (String message : list) {
             if (message.contains("<isAdmin>")) {
-                if (sender.hasPermission("blitzskywars.admin")) {
+                if (sender.hasPermission("pixelmotd.admin") || sender.hasPermission("pixelmotd.*")) {
                     sender.sendColoredMessage(
                             message.replace("<isAdmin>", "")
                     );
@@ -450,6 +234,7 @@ public class PluginCommand<T> implements SlimeCommand {
         return Collections.emptyList();
     }
 
+    @SuppressWarnings("UnusedAssignment")
     private List<String> getConvertedList(SlimeSource<?> source, String path) {
         List<String> clone = new ArrayList<>(
                 plugin.getCommandSettings().getStringList(path)
