@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd;
 
+import me.blueslime.pixelmotd.listener.manager.ListenerManager;
 import me.blueslime.pixelmotd.utils.NotFoundLanguageException;
 import me.blueslime.pixelmotd.external.MetricsHandler;
 import me.blueslime.pixelmotd.players.PlayerHandler;

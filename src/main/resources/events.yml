@@ -19,6 +19,7 @@ events:
   # * 0 = "X hours X minutes X seconds"
   # * 1 = "XX:XX:XX"
   # * 2 = "Xh,Xm,Xs"
+  # * 3 = ""
   exampleEvent:
     name: Example Event
     date: 12/21/21 23:59:00

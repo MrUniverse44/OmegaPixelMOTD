@@ -9,7 +9,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.SlimeFile;
-import me.blueslime.pixelmotd.motd.listener.platforms.VelocityListenerManager;
+import me.blueslime.pixelmotd.listener.manager.platforms.VelocityListenerManager;
 import me.blueslime.pixelmotd.external.metrics.velocity.Metrics;
 import me.blueslime.pixelmotd.status.StatusChecker;
 import me.blueslime.pixelmotd.status.VelocityServerStatusChecker;
