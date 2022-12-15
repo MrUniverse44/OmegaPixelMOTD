@@ -28,7 +28,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
             getPlugin()
     );
 
-    private final ListenerManager listenerManager;
+    private final ListenerManager<T> listenerManager;
 
     private final BaseSlimeLoader<T> slimeLoader = new PluginLoader<>(this);
 
@@ -152,7 +152,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         return getConfigurationHandler(SlimeFile.SETTINGS);
     }
 
-    public ListenerManager getListenerManager() {
+    public ListenerManager<T> getListenerManager() {
         return listenerManager;
     }
 
