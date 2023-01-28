@@ -1,25 +1,17 @@
-#   _____ _          _ __  __  ____ _______ _____
+#    _____ _          _ __  __  ____ _______ _____
 #   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
 #   | |__) |__  _____| | \  / | |  | | | |  | |  | |
 #   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
 #   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
 #   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
 #
-#   Using version 10.0.0-SNAPSHOT
-#   Author: JustJustin (MrUniverse44)
-#   SpigotMC Link: https://www.spigotmc.org/resources/37177
-#   MC-Market Link: https://www.mc-market.org/resources/22313
-#   GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
+#         使用版本｜Using Version   10.0.0-SNAPSHOT
+#             作者｜Author          JustJustin (MrUniverse44)
+#    SpigotMC 链接｜SpigotMC Link   https://www.spigotmc.org/resources/37177
+#   MC-Market 链接｜MC-Market Link  https://www.mc-market.org/resources/22313
+#      GitHub 链接｜GitHub Link     https://github.com/ShieldCommunity/PixelMOTD
 #
-#   使用版本 10.0.0-SNAPSHOT
-#   作者：JustJustin (MrUniverse44)
-#   SpigotMC 链接：https://www.spigotmc.org/resources/37177
-#   MC-Market 链接：https://www.mc-market.org/resources/22313
-#   GitHub 链接：https://github.com/ShieldCommunity/PixelMOTD
-#
-#   Default translation provided by YoMonNPC.
-#   由 YoMonNPC 提供默认翻译。
-#   20220710T154000Z
+#   由 YoMonNPC 提供默认翻译。| Default translation provided by YoMonNPC.
 #
 messages:
   reload: '&a插件已正确重新加载，用时 <ms> 毫秒。'
