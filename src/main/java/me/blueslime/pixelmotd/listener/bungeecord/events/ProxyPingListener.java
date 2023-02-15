@@ -6,8 +6,9 @@ import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.listener.Ping;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.favicon.platforms.BungeeFavicon;
-import me.blueslime.pixelmotd.listener.bungeecord.BungeePingBuilder;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.pixelmotd.motd.builder.hover.platforms.BungeeHover;
+import me.blueslime.pixelmotd.motd.platforms.BungeePing;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.event.ProxyPingEvent;
@@ -19,9 +20,9 @@ import net.md_5.bungee.event.EventHandler;
 import java.net.SocketAddress;
 
 public class ProxyPingListener implements Listener, Ping {
-
-    private final BungeePingBuilder builder;
     private final PixelMOTD<Plugin> plugin;
+
+    private final BungeePing builder;
 
     private boolean hasOutdatedClient;
 
@@ -44,13 +45,14 @@ public class ProxyPingListener implements Listener, Ping {
     public ProxyPingListener(PixelMOTD<Plugin> plugin) {
         this.plugin = plugin;
 
-        BungeeFavicon favicon = new BungeeFavicon(
-                plugin
-        );
-
-        this.builder = new BungeePingBuilder(
+        this.builder = new BungeePing(
                 plugin,
-                favicon
+                new BungeeFavicon(
+                        plugin
+                ),
+                new BungeeHover(
+                        plugin
+                )
         );
         load();
     }

@@ -1,30 +1,32 @@
-package me.blueslime.pixelmotd.listener.velocity;
+package me.blueslime.pixelmotd.motd.platforms;
 
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
-import me.blueslime.pixelmotd.MotdProtocol;
-import me.blueslime.pixelmotd.MotdType;
-import me.blueslime.pixelmotd.PixelMOTD;
-import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
-import me.blueslime.pixelmotd.motd.builder.PingBuilder;
-import me.blueslime.pixelmotd.utils.MotdPlayers;
 import dev.mruniverse.slimelib.colors.platforms.velocity.DefaultSlimeColor;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.pixelmotd.MotdProtocol;
+import me.blueslime.pixelmotd.MotdType;
+import me.blueslime.pixelmotd.PixelMOTD;
+import me.blueslime.pixelmotd.motd.builder.PingBuilder;
+import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
+import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
+import me.blueslime.pixelmotd.utils.MotdPlayers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.UUID;
+public class VelocityPing extends PingBuilder<ProxyServer, Favicon, ProxyPingEvent, ServerPing.SamplePlayer> {
 
-public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, ProxyPingEvent, ServerPing.SamplePlayer> {
-
-    public VelocityPingBuilder(PixelMOTD<ProxyServer> plugin, FaviconModule<ProxyServer, Favicon> builder) {
-        super(plugin, builder);
+    public VelocityPing(
+            PixelMOTD<ProxyServer> plugin,
+            FaviconModule<ProxyServer, Favicon> builder,
+            HoverModule<ServerPing.SamplePlayer> hoverModule
+    ) {
+        super(plugin, builder, hoverModule);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
             );
 
             if (!iconName.equalsIgnoreCase("") && !iconName.equalsIgnoreCase("disabled")) {
-                Favicon img = getBuilder().getFavicon(
+                Favicon img = getFavicon().getFavicon(
                         iconName
                 );
                 if (img != null) {
@@ -99,14 +101,18 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
         if (control.getStatus(path + "hover.toggle", false)) {
             ping.clearSamplePlayers();
 
-            ping.samplePlayers(
-                    getHover(
-                            motdType,
+            ServerPing.SamplePlayer[] array = getHoverModule().convert(
+                    getHoverModule().generate(
+                            control,
                             path,
+                            user,
                             online,
-                            max,
-                            user
+                            max
                     )
+            );
+
+            ping.samplePlayers(
+                    array
             );
         }
 
@@ -199,44 +205,6 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
         return LegacyComponentSerializer.legacySection().deserialize(text);
     }
 
-    @Override
-    public ServerPing.SamplePlayer[] getHover(MotdType motdType, String path, int online, int max, String user) {
-        ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
-
-        ServerPing.SamplePlayer[] hoverToShow = new ServerPing.SamplePlayer[0];
-
-        List<String> lines;
-
-        if (isPlayerSystem()) {
-            lines = getExtras().replaceHoverLine(
-                    control.getStringList(path + "hover.lines")
-            );
-        } else {
-            lines = control.getStringList(path + "hover.lines");
-        }
-
-        final UUID uuid = UUID.fromString("0-0-0-0-0");
-
-        for (String line : lines) {
-            hoverToShow = addHoverLine(
-                    hoverToShow,
-                    new ServerPing.SamplePlayer(
-                            legacy(
-                                    getExtras().replace(
-                                            line,
-                                            online,
-                                            max,
-                                            user
-                                    )
-                            ),
-                            uuid
-                    )
-            );
-        }
-
-        return hoverToShow;
-    }
-
     private @NotNull String legacy(String content) {
         Component color = new DefaultSlimeColor(content, true)
                 .build();
@@ -250,13 +218,5 @@ public class VelocityPingBuilder extends PingBuilder<ProxyServer, Favicon, Proxy
         return LegacyComponentSerializer.legacySection().serialize(
                 color
         );
-    }
-
-    @Override
-    public ServerPing.SamplePlayer[] addHoverLine(ServerPing.SamplePlayer[] player, ServerPing.SamplePlayer info) {
-        ServerPing.SamplePlayer[] samplePlayers = new ServerPing.SamplePlayer[player.length + 1];
-        System.arraycopy(player, 0, samplePlayers, 0, player.length);
-        samplePlayers[player.length] = info;
-        return samplePlayers;
     }
 }

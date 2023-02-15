@@ -12,18 +12,19 @@ import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.listener.Ping;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.favicon.platforms.VelocityFavicon;
-import me.blueslime.pixelmotd.listener.velocity.VelocityPingBuilder;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.file.storage.FileStorage;
+import me.blueslime.pixelmotd.motd.builder.hover.platforms.VelocityHover;
+import me.blueslime.pixelmotd.motd.platforms.VelocityPing;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 public class ProxyPingListener implements Ping {
 
-    private final PixelMOTD<ProxyServer> slimePlugin;
+    private final PixelMOTD<ProxyServer> plugin;
 
-    private final VelocityPingBuilder pingBuilder;
+    private final VelocityPing pingBuilder;
 
     private boolean hasOutdatedClient;
 
@@ -44,30 +45,33 @@ public class ProxyPingListener implements Ping {
     private ConfigurationHandler modes;
 
     public ProxyPingListener(PixelMOTD<ProxyServer> plugin) {
-        this.pingBuilder = new VelocityPingBuilder(
+        this.pingBuilder = new VelocityPing(
                 plugin,
                 new VelocityFavicon(
                         plugin
+                ),
+                new VelocityHover(
+                        plugin
                 )
         );
-        this.slimePlugin = plugin;
+        this.plugin = plugin;
         load();
     }
 
     public void updateModes() {
-        modes = slimePlugin.getConfigurationHandler(Configuration.MODES);
+        modes = plugin.getConfigurationHandler(Configuration.MODES);
     }
 
     private void load() {
         updateModes();
 
-        FileStorage fileStorage = slimePlugin.getLoader().getFiles();
+        FileStorage fileStorage = plugin.getLoader().getFiles();
 
         final ConfigurationHandler control = fileStorage.getConfigurationHandler(Configuration.SETTINGS);
 
         type = MotdType.NORMAL;
 
-        unknown = slimePlugin.getConfigurationHandler(Configuration.SETTINGS).getString("settings.unknown-player", "unknown#1");
+        unknown = plugin.getSettings().getString("settings.unknown-player", "unknown#1");
 
         if (control.getString("settings.default-priority-motd", "DEFAULT").equalsIgnoreCase("HEX")) {
             type = MotdType.NORMAL_HEX;
