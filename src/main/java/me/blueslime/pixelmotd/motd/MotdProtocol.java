@@ -1,4 +1,4 @@
-package me.blueslime.pixelmotd;
+package me.blueslime.pixelmotd.motd;
 
 public enum MotdProtocol {
     ALWAYS_POSITIVE,

@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.motd.platforms;
 
-import me.blueslime.pixelmotd.MotdType;
+import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.external.iridiumcolorapi.IridiumColorAPI;
 import me.blueslime.pixelmotd.motd.builder.hover.EmptyPlayerInfo;

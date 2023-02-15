@@ -6,7 +6,7 @@ import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.InboundConnection;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.ServerPing;
-import me.blueslime.pixelmotd.MotdType;
+import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.listener.Ping;

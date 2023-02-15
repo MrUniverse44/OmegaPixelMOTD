@@ -2,7 +2,7 @@ package me.blueslime.pixelmotd.motd.platforms;
 
 import dev.mruniverse.slimelib.colors.platforms.velocity.DefaultSlimeColor;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import me.blueslime.pixelmotd.MotdType;
+import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;

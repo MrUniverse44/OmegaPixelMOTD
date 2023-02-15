@@ -1,4 +1,4 @@
-package me.blueslime.pixelmotd.listener.manager;
+package me.blueslime.pixelmotd.motd.manager;
 
 import me.blueslime.pixelmotd.PixelMOTD;
 import dev.mruniverse.slimelib.logs.SlimeLogs;

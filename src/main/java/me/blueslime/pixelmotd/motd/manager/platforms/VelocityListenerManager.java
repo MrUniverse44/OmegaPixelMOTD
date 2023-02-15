@@ -1,8 +1,8 @@
-package me.blueslime.pixelmotd.listener.manager.platforms;
+package me.blueslime.pixelmotd.motd.manager.platforms;
 
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.proxy.ProxyServer;
-import me.blueslime.pixelmotd.listener.manager.ListenerManager;
+import me.blueslime.pixelmotd.motd.manager.ListenerManager;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.initialization.velocity.VelocityMOTD;
 import me.blueslime.pixelmotd.listener.velocity.events.ProxyPingListener;

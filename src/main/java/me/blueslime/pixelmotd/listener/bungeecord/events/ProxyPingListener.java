@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.listener.bungeecord.events;
 
-import me.blueslime.pixelmotd.MotdType;
+import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.listener.Ping;

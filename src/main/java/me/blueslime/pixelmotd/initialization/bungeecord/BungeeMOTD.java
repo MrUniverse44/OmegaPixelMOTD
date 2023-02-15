@@ -1,7 +1,7 @@
 package me.blueslime.pixelmotd.initialization.bungeecord;
 
 import me.blueslime.pixelmotd.PixelMOTD;
-import me.blueslime.pixelmotd.listener.manager.platforms.BungeeListenerManager;
+import me.blueslime.pixelmotd.motd.manager.platforms.BungeeListenerManager;
 import me.blueslime.pixelmotd.status.ServerStatusChecker;
 import me.blueslime.pixelmotd.status.StatusChecker;
 import dev.mruniverse.slimelib.SlimePlatform;

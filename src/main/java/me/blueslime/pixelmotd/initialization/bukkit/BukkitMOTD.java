@@ -2,7 +2,7 @@ package me.blueslime.pixelmotd.initialization.bukkit;
 
 import me.blueslime.pixelmotd.PixelMOTD;
 import dev.mruniverse.slimelib.SlimePlatform;
-import me.blueslime.pixelmotd.listener.manager.platforms.BukkitListenerManager;
+import me.blueslime.pixelmotd.motd.manager.platforms.BukkitListenerManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")

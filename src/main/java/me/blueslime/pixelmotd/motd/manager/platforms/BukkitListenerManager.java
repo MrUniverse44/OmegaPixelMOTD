@@ -1,6 +1,6 @@
-package me.blueslime.pixelmotd.listener.manager.platforms;
+package me.blueslime.pixelmotd.motd.manager.platforms;
 
-import me.blueslime.pixelmotd.listener.manager.ListenerManager;
+import me.blueslime.pixelmotd.motd.manager.ListenerManager;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.spigot.events.PacketServerPingListener;
 import me.blueslime.pixelmotd.listener.spigot.events.ServerPingListener;

@@ -1,7 +1,7 @@
-package me.blueslime.pixelmotd.listener.manager.platforms;
+package me.blueslime.pixelmotd.motd.manager.platforms;
 
 import com.google.inject.Inject;
-import me.blueslime.pixelmotd.listener.manager.ListenerManager;
+import me.blueslime.pixelmotd.motd.manager.ListenerManager;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.sponge.events.ServerPingListener;
 import me.blueslime.pixelmotd.utils.Extras;

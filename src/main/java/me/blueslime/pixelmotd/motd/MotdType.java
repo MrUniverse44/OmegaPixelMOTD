@@ -1,4 +1,6 @@
-package me.blueslime.pixelmotd;
+package me.blueslime.pixelmotd.motd;
+
+import me.blueslime.pixelmotd.Configuration;
 
 public enum MotdType {
 

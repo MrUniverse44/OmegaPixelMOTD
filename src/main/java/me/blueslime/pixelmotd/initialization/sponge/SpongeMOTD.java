@@ -3,7 +3,7 @@ package me.blueslime.pixelmotd.initialization.sponge;
 import com.google.inject.Inject;
 import me.blueslime.pixelmotd.PixelMOTD;
 import dev.mruniverse.slimelib.SlimePlatform;
-import me.blueslime.pixelmotd.listener.manager.platforms.SpongeListenerManager;
+import me.blueslime.pixelmotd.motd.manager.platforms.SpongeListenerManager;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
