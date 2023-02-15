@@ -12,13 +12,14 @@ import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.listener.Ping;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.favicon.platforms.ProtocolFavicon;
-import me.blueslime.pixelmotd.listener.spigot.packets.PacketSpigotPingBuilder;
 import me.blueslime.pixelmotd.listener.spigot.version.PlayerVersionHandler;
 import me.blueslime.pixelmotd.listener.spigot.version.handlers.None;
 import me.blueslime.pixelmotd.listener.spigot.version.handlers.ProtocolLib;
 import me.blueslime.pixelmotd.listener.spigot.version.handlers.ViaVersion;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.file.storage.FileStorage;
+import me.blueslime.pixelmotd.motd.builder.hover.platforms.ProtocolHover;
+import me.blueslime.pixelmotd.motd.platforms.ProtocolPing;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.InetAddress;
@@ -28,9 +29,9 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
 
     private final PlayerVersionHandler playerVersionHandler;
 
-    private final PixelMOTD<JavaPlugin> slimePlugin;
+    private final PixelMOTD<JavaPlugin> plugin;
 
-    private final PacketSpigotPingBuilder pingBuilder;
+    private final ProtocolPing pingBuilder;
 
     private boolean hasOutdatedClient;
 
@@ -50,27 +51,30 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
 
     private ConfigurationHandler modes;
 
-    public PacketServerPingListener(PixelMOTD<JavaPlugin> slimePlugin) {
-        super(slimePlugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Status.Server.SERVER_INFO);
+    public PacketServerPingListener(PixelMOTD<JavaPlugin> plugin) {
+        super(plugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Status.Server.SERVER_INFO);
 
-        this.pingBuilder = new PacketSpigotPingBuilder(
-                slimePlugin,
+        this.pingBuilder = new ProtocolPing(
+                plugin,
                 new ProtocolFavicon(
-                        slimePlugin
+                        plugin
+                ),
+                new ProtocolHover(
+                        plugin
                 )
         );
 
-        if (slimePlugin.getPlugin().getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
+        if (plugin.getPlugin().getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
             this.playerVersionHandler = new ProtocolLib();
         } else {
-            if (slimePlugin.getPlugin().getServer().getPluginManager().isPluginEnabled("ViaVersion")) {
+            if (plugin.getPlugin().getServer().getPluginManager().isPluginEnabled("ViaVersion")) {
                 this.playerVersionHandler = new None();
             } else {
                 this.playerVersionHandler = new ViaVersion();
             }
         }
 
-        this.slimePlugin = slimePlugin;
+        this.plugin = plugin;
         load();
     }
 
@@ -80,19 +84,19 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
     }
 
     public void updateModes() {
-        modes = slimePlugin.getConfigurationHandler(Configuration.MODES);
+        modes = plugin.getConfigurationHandler(Configuration.MODES);
     }
 
     private void load() {
         updateModes();
 
-        FileStorage fileStorage = slimePlugin.getLoader().getFiles();
+        FileStorage fileStorage = plugin.getLoader().getFiles();
 
         final ConfigurationHandler control = fileStorage.getConfigurationHandler(Configuration.SETTINGS);
 
         type = MotdType.NORMAL;
 
-        unknown = slimePlugin.getConfigurationHandler(Configuration.SETTINGS).getString("settings.unknown-player", "unknown#1");
+        unknown = plugin.getSettings().getString("settings.unknown-player", "unknown#1");
 
         if (control.getString("settings.default-priority-motd", "DEFAULT").equalsIgnoreCase("HEX")) {
             type = MotdType.NORMAL_HEX;

@@ -6,8 +6,9 @@ import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.listener.Ping;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.favicon.platforms.BukkitFavicon;
-import me.blueslime.pixelmotd.listener.spigot.SpigotPingBuilder;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.pixelmotd.motd.builder.hover.platforms.BukkitHover;
+import me.blueslime.pixelmotd.motd.platforms.BukkitPing;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -19,7 +20,7 @@ public class ServerPingListener implements Ping, Listener {
 
     private final PixelMOTD<JavaPlugin> plugin;
 
-    private final SpigotPingBuilder pingBuilder;
+    private final BukkitPing pingBuilder;
 
     private boolean isWhitelisted;
 
@@ -32,9 +33,12 @@ public class ServerPingListener implements Ping, Listener {
     private ConfigurationHandler modes;
 
     public ServerPingListener(PixelMOTD<JavaPlugin> plugin) {
-        this.pingBuilder = new SpigotPingBuilder(
+        this.pingBuilder = new BukkitPing(
                 plugin,
                 new BukkitFavicon(
+                        plugin
+                ),
+                new BukkitHover(
                         plugin
                 )
         );

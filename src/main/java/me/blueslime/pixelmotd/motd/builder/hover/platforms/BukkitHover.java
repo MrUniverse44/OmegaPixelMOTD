@@ -2,7 +2,7 @@ package me.blueslime.pixelmotd.motd.builder.hover.platforms;
 
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
-import me.blueslime.pixelmotd.listener.spigot.EmptyPlayerInfo;
+import me.blueslime.pixelmotd.motd.builder.hover.EmptyPlayerInfo;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
 
 import java.util.Collections;

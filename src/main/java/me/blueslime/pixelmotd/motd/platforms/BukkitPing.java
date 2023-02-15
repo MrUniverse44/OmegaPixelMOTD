@@ -3,7 +3,7 @@ package me.blueslime.pixelmotd.motd.platforms;
 import me.blueslime.pixelmotd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.external.iridiumcolorapi.IridiumColorAPI;
-import me.blueslime.pixelmotd.listener.spigot.EmptyPlayerInfo;
+import me.blueslime.pixelmotd.motd.builder.hover.EmptyPlayerInfo;
 import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;

@@ -1,46 +1,44 @@
-package me.blueslime.pixelmotd.listener.spigot.packets;
+package me.blueslime.pixelmotd.motd.platforms;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
+import dev.mruniverse.slimelib.colors.platforms.StringSlimeColor;
+import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import me.blueslime.pixelmotd.MotdProtocol;
 import me.blueslime.pixelmotd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.external.iridiumcolorapi.IridiumColorAPI;
-import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
+import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
+import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
 import me.blueslime.pixelmotd.utils.MotdPlayers;
 import me.blueslime.pixelmotd.utils.PlaceholderParser;
-import dev.mruniverse.slimelib.colors.platforms.StringSlimeColor;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.file.configuration.TextDecoration;
-import dev.mruniverse.slimelib.logs.SlimeLogs;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
-public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServerPing.CompressedImage, WrappedServerPing, WrappedGameProfile> {
+public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.CompressedImage, WrappedServerPing, WrappedGameProfile> {
 
     private final boolean hasPAPI;
 
-    public PacketSpigotPingBuilder(PixelMOTD<JavaPlugin> plugin, FaviconModule<JavaPlugin, WrappedServerPing.CompressedImage> builder) {
-        super(plugin, builder);
+    public ProtocolPing(
+            PixelMOTD<JavaPlugin> plugin,
+            FaviconModule<JavaPlugin, WrappedServerPing.CompressedImage> builder,
+            HoverModule<WrappedGameProfile> hoverModule
+    ) {
+        super(plugin, builder, hoverModule);
         hasPAPI = plugin.getPlugin().getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
     }
 
     @Override
     public void execute(MotdType motdType, WrappedServerPing ping, int code, String user) {
-        final SlimeLogs logs = getPlugin().getLogs();
-
         final ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
 
         String motd = getMotd(motdType);
 
         if (motd.equals("8293829382382732127413475y42732749832748327472fyfs")) {
             if (isDebug()) {
-                logs.debug("The plugin don't detect motds for MotdType: " + motdType);
+                getLogs().debug("The plugin don't detect motds for MotdType: " + motdType);
             }
             return;
         }
@@ -57,7 +55,7 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
             );
 
             if (!iconName.equalsIgnoreCase("") && !iconName.equalsIgnoreCase("disabled")) {
-                WrappedServerPing.CompressedImage img = getBuilder().getFavicon(
+                WrappedServerPing.CompressedImage img = getFavicon().getFavicon(
                         iconName
                 );
                 if (img != null) {
@@ -99,13 +97,13 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
 
         if (control.getStatus(path + "hover.toggle", false)) {
             ping.setPlayers(
-                    Arrays.asList(getHover(
-                            motdType,
+                    getHoverModule().generate(
+                            control,
                             path,
+                            user,
                             online,
-                            max,
-                            user
-                    ))
+                            max
+                    )
             );
         }
 
@@ -191,43 +189,5 @@ public class PacketSpigotPingBuilder extends PingBuilder<JavaPlugin, WrappedServ
         ping.setMotD(completed);
         ping.setPlayersOnline(online);
         ping.setPlayersMaximum(max);
-    }
-
-    @Override
-    public WrappedGameProfile[] getHover(MotdType motdType, String path, int online, int max, String user) {
-        ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
-
-        WrappedGameProfile[] gameProfiles = new WrappedGameProfile[0];
-
-        List<String> lines;
-
-        if (isPlayerSystem()) {
-            lines = getExtras().replaceHoverLine(
-                    control.getStringList(TextDecoration.LEGACY, path + "hover.lines")
-            );
-        } else {
-            lines = control.getStringList(TextDecoration.LEGACY, path + "hover.lines");
-        }
-
-        final UUID uuid = UUID.fromString("0-0-0-0-0");
-
-        for (String line : lines) {
-            gameProfiles = addHoverLine(
-                    gameProfiles,
-                    new WrappedGameProfile(
-                            uuid,
-                            getExtras().replace(line, online, max, user)
-                    )
-            );
-        }
-        return gameProfiles;
-    }
-
-    @Override
-    public WrappedGameProfile[] addHoverLine(WrappedGameProfile[] player, WrappedGameProfile info) {
-        WrappedGameProfile[] gameProfiles = new WrappedGameProfile[player.length + 1];
-        System.arraycopy(player, 0, gameProfiles, 0, player.length);
-        gameProfiles[player.length] = info;
-        return gameProfiles;
     }
 }

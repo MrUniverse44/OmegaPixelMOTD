@@ -1,4 +1,4 @@
-package me.blueslime.pixelmotd.listener.spigot;
+package me.blueslime.pixelmotd.motd.builder.hover;
 
 import java.util.UUID;
 
