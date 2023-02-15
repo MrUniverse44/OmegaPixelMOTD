@@ -1,0 +1,74 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 9.3.7-SNAPSHOT
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#   MC-Market Link: https://www.mc-market.org/resources/22313/
+#   GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
+#
+#   All commands and aliases are configurable!
+commands:
+  main-command:
+    cmd: "pmotd"
+    aliases:
+      - "pixelmotd"
+      - "pmd"
+      - "motd"
+    no-arguments:
+      - "&a&l────── PIXEL MOTD ──────"
+      - "&8Created by JustJustin v%plugin version%"
+      - "&a&l────── PIXEL MOTD ──────"
+    admin:
+      main:
+        - "&a&l────── PIXEL MOTD ──────"
+        - "&8» &a/%used command% whitelist &8- &7Whitelist Commands."
+        - "&8» &a/%used command% blacklist &8- &7Blacklist Commands."
+        - "&8» &a/%used command% reload &8- &7Reload Command."
+        - "&8» &a/%used command% updater &8- &7Auto Update Command."
+        - "&a&l────── PIXEL MOTD ──────"
+      updater:
+        start: "&9Updater command has been used, all information will be posted in Console."
+        finish: "&9Updater has been applied, read information about the updater in Console."
+      whitelist:
+        - "&a&l────── PIXEL MOTD ──────"
+        - "&8Admin - Whitelist Commands:"
+        - "&8» &a/%used command% whitelist list &8- &7List of players, uuids in the whitelist."
+        - "&8» &a/%used command% whitelist add (player) [<server/world>]&8- &7Add a player to the whitelist."
+        - "&8» &a/%used command% whitelist remove (player) [<server/world>] &8- &7Remove a player from whitelist."
+        - "&8» &a/%used command% whitelist <on|off> [<server/world>] &8- &7Toggle whitelist."
+        - "&a&l────── PIXEL MOTD ──────"
+      blacklist:
+        - "&a&l────── PIXEL MOTD ──────"
+        - "&8Admin - Blacklist Commands:"
+        - "&8» &a/%used command% blacklist list &8- &7List of players, uuids in the blacklist."
+        - "&8» &a/%used command% blacklist add (player) [<server/world>]&8- &7Add a player to the blacklist."
+        - "&8» &a/%used command% blacklist remove (player) [<server/world>] &8- &7Remove a player from blacklist."
+        - "&8» &a/%used command% blacklist <on|off> [<server/world>] &8- &7Toggle blacklist."
+        - "&a&l────── PIXEL MOTD ──────"
+    arguments:
+      reload: "reload"
+      whitelist:
+        main: "whitelist"
+        list: "list"
+        add: "add"
+        remove: "remove"
+        toggle-on: "on"
+        toggle-off: "off"
+      blacklist:
+        main: "blacklist"
+        list: "list"
+        add: "add"
+        remove: "remove"
+        toggle-on: "on"
+        toggle-off: "off"
+      updater: "updater"
+    permissions:
+      main: "pixelmotd.command.main"
+      reload: "pixelmotd.command.reload"
+      whitelist: "pixelmotd.command.whitelist"
+      blacklist: "pixelmotd.command.blacklist"

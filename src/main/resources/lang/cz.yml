@@ -1,0 +1,45 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 9.3.7-SNAPSHOT
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#   BuiltByBit (MC-Market) Odkaz: https://www.builtbybit.org/resources/22313/
+#   GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
+#
+#   Pro verzi 9.3.2-SNAPSHOT
+#   Autor pluginu: JustJustin (MrUniverse44)
+#   SpigotMC Odkaz: https://www.spigotmc.org/resources/37177/
+#   BuiltByBit (MC-Market) Odkaz: https://www.builtbybit.org/resources/22313/
+#   GitHub Odkaz: https://github.com/ShieldCommunity/PixelMOTD
+#
+#   Translation author (Autor překladu): JustLeader#5532
+#
+messages:
+  reload: '&aPlugin se úspěšně načetl za <ms>ms.'
+
+  error:
+    permission: '&cNa použití tohoto příkazu potřebuješ permissi <permission>.'
+    already-whitelisted: '&a<type> &e<player> &aje již na whitelistu!'
+    already-blacklisted: '&a<type> &e<player> &aje již na blacklistu!'
+    not-whitelisted: '&a<type> &e<player> &anení na whitelistu!'
+    not-blacklisted: '&a<type> &e<player> &anení na blacklistu!'
+    invalid-arguments: '&aTento příkaz vyžaduje více argumentů.'
+
+  whitelist:
+    enabled: '&aWhitelist je nyní &b&lZAPNUT&a.'
+    disabled: '&aWhitelist je nyní &c&lVYPNUT&a.'
+    player:
+      add: '&a<type> &e<player> &abyl&b přidán &ana whitelist.'
+      remove: '&a<type> &e<player> &abyl&b odebrán&a z whitelistu.'
+
+  blacklist:
+    enabled: '&aBlacklist byl &b&lZAPNUT&a.'
+    disabled: '&aBlacklist byl &c&lVYPNUT&a.'
+    player:
+      add: '&a<type> &e<player> &abyl&b přidán &ana blacklist.'
+      remove: '&a<type> &e<player> &abyl&b odebrán&a z blacklistu.'

@@ -1,0 +1,39 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 9.3.7-SNAPSHOT
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#   MC-Market Link: https://www.mc-market.org/resources/22313/
+#   GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
+#
+#   Translated by SageSphinx63920
+#
+messages:
+  reload: '&aDas plugin wurde in <ms>ms neu geladen.'
+
+  error:
+    permission: '&cDu brauchst die Berechtigung <permission> um diesen Befehl nutzen zu können.'
+    already-whitelisted: '&a<type> &e<player> &aist bereits in der Whitelist!'
+    already-blacklisted: '&a<type> &e<player> &ais tbereits in der Blacklist!'
+    not-whitelisted: '&a<type> &e<player> &aist nicht in der Whitelist!'
+    not-blacklisted: '&a<type> &e<player> &aist nicht in der Blacklist!'
+    invalid-arguments: '&aDieser Befehl braucht mehr Argumente.'
+
+  whitelist:
+    enabled: '&aDie Whitelist ist jetzt &b&lAKTIVIERT&a.'
+    disabled: '&aDie Whitelist ist jetzt &c&lDEAKTIVIERT&a.'
+    player:
+      add: '&a<type> &e<player> &awurde zur Whitelist&b hinzugefügt&a.'
+      remove: '&a<type> &e<player> &awurde von der Whitelist&b entfernt&a.'
+
+  blacklist:
+    enabled: '&aDie Blacklist wurde &b&lAKTIVIERT&a.'
+    disabled: '&aDie Blacklist wurde &c&lDEAKTIVIERT&a.'
+    player:
+      add: '&a<type> &e<player> &awurde zur Blacklist&b hinzugefügt&a.'
+      remove: '&a<type> &e<player> &awurde von der Blacklist&b entfernt&a.'

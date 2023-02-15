@@ -1,0 +1,47 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 9.3.7-SNAPSHOT
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#   MC-Market Link: https://www.mc-market.org/resources/22313/
+#   GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
+#
+#   Toggle Events,if this option is disabled, events will not load and variables will not work. Recommended: false, if you have +1000 users.
+#   Only enable this option when you have an event running.
+events-toggle: false
+# Default: 12/21/21 23:59:00
+# If you change this pattern you need to change the pattern of your eventDate
+pattern: "MM/dd/yy HH:mm:ss"
+#   Customize your own events
+events:
+  # This is the default event, to add more events only copy and paste it
+  # (obviously replacing the name 'exampleEvent' with another name)
+  exampleEvent:
+    name: Example Event
+    date: 12/21/21 23:59:00
+    time-zone: ECT
+    format-type: FIRST
+    end-message: '&cThe event finished.'
+# Time Option
+timer:
+  weeks: "weeks"
+  week: "week"
+  w: "w"
+  days: "days"
+  day: "day"
+  d: "d"
+  hours: "hours"
+  hour: "hour"
+  h: "h"
+  minutes: "minutes"
+  minute: "minute"
+  m: "m"
+  seconds: "seconds"
+  second: "second"
+  s: "s"
+  separator: ","

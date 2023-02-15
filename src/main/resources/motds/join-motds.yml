@@ -1,0 +1,69 @@
+#   _____ _          _ __  __  ____ _______ _____
+#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
+#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
+#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
+#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
+#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
+#
+#   Using version 9.3.7-SNAPSHOT
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#   MC-Market Link: https://www.mc-market.org/resources/22313/
+#   GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
+#
+# This motd will be showed to all players when switch from worlds or servers depending on the platform
+global-join-motd:
+  enabled: true
+  # This will clear the chat before the global-join-motd.
+  clear-chat: true
+  # Lines of the motd, if you want center the text use: <center>
+  # This supports PlaceholderAPI when the plugin is installed on spigot.
+  lines:
+    - "<center>&a&lX PixelMotds 4"
+    - "<center>&f&oFourth re-work of the PixelMOTD"
+    - ""
+    - "&8 - &fYou are connected in &a%connected_server%"
+    - "&8 - &fYou were previously in &7%previous_server%"
+    - ""
+    - "&ePixelMOTD"
+  # This motd will not be sent to players in blacklist-servers or worlds
+  # You can use <contains> variable to use the CONTAINS check-type
+  # example of contains in "lobby": "lobby1, lobby2, lobby3, lobby4, lobby5" will be blacklisted
+  # By default it uses the EQUALS check-type
+  blacklist-servers:
+    - "<contains>lobby"
+    - "<contains>auth"
+join-motds:
+  # The key is the server name
+  lobby:
+    # You can add more servers for this motd
+    more-servers: []
+    # Aliases: CONTAINS, EQUALS
+    server-names-check-type: CONTAINS
+    # example of contains: "lobby1, lobby2, lobby3, lobby4, lobby5"
+    # example of equals: "lobby". "lobby1", "lobby2", "lobby3", "lobby4", "lobby5" will be ignored
+    # the type will be used for the main-server and the more-servers path
+    lines:
+      - "<center>&a&lX PixelMotds 4"
+      - "<center>&f&oFourth re-work of the PixelMOTD"
+      - ""
+      - "&8 - &cThis motd is exclusive for lobby server."
+      - "&8 - &eYou were previously in &7%previous_server%"
+      - ""
+      - "&ePixelMOTD"
+  auth:
+    # You can add more servers for this motd
+    more-servers: []
+    # Aliases: CONTAINS, EQUALS
+    server-names-check-type: CONTAINS
+    # example of contains: "lobby1, lobby2, lobby3, lobby4, lobby5"
+    # example of equals: "lobby". "lobby1", "lobby2", "lobby3", "lobby4", "lobby5" will be ignored
+    # the type will be used for the main-server and the more-servers path
+    lines:
+      - "<center>&a&lX PixelMotds 4"
+      - "<center>&f&oFourth re-work of the PixelMOTD"
+      - ""
+      - "&8 - &bPlease login with &f/login (password)&f."
+      - "&8 - &r&oWelcome to our server!"
+      - ""
+      - "&ePixelMOTD"

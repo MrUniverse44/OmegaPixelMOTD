@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord link
+    url: https://discord.gg/GnStU5Ecr2
+    about: Our discord community!
+  - name: Spigotmc Page
+    url: https://www.spigotmc.org/resources/bungee-spigot-velocity-%E2%9E%A5-pixel-motd.37177/
+    about: Get more information about the plugin.

@@ -1,0 +1,8 @@
+name: PixelMOTD
+version: '${project.version}'
+main: me.blueslime.pixelmotd.initialization.bukkit.BukkitMOTD
+description: Motd plugin for multiplatform
+author: JustJustin
+website: "https://github.com/ShieldCommunity/PixelMOTD"
+softdepend:
+  - ProtocolLib

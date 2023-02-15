@@ -1,0 +1,1 @@
+{"id":"pixelmotd","name":"PixelMOTD","version":"${project.version}","authors":["JustJustin"],"dependencies":[],"main":"me.blueslime.pixelmotd.initialization.velocity.VelocityMOTD"}
