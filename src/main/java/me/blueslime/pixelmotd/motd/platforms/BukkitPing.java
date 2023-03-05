@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd.motd.platforms;
 
+import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.external.iridiumcolorapi.IridiumColorAPI;
@@ -7,11 +8,8 @@ import me.blueslime.pixelmotd.motd.builder.hover.EmptyPlayerInfo;
 import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
-import me.blueslime.pixelmotd.utils.MotdPlayers;
 import me.blueslime.pixelmotd.utils.PlaceholderParser;
 import dev.mruniverse.slimelib.colors.platforms.StringSlimeColor;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,13 +31,11 @@ public class BukkitPing extends PingBuilder<JavaPlugin, CachedServerIcon, Server
 
     @Override
     public void execute(MotdType motdType, ServerListPingEvent ping, int code, String user) {
-        final ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
+        CachedMotd motd = getMotd(motdType);
 
-        String motd = getMotd(motdType);
-
-        if (motd.equals("8293829382382732127413475y42732749832748327472fyfs")) {
+        if (motd == null) {
             if (isDebug()) {
-                getPlugin().getLogs().debug("The plugin don't detect motds for MotdType: " + motdType);
+                getLogs().debug("The plugin don't detect motds for MotdType: " + motdType);
             }
             return;
         }
@@ -48,47 +44,25 @@ public class BukkitPing extends PingBuilder<JavaPlugin, CachedServerIcon, Server
 
         int max;
 
-        String path = motdType + "." + motd + ".";
-
         if (isIconSystem()) {
-            String iconName = control.getString(
-                    path + "icons.icon", ""
-            );
-            if (!iconName.equalsIgnoreCase("") && !iconName.equalsIgnoreCase("disabled")) {
-                CachedServerIcon img = getFavicon().getFavicon(
-                        iconName
+            if (motd.hasServerIcon()) {
+                CachedServerIcon favicon = getFavicon().getFavicon(
+                        motd.getServerIcon()
                 );
 
-                if (img != null) {
-                    ping.setServerIcon(img);
+                if (favicon != null) {
+                    ping.setServerIcon(
+                            favicon
+                    );
                 }
             }
         }
 
-        if (control.getStatus(path + "players.max.toggle", false)) {
-            String mode = control.getString(path + "players.max.type", "add").toLowerCase();
-            if (mode.contains("equal")) {
-                max = MotdPlayers.getModeFromText(
-                        control,
-                        mode,
-                        ping.getMaxPlayers(),
-                        path + "players.max."
-                );
-            } else {
-                max = MotdPlayers.getModeFromText(
-                        control,
-                        mode,
-                        ping.getNumPlayers(),
-                        path + "players.max."
-                );
-            }
-        } else {
-            max = ping.getMaxPlayers();
-        }
+        max = motd.getMax(getPlugin(), ping.getNumPlayers());
 
-        if (!motdType.isHexMotd()) {
-            line1 = control.getString(TextDecoration.LEGACY, path + "line1", "");
-            line2 = control.getString(TextDecoration.LEGACY, path + "line2", "");
+        if (!motd.hasHex()) {
+            line1 = ChatColor.translateAlternateColorCodes('&', motd.getLine1());
+            line2 = ChatColor.translateAlternateColorCodes('&', motd.getLine2());
 
             if (hasPAPI) {
                 line1 = PlaceholderParser.parse(getPlugin().getLogs(), user, line1);
@@ -108,8 +82,8 @@ public class BukkitPing extends PingBuilder<JavaPlugin, CachedServerIcon, Server
             );
 
         } else {
-            line1 = control.getString(path + "line1", "");
-            line2 = control.getString(path + "line2", "");
+            line1 = motd.getLine1();
+            line2 = motd.getLine2();
 
             if (hasPAPI) {
                 line1 = PlaceholderParser.parse(getPlugin().getLogs(), user, line1);

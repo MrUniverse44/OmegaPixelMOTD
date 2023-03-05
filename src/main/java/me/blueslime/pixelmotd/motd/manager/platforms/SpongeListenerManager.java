@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import me.blueslime.pixelmotd.motd.manager.ListenerManager;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.sponge.events.ServerPingListener;
-import me.blueslime.pixelmotd.utils.Extras;
+import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.plugin.PluginContainer;
@@ -41,7 +41,7 @@ public class SpongeListenerManager extends ListenerManager<Server> {
     }
 
     @Override
-    public Extras getExtras() {
+    public PluginPlaceholders getExtras() {
         return listener.getPingBuilder().getExtras();
     }
 }

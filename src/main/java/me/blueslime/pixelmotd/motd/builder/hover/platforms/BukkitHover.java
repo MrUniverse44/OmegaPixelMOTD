@@ -1,6 +1,5 @@
 package me.blueslime.pixelmotd.motd.builder.hover.platforms;
 
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.motd.builder.hover.EmptyPlayerInfo;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
@@ -14,7 +13,7 @@ public class BukkitHover extends HoverModule<EmptyPlayerInfo> {
     }
 
     @Override
-    public List<EmptyPlayerInfo> generate(ConfigurationHandler configuration, String path, String user, int online, int max) {
+    public List<EmptyPlayerInfo> generate(List<String> lines, String user, int online, int max) {
         return Collections.emptyList();
     }
 

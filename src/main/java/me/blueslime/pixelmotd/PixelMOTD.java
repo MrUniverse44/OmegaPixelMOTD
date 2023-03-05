@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd;
 
+import dev.mruniverse.slimelib.SlimeFiles;
 import me.blueslime.pixelmotd.commands.PluginCommand;
 import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
 import me.blueslime.pixelmotd.motd.manager.ListenerManager;
@@ -19,6 +20,7 @@ import dev.mruniverse.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.utils.logger.LoggerSetup;
 
 import java.io.File;
+import java.io.IOException;
 
 @SuppressWarnings("unused")
 public class PixelMOTD<T> implements SlimePlugin<T> {
@@ -43,6 +45,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
     private final SlimeLogs logs;
 
     private final File folder;
+    private final File motds;
 
     private final File lang;
 
@@ -87,6 +90,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
         }
 
+        this.motds = new File(dataFolder, "motds");
         this.lang = new File(dataFolder, "lang");
 
         if (!lang.exists() && lang.mkdirs()) {
@@ -105,6 +109,26 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
                     );
                 } catch (Exception ignored) { }
                 loadMessageFile("cz", "en", "it", "de", "es", "jp", "pl", "zh_CN", "zh_TW", "he_IL", "id", "ko");
+            }
+        }
+
+        if (!motds.exists() && motds.mkdirs()) {
+            loadMotdFile("one", "two", "three", "four", "five", "six");
+        } else {
+            File[] files = motds.listFiles((dir, name) -> name.contains("server_motds"));
+
+            if (files != null && files.length >= 1) {
+                try {
+                    FileUtilities.copy(
+                            motds,
+                            new File(
+                                    getDataFolder(),
+                                    "backup-motds"
+                            ),
+                            true
+                    );
+                } catch (IOException ignored) {}
+                loadMotdFile("one", "two", "three", "four", "five", "six");
             }
         }
 
@@ -152,6 +176,17 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         }
     }
 
+    private void loadMotdFile(String... files) {
+        for (String file : files) {
+            FileUtilities.load(
+                    logs,
+                    motds,
+                    file + ".yml",
+                    "/motds/" + file + ".yml"
+            );
+        }
+    }
+
     public ConfigurationHandler getCommandSettings() {
         return getConfigurationHandler(Configuration.COMMANDS);
     }
@@ -163,6 +198,10 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         return messages;
     }
 
+    public File getMotdFolder() {
+        return motds;
+    }
+
     private void exception() {
         LANGUAGE_EXCEPTION.printStackTrace();
     }
@@ -171,13 +210,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         return getConfigurationHandler(Configuration.SETTINGS);
     }
 
-    private void loadMessageFile(String file) {
-        FileUtilities.load(
-                logs,
-                lang,
-                "messages_" + file + ".yml",
-                "/lang/messages_" + file + ".yml"
-        );
+    public ConfigurationHandler getConfiguration(SlimeFiles configuration) {
+        return getConfigurationHandler(configuration);
     }
 
     public ListenerManager<T> getListenerManager() {

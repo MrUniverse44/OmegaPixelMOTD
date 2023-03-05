@@ -1,0 +1,109 @@
+#
+# █████████████████████████████████████████████████████████████████████████
+# █▄─▄▄─█▄─▄█▄─▀─▄█▄─▄▄─█▄─▄███▄─▀█▀─▄█─▄▄─█─▄─▄─█▄─▄▄▀███▀ ██─▄▄─████─▄▄─█
+# ██─▄▄▄██─███▀─▀███─▄█▀██─██▀██─█▄█─██─██─███─████─██─████ ██─██─█  █─██─█
+# █▄▄▄███▄▄▄█▄▄█▄▄█▄▄▄▄▄█▄▄▄▄▄█▄▄▄█▄▄▄█▄▄▄▄██▄▄▄██▄▄▄▄████▄▄▄█▄▄▄▄█▄▄█▄▄▄▄█
+#
+# Using version: 9.3.7-SNAPSHOT (System originally created for PixelMOTD 10 moved to the Legacy version) by JustJustin
+#
+# Links:
+# * SpigotMC Link: https://www.spigotmc.org/resources/37177/
+# * MC-Market Link: https://www.mc-market.org/resources/22313/
+# * GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
+#
+# Tutorials:
+# * If you want to add Hex or Gradient, Click here: (tutorial link for hex here in the future)
+# * If you want to add Placeholders to your motd lines, Click here: (tutorial link for hex here in the future)
+
+# Configurable Motd Types:
+# * 0 = Normal (Default)
+# * 1 = Whitelist
+# * 2 = Blacklist
+# * 3 = OutdatedClient
+# * 4 = OutdatedServer
+type: 1
+
+# Disabled until 10.0.0
+# This path will be only if you are in type = 7, for the Domain Motd.
+# This path will be the domain to check if the player is using a specified domain
+domain-setup:
+  # This option has two types: 0 = IS, 1 = IS_NOT
+  # 0 - IS = If the player is calling the server motd using a specified domain.
+  # 1 - IS_NOT = If the player is not calling the server motd using a specified domain.
+  type: 1
+  # Domains to check this setup, add more using ',' as a separator. Please don't use spaces.
+  value: "mc.spigot.org,play.spigot.org"
+
+# If you enable this option, this motd will only appear for users with
+# 1.16+ and If you are in Spigot or Paper your server version need to be 1.16+
+# Or it will not work, But if you are in bungeecord or velocity it will work without problems.
+# Just stay updated in your proxy jar.
+hex-motd: false
+
+# Modify your motd lines here
+# If you want to add Hex or Gradient, Click here: (tutorial link for hex here in the future)
+# If you want to add Placeholders to your motd lines, Click here: (tutorial link for hex here in the future)
+# If you want to create variables, Click here: (tutorial link for hex here in the future)
+# <center> variable is disabled until 10.0.0
+line-1: "&6&lPIXEL MOTD &f&lBETA 10.0"
+line-2: "&f&lServer &7is in whitelist mode!"
+
+# Modify your motd protocol here <-------
+# This will rename your proxy in the ServerList for players using an incompatible minecraft version in your server
+protocol:
+  # If this option is disabled the plugin will not change anything about this in the motd
+  # This plugin has 4 modifiers for the protocol:
+  # -1 = This option is disabled so this option will be ignored for the plugin.
+  # 0  = The protocol will be the default provided by the server or another plugin.
+  # 1  = The protocol will be always positive
+  # 2  = The protocol will be always negative
+  modifier: "2"
+  # Modify this length if the text is not in the exact place what you want
+  space-length: 53
+  # This is your protocol
+  text: "<before-the-icon>&eWait Us -><default>&fPlayers: &a%online%/1000"
+
+players:
+  # This section will be prepared in the future
+  # This plugin has 8 types for this option:
+  # * -1  = This option is disabled so this option will be ignored for the plugin.
+  # * 0   = The players size will be the default provided by the server or another plugin.
+  # * 1   = The players size will be modified with the value in this option.
+  # * 2   = The value will be added to the number of players
+  # * 3   = The value will be removed from the number of players, in case of a bigger number it will be 0 players.
+  # * 4   = The value will be multiplied with number of players and the result will be the new number of players
+  # * 5   = The value will be divided by the number of players and the result will be the new number of players
+  # * 6   = The number of players will be the middle of it
+  # * 7   = The middle of number of players will be added to the number of players
+  # * 8   = The middle of number of players will be removed from the number of players
+  # * 9 (ONLY FOR MAX PLAYERS) = The number of max players will be the same of the online players.
+  #
+  # If you want to add multi-values, you need to use "value;value;value", using ';'
+  max:
+    type: 1
+    value: "1000;1001"
+  online:
+    type: 0
+    value: 10
+
+icon:
+  # This plugin has 3 types for this option:
+  # * -1 = This plugin will ignore icon feature, and it will not be loaded.
+  # * 0 = CachedIcon (RECOMMENDED)
+  type: 0
+  # Path of your icon, when you put only your file name it will search your file
+  # In the plugin's main folder, but you can use
+  # values like: "/icons/my-icon.png" or put multi values using ';' example: "server-icon-1.png;server-icon-2.png"
+  value: "default-icon.png"
+
+hover:
+  # This option has 2 types:
+  # * -1 = This option is disabled so this option will be ignored for the plugin.
+  # * 0  = This option will be enabled and will work without problems
+  type: 0
+  value:
+    - "&6[box][box][box][box][box]"
+    - "&6[box]&0[box]&6[box]&0[box]&6[box] &aThis is your server motd"
+    - "&6[box][box][box][box][box] "
+    - "&6[box]&0[box]&6[box][box][box] &aYou can modify it in your motd file"
+    - "&6[box][box]&0[box][box]&6[box]"

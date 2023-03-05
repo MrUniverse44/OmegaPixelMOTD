@@ -7,13 +7,13 @@ import com.velocitypowered.api.util.Favicon;
 import dev.mruniverse.slimelib.colors.platforms.velocity.DefaultSlimeColor;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdProtocol;
 import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
-import me.blueslime.pixelmotd.utils.MotdPlayers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -31,80 +31,41 @@ public class VelocityPing extends PingBuilder<ProxyServer, Favicon, ProxyPingEve
 
     @Override
     public void execute(MotdType motdType, ProxyPingEvent event, int code, String user) {
-        final SlimeLogs logs = getPlugin().getLogs();
-
-        final ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
-
         ServerPing.Builder ping = event.getPing().asBuilder();
 
-        String motd = getMotd(motdType);
+        CachedMotd motd = getMotd(motdType);
 
-        if (motd.equals("8293829382382732127413475y42732749832748327472fyfs")) {
+        if (motd == null) {
             if (isDebug()) {
-                logs.debug("The plugin don't detect motds for MotdType: " + motdType);
+                getLogs().debug("The plugin don't detect motds for MotdType: " + motdType);
             }
             return;
         }
-
-        String path = motdType + "." + motd + ".";
 
         String line1, line2, completed;
 
         int online, max;
 
         if (isIconSystem()) {
-            String iconName = control.getString(
-                    path + "icons.icon"
-            );
-
-            if (!iconName.equalsIgnoreCase("") && !iconName.equalsIgnoreCase("disabled")) {
-                Favicon img = getFavicon().getFavicon(
-                        iconName
+            if (motd.hasServerIcon()) {
+                Favicon favicon = getFavicon().getFavicon(
+                        motd.getServerIcon()
                 );
-                if (img != null) {
-                    ping.favicon(img);
+                if (favicon != null) {
+                    ping.favicon(favicon);
                 }
             }
         }
 
-        if (control.getStatus(path + "players.online.toggle", false)) {
-            online = MotdPlayers.getModeFromText(
-                    control,
-                    control.getString(path + "players.online.type", "add"),
-                    getPlugin().getPlayerHandler().getPlayersSize(),
-                    path + "players.online."
-            );
-        } else {
-            online = ping.getOnlinePlayers();
-        }
-        if (control.getStatus(path + "players.max.toggle", false)) {
-            String mode = control.getString(path + "players.max.type", "add").toLowerCase();
-            if (mode.contains("equal")) {
-                max = MotdPlayers.getModeFromText(
-                        control,
-                        mode,
-                        getPlugin().getPlugin().getPlayerCount(),
-                        path + "players.max."
-                );
-            } else {
-                max = MotdPlayers.getModeFromText(
-                        control,
-                        mode,
-                        online,
-                        path + "players.max."
-                );
-            }
-        } else {
-            max = ping.getMaximumPlayers();
-        }
+        online = motd.getOnline(getPlugin());
+        max    = motd.getMax(getPlugin(), online);
 
-        if (control.getStatus(path + "hover.toggle", false)) {
+        if (motd.hasHover()) {
             ping.clearSamplePlayers();
 
             ServerPing.SamplePlayer[] array = getHoverModule().convert(
                     getHoverModule().generate(
-                            control,
-                            path,
+                            motd.getHover(),
                             user,
                             online,
                             max
@@ -116,43 +77,42 @@ public class VelocityPing extends PingBuilder<ProxyServer, Favicon, ProxyPingEve
             );
         }
 
-        if (control.getStatus(path + "protocol.toggle")) {
-            MotdProtocol protocol = MotdProtocol.getFromText(
-                    control.getString(control.getString(path + "protocol.modifier", "ALWAYS_POSITIVE")),
-                    code
-            );
+        MotdProtocol protocol = MotdProtocol.fromOther(
+                motd.getModifier()
+        );
 
-            int p1 = ping.getVersion().getProtocol();
-
-            Component n1 = new DefaultSlimeColor(
-                    getExtras().replace(
-                            control.getString(path + "protocol.message", "PixelMOTD System"),
-                            online,
-                            max,
-                            user
-                    ),
-                    true
-            ).build();
-
-            if (protocol != MotdProtocol.DEFAULT) {
-                p1 = protocol.getCode();
-            }
-
-            ping.version(
-                    new ServerPing.Version(
-                            p1,
-                            legacy(n1)
-                    )
-            );
+        if (protocol != MotdProtocol.ALWAYS_NEGATIVE) {
+            protocol = protocol.setCode(code);
         }
+
+        int p1 = ping.getVersion().getProtocol();
+
+        Component n1 = new DefaultSlimeColor(
+                getExtras().replace(
+                        motd.getProtocolText(),
+                        online,
+                        max,
+                        user
+                ),
+                true
+        ).build();
+
+        if (protocol != MotdProtocol.DEFAULT) {
+            p1 = protocol.getCode();
+        }
+
+        ping.version(
+                new ServerPing.Version(
+                        p1,
+                        legacy(n1)
+                )
+        );
 
         Component result;
 
-        if (motdType.isHexMotd()) {
-
-            line1 = control.getString(path + "line1", "");
-
-            line2 = control.getString(path + "line2", "");
+        if (motd.hasHex()) {
+            line1 = motd.getLine1();
+            line2 = motd.getLine2();
 
             completed = getExtras().replace(
                     line1,
@@ -170,13 +130,11 @@ public class VelocityPing extends PingBuilder<ProxyServer, Favicon, ProxyPingEve
                     .build();
 
         } else {
-
             line1 = legacy(
-                    control.getString(path + "line1", "")
+                    motd.getLine1()
             );
-
             line2 = legacy(
-                    control.getString(path + "line2", "")
+                    motd.getLine2()
             );
 
             completed = getExtras().replace(

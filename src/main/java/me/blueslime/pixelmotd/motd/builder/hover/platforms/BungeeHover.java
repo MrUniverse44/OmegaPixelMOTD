@@ -1,7 +1,5 @@
 package me.blueslime.pixelmotd.motd.builder.hover.platforms;
 
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
 import net.md_5.bungee.api.ServerPing;
@@ -16,7 +14,7 @@ public class BungeeHover extends HoverModule<ServerPing.PlayerInfo> {
     }
 
     @Override
-    public List<ServerPing.PlayerInfo> generate(ConfigurationHandler configuration, String path, String user, int online, int max) {
+    public List<ServerPing.PlayerInfo> generate(List<String> lineList, String user, int online, int max) {
         final List<ServerPing.PlayerInfo> sample = new ArrayList<>();
         final UUID uuid = new UUID(0, 0);
 
@@ -24,10 +22,10 @@ public class BungeeHover extends HoverModule<ServerPing.PlayerInfo> {
 
         if (hasPlayers()) {
             lines = getExtras().replaceHoverLine(
-                    configuration.getStringList(TextDecoration.LEGACY, path + "hover.lines")
+                    lineList
             );
         } else {
-            lines = configuration.getStringList(TextDecoration.LEGACY, path + "hover.lines");
+            lines = lineList;
         }
 
         for (String line : lines) {

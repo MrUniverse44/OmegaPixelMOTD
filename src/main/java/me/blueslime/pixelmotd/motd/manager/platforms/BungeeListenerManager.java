@@ -7,7 +7,7 @@ import me.blueslime.pixelmotd.listener.bungeecord.events.ProxyPingListener;
 import me.blueslime.pixelmotd.listener.bungeecord.events.abstracts.AbstractLoginListener;
 import me.blueslime.pixelmotd.listener.bungeecord.events.abstracts.AbstractServerConnectListener;
 import me.blueslime.pixelmotd.listener.bungeecord.events.type.server.NormalServerListener;
-import me.blueslime.pixelmotd.utils.Extras;
+import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
@@ -55,7 +55,7 @@ public class BungeeListenerManager extends ListenerManager<Plugin> {
     }
 
     @Override
-    public Extras getExtras() {
+    public PluginPlaceholders getExtras() {
         return listener.getPingBuilder().getExtras();
     }
 

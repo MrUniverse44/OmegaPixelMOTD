@@ -4,7 +4,7 @@ public class PlayerUtil {
 
     public static String fromUnknown(String paramString) {
         if (paramString.contains("-")) {
-            return "Uuid";
+            return "Unique ID";
         }
         return "Player";
     }

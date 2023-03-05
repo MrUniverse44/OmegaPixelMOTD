@@ -1,5 +1,7 @@
 package me.blueslime.pixelmotd.utils;
 
+import java.util.Locale;
+
 public enum OnlineList {
     CONTAINS,
     NAME;
@@ -8,7 +10,7 @@ public enum OnlineList {
 
     public static OnlineList fromText(String key, String text) {
         OnlineList mode;
-        if (text.contains("CONTAIN")) {
+        if (text.toLowerCase(Locale.ENGLISH).contains("contain")) {
             mode = OnlineList.CONTAINS;
         } else {
             mode = OnlineList.NAME;

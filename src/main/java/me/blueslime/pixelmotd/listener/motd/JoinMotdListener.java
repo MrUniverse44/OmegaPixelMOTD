@@ -3,7 +3,7 @@ package me.blueslime.pixelmotd.listener.motd;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.players.PlayerDatabase;
-import me.blueslime.pixelmotd.utils.Extras;
+import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
@@ -26,18 +26,6 @@ public abstract class JoinMotdListener<T, E, S> {
     private void load() {
         blacklist.clear();
 
-        isGlobalEnabled = getControl().getStatus("global-join-motd.enabled", false);
-
-        if (getControl().getStatus("global-join-motd.clear-chat", false)) {
-            for (int i = 0; 15 >= i; i++) {
-                blacklist.add(" ");
-            }
-        }
-
-        blacklist.addAll(
-                getControl().getStringList("global-join-motd.lines")
-        );
-
     }
 
     public void update() {
@@ -49,8 +37,6 @@ public abstract class JoinMotdListener<T, E, S> {
     public abstract S colorize(String message);
 
     public String replace(String message, String key, String username, String uniqueId) {
-        ConfigurationHandler settings = getControl();
-
         return getExtras().replace(
                 message.replace("%username%", username)
                         .replace("%player%", username)
@@ -67,7 +53,7 @@ public abstract class JoinMotdListener<T, E, S> {
     public boolean hasGlobalServer() {
         return isGlobalEnabled;
     }
-    public Extras getExtras() {
+    public PluginPlaceholders getExtras() {
         return plugin.getListenerManager().getExtras();
     }
 
@@ -77,9 +63,5 @@ public abstract class JoinMotdListener<T, E, S> {
 
     public PlayerDatabase getPlayerDatabase() {
         return plugin.getListenerManager().getDatabase();
-    }
-
-    public ConfigurationHandler getControl() {
-        return plugin.getConfigurationHandler(Configuration.JOIN_MOTDS);
     }
 }

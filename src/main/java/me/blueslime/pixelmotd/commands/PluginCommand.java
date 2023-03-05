@@ -7,7 +7,7 @@ import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
 import me.blueslime.pixelmotd.utils.ListType;
 import me.blueslime.pixelmotd.utils.PlayerUtil;
 import me.blueslime.pixelmotd.utils.Updater;
-import me.blueslime.pixelmotd.utils.WhitelistLocation;
+import me.blueslime.pixelmotd.utils.list.PluginList;
 import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
@@ -241,15 +241,15 @@ public class PluginCommand<T> implements SlimeCommand {
         if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(1)))) {
             sender.sendColoredMessage("&aUser Name List: (Global Whitelist)");
 
-            sendList(sender, file, "whitelist.global.players.by-name");
+            sendList(sender, file, "players.by-name");
 
             sender.sendColoredMessage("&aUUID List: (Global Whitelist)");
 
-            sendList(sender, file, "whitelist.global.players.by-uuid");
+            sendList(sender, file, "players.by-uuid");
 
-            WhitelistLocation place = WhitelistLocation.fromPlatform(plugin.getServerType());
+            PluginList place = PluginList.fromPlatform(plugin.getServerType());
 
-            for (String keys : file.getContent(type + "." + place.toStringLowerCase(), false)) {
+            for (String keys : file.getContent(place.loweredName(), false)) {
 
                 if (keys.equalsIgnoreCase("global")) {
                     continue;
@@ -257,11 +257,11 @@ public class PluginCommand<T> implements SlimeCommand {
 
                 sender.sendColoredMessage("&aUser Name List: (" + place.toSingular() + "-" + keys + " " + type + ")");
 
-                sendList(sender, file, type + "." + place.toStringLowerCase() + "." + keys + ".players.by-name");
+                sendList(sender, file, place.loweredName() + "." + keys + ".players.by-name");
 
                 sender.sendColoredMessage("&aUUID List: (" + place.toSingular() + "-" + keys + " " + type + ")");
 
-                sendList(sender, file, type + "." + place.toStringLowerCase() + "." + keys + ".players.by-uuid");
+                sendList(sender, file, place.loweredName() + "." + keys + ".players.by-uuid");
 
             }
             return;
@@ -275,12 +275,12 @@ public class PluginCommand<T> implements SlimeCommand {
 
             String value = args[1];
 
-            String path = type + ".global.players." + PlayerUtil.getDestinyPath(value);
+            String path = "players." + PlayerUtil.getDestinyPath(value);
 
-            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+            PluginList pluginList = PluginList.fromPlatform(plugin.getServerType());
 
             if (args.length == 3) {
-                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[2] + ".players." + PlayerUtil.getDestinyPath(value);
+                path = pluginList.loweredName() + "." + args[2] + ".players." + PlayerUtil.getDestinyPath(value);
             }
 
             List<String> valueList = file.getStringList(path);
@@ -313,12 +313,12 @@ public class PluginCommand<T> implements SlimeCommand {
 
             String value = args[1];
 
-            String path = type + ".global.players." + PlayerUtil.getDestinyPath(value);
+            String path = "players." + PlayerUtil.getDestinyPath(value);
 
-            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+            PluginList pluginList = PluginList.fromPlatform(plugin.getServerType());
 
             if (args.length == 3) {
-                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[2] + ".players." + PlayerUtil.getDestinyPath(value);
+                path = pluginList.loweredName() + "." + args[2] + ".players." + PlayerUtil.getDestinyPath(value);
             }
 
             List<String> valueList = file.getStringList(path);
@@ -345,13 +345,13 @@ public class PluginCommand<T> implements SlimeCommand {
 
         if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(4)))) {
 
-            String path = type + ".global.";
+            String path = "";
 
-            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+            PluginList pluginList = PluginList.fromPlatform(plugin.getServerType());
 
             if (args.length >= 2) {
 
-                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[1] + ".";
+                path = pluginList.loweredName() + "." + args[1] + ".";
 
             }
 
@@ -392,13 +392,13 @@ public class PluginCommand<T> implements SlimeCommand {
         }
 
         if (args[0].equalsIgnoreCase(argumentsMap.get(type.getArgument(5)))) {
-            String path = type + ".global.";
+            String path = "";
 
-            WhitelistLocation whitelistLocation = WhitelistLocation.fromPlatform(plugin.getServerType());
+            PluginList pluginList = PluginList.fromPlatform(plugin.getServerType());
 
             if (args.length >= 2) {
 
-                path = type + "." + whitelistLocation.toStringLowerCase() + "." + args[1] + ".";
+                path = pluginList.loweredName() + "." + args[1] + ".";
 
             }
 

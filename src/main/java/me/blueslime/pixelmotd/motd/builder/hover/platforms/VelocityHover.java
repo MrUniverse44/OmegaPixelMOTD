@@ -1,8 +1,6 @@
 package me.blueslime.pixelmotd.motd.builder.hover.platforms;
 
 import com.velocitypowered.api.proxy.server.ServerPing;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.file.configuration.TextDecoration;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
 
@@ -16,7 +14,7 @@ public class VelocityHover extends HoverModule<ServerPing.SamplePlayer> {
     }
 
     @Override
-    public List<ServerPing.SamplePlayer> generate(ConfigurationHandler configuration, String path, String user, int online, int max) {
+    public List<ServerPing.SamplePlayer> generate(List<String> lineList, String user, int online, int max) {
         final List<ServerPing.SamplePlayer> sample = new ArrayList<>();
         final UUID uuid = new UUID(0, 0);
 
@@ -24,10 +22,10 @@ public class VelocityHover extends HoverModule<ServerPing.SamplePlayer> {
 
         if (hasPlayers()) {
             lines = getExtras().replaceHoverLine(
-                    configuration.getStringList(TextDecoration.LEGACY, path + "hover.lines")
+                    lineList
             );
         } else {
-            lines = configuration.getStringList(TextDecoration.LEGACY, path + "hover.lines");
+            lines = lineList;
         }
 
         for (String line : lines) {

@@ -3,9 +3,9 @@ package me.blueslime.pixelmotd.listener;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.players.PlayerDatabase;
-import me.blueslime.pixelmotd.utils.Extras;
+import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
 import me.blueslime.pixelmotd.utils.ListType;
-import me.blueslime.pixelmotd.utils.WhitelistLocation;
+import me.blueslime.pixelmotd.utils.list.PluginList;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 
@@ -25,32 +25,60 @@ public abstract class ConnectionListener<T, E, S> {
     }
 
     private void load() {
-        isWhitelisted = plugin.getConfigurationHandler(Configuration.MODES).getStatus("whitelist.global.enabled", false);
-        isBlacklisted = plugin.getConfigurationHandler(Configuration.MODES).getStatus("blacklist.global.enabled", false);
+        ConfigurationHandler whitelist = plugin.getConfiguration(Configuration.WHITELIST);
+        ConfigurationHandler blacklist = plugin.getConfiguration(Configuration.BLACKLIST);
+
+
+        this.isWhitelisted = whitelist.getStatus("enabled");
+        this.isBlacklisted = blacklist.getStatus("enabled");
     }
 
     public void update() {
         load();
     }
 
-    public WhitelistLocation getPlace() {
-        return WhitelistLocation.fromPlatform(plugin.getServerType());
+    public PluginList getPlace() {
+        return PluginList.fromPlatform(plugin.getServerType());
     }
 
     public abstract void execute(E event);
 
     public abstract S colorize(String message);
 
-    public String replace(String message, String key, String username, String uniqueId) {
-        ConfigurationHandler settings = getControl();
+    public String replace(String message, boolean wl, String key, String username, String uniqueId) {
+        ConfigurationHandler settings;
+
+        if (wl) {
+            settings = getWhitelist();
+        } else {
+            settings = getBlacklist();
+        }
+
+        if (key.contains("global")) {
+            message = message.replace(
+                    "%reason%", settings.getString("reason", "")
+            ).replace(
+                    "%author%", settings.getString("author", "")
+            );
+        } else {
+            key = key.replace(
+                    "whitelist.", ""
+            ).replace(
+                    "blacklist.", ""
+            );
+
+            message = message.replace(
+                    "%reason%", settings.getString(key + ".reason", "")
+            ).replace(
+                    "%author%", settings.getString(key + ".author", "")
+            );
+        }
 
         return getExtras().replace(
                 message.replace("%username%", username)
                     .replace("%nick%", username)
                     .replace("%uniqueId%", uniqueId)
-                    .replace("%uuid%", uniqueId)
-                    .replace("%reason%", settings.getString(key + ".reason", ""))
-                    .replace("%author%", settings.getString(key + ".author", "")),
+                    .replace("%uuid%", uniqueId),
                 plugin.getPlayerHandler().getPlayersSize(),
                 plugin.getPlayerHandler().getMaxPlayers(),
                 username
@@ -65,23 +93,33 @@ public abstract class ConnectionListener<T, E, S> {
         return isBlacklisted;
     }
 
-    public ConfigurationHandler getControl() {
-        return plugin.getConfigurationHandler(Configuration.MODES);
-    }
-
     public ConfigurationHandler getSettings() {
         return plugin.getConfigurationHandler(Configuration.SETTINGS);
     }
 
     public boolean checkPlayer(ListType listType, String path, String username) {
-        return getControl().getStringList(listType.toString() + "." + path + ".players.by-name").contains(username);
+        if (path.equals("global")) {
+            return plugin.getConfiguration(listType.getFile()).getStringList("players.by-name").contains(username);
+        }
+        return plugin.getConfiguration(listType.getFile()).getStringList(path + ".players.by-name").contains(username);
     }
 
     public boolean checkUUID(ListType listType, String path, UUID uniqueId) {
-        return getControl().getStringList(listType.toString() + "." + path + ".players.by-uuid").contains(uniqueId.toString());
+        if (path.equals("global")) {
+            return plugin.getConfiguration(listType.getFile()).getStringList("players.by-uuid").contains(uniqueId.toString());
+        }
+        return plugin.getConfiguration(listType.getFile()).getStringList(path + ".players.by-uuid").contains(uniqueId.toString());
     }
 
-    public Extras getExtras() {
+    public ConfigurationHandler getWhitelist() {
+        return plugin.getConfiguration(Configuration.WHITELIST);
+    }
+
+    public ConfigurationHandler getBlacklist() {
+        return plugin.getConfiguration(Configuration.BLACKLIST);
+    }
+
+    public PluginPlaceholders getExtras() {
         return plugin.getListenerManager().getExtras();
     }
 

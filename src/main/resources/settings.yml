@@ -1,43 +1,27 @@
-#   _____ _          _ __  __  ____ _______ _____
-#   |  __ (_)        | |  \/  |/ __ \__   __|  __ \
-#   | |__) |__  _____| | \  / | |  | | | |  | |  | |
-#   |  ___/ \ \/ / _ \ | |\/| | |  | | | |  | |  | |
-#   | |   | |>  <  __/ | |  | | |__| | | |  | |__| |
-#   |_|   |_/_/\_\___|_|_|  |_|\____/  |_|  |_____/
 #
-#   Using version 9.3.7-SNAPSHOT
+# █████████████████████████████████████████████████████████████████████████
+# █▄─▄▄─█▄─▄█▄─▀─▄█▄─▄▄─█▄─▄███▄─▀█▀─▄█─▄▄─█─▄─▄─█▄─▄▄▀███▀ ██─▄▄─████─▄▄─█
+# ██─▄▄▄██─███▀─▀███─▄█▀██─██▀██─█▄█─██─██─███─████─██─████ ██─██─█  █─██─█
+# █▄▄▄███▄▄▄█▄▄█▄▄█▄▄▄▄▄█▄▄▄▄▄█▄▄▄█▄▄▄█▄▄▄▄██▄▄▄██▄▄▄▄████▄▄▄█▄▄▄▄█▄▄█▄▄▄▄█
+#
+# Using version: 9.3.7-SNAPSHOT (System originally created for PixelMOTD 10 moved to the Legacy version) by JustJustin
+#
 #   Author: JustJustin (MrUniverse44)
 #   SpigotMC Link: https://www.spigotmc.org/resources/37177/
 #   MC-Market Link: https://www.mc-market.org/resources/22313/
 #   GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
 #
 settings:
-
-  # MOTD SETTINGS
-
-  # This motd will appear when:
-  #   - You don't have installed ProtocolLib
-  #   - The player is running in a version before 1.16
-  # values: DEFAULT, HEX
-  default-priority-motd: "DEFAULT"
-
-  # CONFIGURATION SETTINGS
-
   # Configuration version to prevent issues
   config-version: 5
   # Enable Check update when the plugin is loading
   update-check: true
   # Download automatically Updates
   auto-download-updates: true
-  # Toggle update-check for Alpha and Beta Versions
-  check-alpha-updates: false
-
   #Show extra information, this is disabled by default, This option will spam extra information
   #when a motd is being loaded.
   debug-mode: false
-
-  # EXTRA SETTINGS
-
+  # === Additional Settings ==
   # Online servers w/ sub-servers system.
   # Usage: %<prefix>_<key>%
   # Example: %custom_online_exampleName%, %custom_online_exampleContains%

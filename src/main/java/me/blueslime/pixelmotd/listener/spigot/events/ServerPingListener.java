@@ -28,10 +28,6 @@ public class ServerPingListener implements Ping, Listener {
 
     private String unknown;
 
-    private MotdType type;
-
-    private ConfigurationHandler modes;
-
     public ServerPingListener(PixelMOTD<JavaPlugin> plugin) {
         this.pingBuilder = new BukkitPing(
                 plugin,
@@ -52,25 +48,19 @@ public class ServerPingListener implements Ping, Listener {
         pingBuilder.update();
     }
 
-    public void updateModes() {
-        modes = plugin.getConfigurationHandler(Configuration.MODES);
-    }
-
     private void load() {
-        updateModes();
-
         final ConfigurationHandler control = plugin.getSettings();
 
         this.unknown = control.getString("settings.unknown-player", "unknown#1");
 
-        if (control.getString("settings.default-priority-motd", "DEFAULT").equalsIgnoreCase("HEX")) {
-            this.type = MotdType.NORMAL_HEX;
-        } else {
-            this.type = MotdType.NORMAL;
-        }
+        ConfigurationHandler whitelist = plugin.getConfiguration(Configuration.WHITELIST);
+        ConfigurationHandler blacklist = plugin.getConfiguration(Configuration.BLACKLIST);
 
-        isWhitelisted = modes.getStatus("whitelist.global.enabled") && modes.getStatus("whitelist.global.enable-motd");
-        isBlacklisted = modes.getStatus("blacklist.global.enabled") && modes.getStatus("blacklist.global.enable-motd");
+        this.isWhitelisted = whitelist.getStatus("enabled") &&
+                whitelist.getStatus("motd");
+
+        this.isBlacklisted = blacklist.getStatus("enabled") &&
+                blacklist.getStatus("motd");
     }
 
     @EventHandler
@@ -80,29 +70,17 @@ public class ServerPingListener implements Ping, Listener {
 
         final String user = getPlayerDatabase().getPlayer(address.getHostAddress(), unknown);
 
-        if (isBlacklisted && modes.getStringList("blacklist.global.players.by-name").contains(user)) {
-            if (type.isHexMotd()) {
-                pingBuilder.execute(MotdType.BLACKLIST_HEX, ping, 735, user);
-                return;
-            }
+        if (isBlacklisted && plugin.getConfiguration(Configuration.BLACKLIST).getStringList("players.by-name").contains(user)) {
             pingBuilder.execute(MotdType.BLACKLIST, ping, -1, user);
             return;
         }
 
         if (isWhitelisted) {
-            if (type.isHexMotd()) {
-                pingBuilder.execute(MotdType.WHITELIST_HEX, ping, 735, user);
-                return;
-            }
             pingBuilder.execute(MotdType.WHITELIST, ping, -1, user);
             return;
         }
 
-        if (type.isHexMotd()) {
-            pingBuilder.execute(MotdType.NORMAL_HEX, ping, 735, user);
-            return;
-        }
-        pingBuilder.execute(type, ping, -1, user);
+        pingBuilder.execute(MotdType.NORMAL, ping, -1, user);
     }
 
     public PingBuilder<?, ?, ?, ?> getPingBuilder() {

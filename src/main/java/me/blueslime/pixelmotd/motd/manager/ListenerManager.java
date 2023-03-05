@@ -2,9 +2,8 @@ package me.blueslime.pixelmotd.motd.manager;
 
 import me.blueslime.pixelmotd.PixelMOTD;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
-import me.blueslime.pixelmotd.listener.Ping;
 import me.blueslime.pixelmotd.players.PlayerDatabase;
-import me.blueslime.pixelmotd.utils.Extras;
+import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
 
 public abstract class ListenerManager<P> {
 
@@ -37,6 +36,6 @@ public abstract class ListenerManager<P> {
 
     public abstract boolean isPlayer();
 
-    public abstract Extras getExtras();
+    public abstract PluginPlaceholders getExtras();
 
 }

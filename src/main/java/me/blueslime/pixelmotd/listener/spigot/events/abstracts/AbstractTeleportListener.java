@@ -48,19 +48,21 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
             return;
         }
 
-        ConfigurationHandler settings = getControl();
+        ConfigurationHandler whitelist = getWhitelist();
+        ConfigurationHandler blacklist = getBlacklist();
 
-        String path = getPlace().toStringLowerCase() + "." + target;
+        String path = getPlace().loweredName() + "." + target;
 
-        if (settings.getStatus("whitelist." + path + ".enabled", false)) {
+        if (whitelist.getStatus(path + ".enabled", false)) {
             if (!checkPlayer(ListType.WHITELIST, path, username) && !checkUUID(ListType.WHITELIST, path, uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.whitelist"));
+                String reason = ListUtil.ListToString(whitelist.getStringList("kick-message.individual"));
 
                 connection.sendMessage(
                         colorize(
                                 replace(
                                         reason,
-                                        "whitelist." + target,
+                                        true,
+                                        target,
                                         username,
                                         uuid.toString()
                                 )
@@ -72,15 +74,16 @@ public abstract class AbstractTeleportListener extends ConnectionListener<JavaPl
             }
         }
 
-        if (settings.getStatus("blacklist." + path + ".enabled", false)) {
+        if (blacklist.getStatus(path + ".enabled", false)) {
             if (checkPlayer(ListType.BLACKLIST, path, username) || checkUUID(ListType.BLACKLIST, path, uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.blacklist"));
+                String reason = ListUtil.ListToString(blacklist.getStringList("kick-message.individual"));
 
                 connection.sendMessage(
                         colorize(
                                 replace(
                                         reason,
-                                        "blacklist." + target,
+                                        false,
+                                        target,
                                         username,
                                         uuid.toString()
                                 )

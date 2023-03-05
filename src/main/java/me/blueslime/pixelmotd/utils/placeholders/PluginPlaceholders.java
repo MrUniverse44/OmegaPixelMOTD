@@ -1,7 +1,7 @@
-package me.blueslime.pixelmotd.utils;
+package me.blueslime.pixelmotd.utils.placeholders;
 
-import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.Configuration;
+import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.initialization.bungeecord.BungeeMOTD;
 import me.blueslime.pixelmotd.initialization.velocity.VelocityMOTD;
 import me.blueslime.pixelmotd.servers.BungeeServerHandler;
@@ -10,6 +10,9 @@ import me.blueslime.pixelmotd.servers.VelocityServerHandler;
 import me.blueslime.pixelmotd.status.StatusChecker;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
 import dev.mruniverse.slimelib.file.configuration.TextDecoration;
+import me.blueslime.pixelmotd.utils.OnlineList;
+import me.blueslime.pixelmotd.utils.internal.events.EventFormatEnum;
+import me.blueslime.pixelmotd.utils.internal.storage.PluginStorage;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,29 +21,24 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Extras {
+public class PluginPlaceholders {
+
+    private final PluginStorage<String, List<String>> serversMap = PluginStorage.initAsConcurrentHash();
+    private final PluginStorage<String, OnlineList> onlineMap = PluginStorage.initAsConcurrentHash();
+    private final static Pattern PLAYER_PATTERN = Pattern.compile("%player_(\\d)+%");
     private final boolean IS_VELOCITY_PLATFORM;
-
     private final boolean IS_BUNGEE_PLATFORM;
-
-    private final Map<String, List<String>> serversMap = new HashMap<>();
-
-    private final Map<String, OnlineList> onlineMap = new HashMap<>();
-
-    private final Pattern pattern = Pattern.compile("%player_(\\d)+%");
-
     private final PixelMOTD<?> plugin;
-
     private String prefix;
-
     private final int max;
 
-    public Extras(PixelMOTD<?> plugin) {
+    public PluginPlaceholders(PixelMOTD<?> plugin) {
+        this.IS_VELOCITY_PLATFORM = plugin.getServerHandler() instanceof VelocityServerHandler;
+        this.IS_BUNGEE_PLATFORM = plugin.getServerHandler() instanceof BungeeServerHandler;
+
         this.plugin = plugin;
         this.max    = plugin.getPlayerHandler().getMaxPlayers();
 
-        this.IS_BUNGEE_PLATFORM = plugin.getServerHandler() instanceof BungeeServerHandler;
-        this.IS_VELOCITY_PLATFORM = plugin.getServerHandler() instanceof VelocityServerHandler;
 
         load();
     }
@@ -53,7 +51,7 @@ public class Extras {
         serversMap.clear();
         onlineMap.clear();
 
-        ConfigurationHandler settings = plugin.getConfigurationHandler(Configuration.SETTINGS);
+        ConfigurationHandler settings = plugin.getConfiguration(Configuration.SETTINGS);
 
         String path = "settings.online-variables";
 
@@ -70,8 +68,8 @@ public class Extras {
 
                     List<String> values = settings.getStringList(path + "." + key + ".values");
 
-                    serversMap.put(key, values);
-                    onlineMap.put(key, mode);
+                    serversMap.set(key, values);
+                    onlineMap.set(key, mode);
                 }
             }
         }
@@ -87,6 +85,7 @@ public class Extras {
                         .replace("%whitelist_author%", getWhitelistAuthor())
                         .replace("%user%", username)
                         .replace("%fake_max%", "" + max)
+                        .replace("[box]", "▇")
         );
     }
 
@@ -96,8 +95,9 @@ public class Extras {
 
                 List<Server> serverList = plugin.getServerHandler().getServers();
 
-                for (String key : onlineMap.keySet()) {
+                for (String key : onlineMap.getKeys()) {
                     int online = 0;
+
                     switch (onlineMap.get(key)) {
                         case NAME:
                             online = getOnlineByNames(serverList, serversMap.get(key));
@@ -105,10 +105,12 @@ public class Extras {
                         case CONTAINS:
                             online = getOnlineByContains(serverList, serversMap.get(key));
                     }
+
                     message = message.replace("%" + prefix + "_" + key + "%", "" + online);
                 }
             }
         }
+
         if (message.contains("%online_") || message.contains("%status_")) {
 
             StatusChecker checker = null;
@@ -136,7 +138,7 @@ public class Extras {
     }
 
     private String replaceEvents(String message) {
-        ConfigurationHandler events = plugin.getConfigurationHandler(Configuration.EVENTS);
+        ConfigurationHandler events = plugin.getConfiguration(Configuration.EVENTS);
 
         if (events.getStatus("events-toggle", false)) {
             if (message.contains("%event_")) {
@@ -155,19 +157,50 @@ public class Extras {
 
                     String path = "events." + event + ".";
 
-                    EventFormat format = EventFormat.fromText(events.getString(path + "format-type", "FIRST"));
+                    EventFormatEnum format = EventFormatEnum.fromText(events.getString(path + "format-type", "FIRST"));
 
                     if (difference >= 0L) {
-                        timeLeft = replaceEvent(format, events, difference);
+                        timeLeft = replaceEvent(
+                                format,
+                                events,
+                                difference
+                        );
                     } else {
-                        timeLeft = events.getString(TextDecoration.LEGACY, path + "end-message", "&cThe event finished.");
+                        timeLeft = events.getString(
+                                TextDecoration.LEGACY,
+                                path + "end-message",
+                                "&cThe event finished."
+                        );
                     }
 
-                    message = message.replace("%event_" + event + "_name%", events.getString(path + "name", "Example Event 001"))
-                            .replace("%event_" + event + "_TimeZone%", events.getString(path + "time-zone", "12/21/24 23:59:00"))
-                            .replace("%event_" + event + "_zone%", events.getString(path + "time-zone", "12/21/24 23:59:00"))
-                            .replace("%event_" + event + "_TimeLeft%", timeLeft)
-                            .replace("%event_" + event + "_left%", timeLeft);
+                    String simplifiedPrefix = "%event_" + event + "_";
+
+                    String zone = events.getString(path + "time-zone", "12/21/24 23:59:00");
+                    String name = events.getString(path + "name", "Example Event 001");
+
+                    message = message.replace(
+                            simplifiedPrefix + "name%", name
+                    ).replace(
+                            simplifiedPrefix + "Name%", name
+                    ).replace(
+                            simplifiedPrefix + "TimeZone%", zone
+                    ).replace(
+                            simplifiedPrefix + "timeZone%" , zone
+                    ).replace(
+                            simplifiedPrefix + "Timezone", zone
+                    ).replace(
+                            simplifiedPrefix + "timezone%", zone
+                    ).replace(
+                            simplifiedPrefix + "TimeLeft%", timeLeft
+                    ).replace(
+                            simplifiedPrefix + "timeLeft%", timeLeft
+                    ).replace(
+                            simplifiedPrefix + "timeleft%", timeLeft
+                    ).replace(
+                            simplifiedPrefix + "Timeleft%", timeLeft
+                    ).replace(
+                            simplifiedPrefix + "left%", timeLeft
+                    );
                 }
             }
             return message;
@@ -175,7 +208,8 @@ public class Extras {
         return message;
     }
 
-    private String replaceEvent(EventFormat format, ConfigurationHandler events, long time) {
+    //BIG MENTAL SKILL ISSUE
+    private String replaceEvent(EventFormatEnum format, ConfigurationHandler events, long time) {
 
         String separator = events.getString("timer.separator", ",");
 
@@ -355,11 +389,11 @@ public class Extras {
     }
 
     private String replaceSpecifiedPlayer(String message) {
-        Matcher matcher = pattern.matcher(message);
+        Matcher matcher = PLAYER_PATTERN.matcher(message);
 
         if (plugin.getPlayerHandler().getPlayersSize() >= 1) {
+            List<String> players = new ArrayList<>(plugin.getPlayerHandler().getPlayersNames());
             while (matcher.find()) {
-                List<String> players = new ArrayList<>(plugin.getPlayerHandler().getPlayersNames());
 
                 int number = Integer.parseInt(matcher.group(1));
 
@@ -417,8 +451,9 @@ public class Extras {
     }
 
     private String getWhitelistAuthor() {
-        ConfigurationHandler whitelist = plugin.getConfigurationHandler(Configuration.MODES);
-        return whitelist.getString("whitelist.global.author", "Console");
+        ConfigurationHandler whitelist = plugin.getConfiguration(Configuration.WHITELIST);
+
+        return whitelist.getString("author", "Console");
     }
 
 

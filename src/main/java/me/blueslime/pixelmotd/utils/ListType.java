@@ -12,7 +12,13 @@ public enum ListType {
     }
 
     public Configuration getFile() {
-        return Configuration.MODES;
+        switch (this) {
+            default:
+            case BLACKLIST:
+                return Configuration.BLACKLIST;
+            case WHITELIST:
+                return Configuration.WHITELIST;
+        }
     }
 
     public Integer getArgument(int argument) {

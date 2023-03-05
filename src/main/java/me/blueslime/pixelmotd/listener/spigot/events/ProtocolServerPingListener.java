@@ -25,7 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
-public class PacketServerPingListener extends PacketAdapter implements Ping {
+public class ProtocolServerPingListener extends PacketAdapter implements Ping {
 
     private final PlayerVersionHandler playerVersionHandler;
 
@@ -47,11 +47,7 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
 
     private String unknown;
 
-    private MotdType type;
-
-    private ConfigurationHandler modes;
-
-    public PacketServerPingListener(PixelMOTD<JavaPlugin> plugin) {
+    public ProtocolServerPingListener(PixelMOTD<JavaPlugin> plugin) {
         super(plugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Status.Server.SERVER_INFO);
 
         this.pingBuilder = new ProtocolPing(
@@ -83,27 +79,21 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
         pingBuilder.update();
     }
 
-    public void updateModes() {
-        modes = plugin.getConfigurationHandler(Configuration.MODES);
-    }
-
     private void load() {
-        updateModes();
-
         FileStorage fileStorage = plugin.getLoader().getFiles();
 
         final ConfigurationHandler control = fileStorage.getConfigurationHandler(Configuration.SETTINGS);
 
-        type = MotdType.NORMAL;
-
         unknown = plugin.getSettings().getString("settings.unknown-player", "unknown#1");
 
-        if (control.getString("settings.default-priority-motd", "DEFAULT").equalsIgnoreCase("HEX")) {
-            type = MotdType.NORMAL_HEX;
-        }
+        ConfigurationHandler whitelist = plugin.getConfiguration(Configuration.WHITELIST);
+        ConfigurationHandler blacklist = plugin.getConfiguration(Configuration.BLACKLIST);
 
-        isWhitelisted = modes.getStatus("whitelist.global.enabled") && modes.getStatus("whitelist.global.enable-motd");
-        isBlacklisted = modes.getStatus("blacklist.global.enabled") && modes.getStatus("blacklist.global.enable-motd");
+        this.isWhitelisted = whitelist.getStatus("enabled") &&
+                whitelist.getStatus("motd");
+
+        this.isBlacklisted = blacklist.getStatus("enabled") &&
+                blacklist.getStatus("motd");
 
         hasOutdatedClient = control.getStatus("settings.outdated-client-motd",true);
         hasOutdatedServer = control.getStatus("settings.outdated-server-motd",true);
@@ -150,30 +140,18 @@ public class PacketServerPingListener extends PacketAdapter implements Ping {
             user = unknown;
         }
 
-        if (isBlacklisted && modes.getStringList("blacklist.global.players.by-name").contains(user)) {
-            if (protocol >= 735) {
-                pingBuilder.execute(MotdType.BLACKLIST_HEX, ping, protocol, user);
-                return;
-            }
+        if (isBlacklisted && plugin.getConfiguration(Configuration.BLACKLIST).getStringList("players.by-name").contains(user)) {
             pingBuilder.execute(MotdType.BLACKLIST, ping, protocol, user);
             return;
         }
 
         if (isWhitelisted) {
-            if (protocol >= 735) {
-                pingBuilder.execute(MotdType.WHITELIST_HEX, ping, protocol, user);
-                return;
-            }
             pingBuilder.execute(MotdType.WHITELIST, ping, protocol, user);
             return;
         }
 
         if (!hasOutdatedClient && !hasOutdatedServer || protocol >= MIN_PROTOCOL && protocol <= MAX_PROTOCOL) {
-            if (protocol >= 735) {
-                pingBuilder.execute(MotdType.NORMAL_HEX, ping, protocol, user);
-                return;
-            }
-            pingBuilder.execute(type, ping, protocol, user);
+            pingBuilder.execute(MotdType.NORMAL, ping, protocol, user);
             return;
         }
         if (MAX_PROTOCOL < protocol && hasOutdatedServer) {

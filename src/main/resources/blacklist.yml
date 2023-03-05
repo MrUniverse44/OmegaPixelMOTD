@@ -1,0 +1,49 @@
+#
+# █████████████████████████████████████████████████████████████████████████
+# █▄─▄▄─█▄─▄█▄─▀─▄█▄─▄▄─█▄─▄███▄─▀█▀─▄█─▄▄─█─▄─▄─█▄─▄▄▀███▀ ██─▄▄─████─▄▄─█
+# ██─▄▄▄██─███▀─▀███─▄█▀██─██▀██─█▄█─██─██─███─████─██─████ ██─██─█  █─██─█
+# █▄▄▄███▄▄▄█▄▄█▄▄█▄▄▄▄▄█▄▄▄▄▄█▄▄▄█▄▄▄█▄▄▄▄██▄▄▄██▄▄▄▄████▄▄▄█▄▄▄▄█▄▄█▄▄▄▄█
+#
+# Using version: 9.3.7-SNAPSHOT (System originally created for PixelMOTD 10 moved to the Legacy version) by JustJustin
+#
+#   Author: JustJustin (MrUniverse44)
+#   SpigotMC Link: https://www.spigotmc.org/resources/37177/
+#   MC-Market Link: https://www.mc-market.org/resources/22313/
+#   GitHub Link: https://github.com/ShieldCommunity/PixelMOTD
+#
+default-reason: "You are blocked from the server."
+
+reason: You are blocked from the server
+
+author: Console
+
+motd: true
+
+custom-console-name:
+  enabled: true
+  name: Network
+
+enabled: false
+
+players:
+  by-name: [ ]
+  by-uuid: [ ]
+
+kick-message:
+  global:
+    - "&c&lYOU HAS BEEN REMOVED FROM THE SERVER"
+    - " "
+    - "&7Reason &8:"
+    - "&f%reason%"
+    - " "
+    - "&ePixelMOTD Plugin"
+  individual:
+    - "&c&lYOU HAS BEEN REMOVED FROM THE SERVER"
+    - " "
+    - "&7Reason &8:"
+    - "&f%reason%"
+    - " "
+    - "&7Server: &8:"
+    - "&f%server%"
+    - " "
+    - "&ePixelMOTD Plugin"

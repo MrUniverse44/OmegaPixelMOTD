@@ -1,18 +1,16 @@
 package me.blueslime.pixelmotd.motd.platforms;
 
 import dev.mruniverse.slimelib.colors.platforms.velocity.DefaultSlimeColor;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
-import me.blueslime.pixelmotd.utils.MotdPlayers;
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
 import org.spongepowered.api.network.status.Favicon;
-import org.spongepowered.api.network.status.StatusResponse;
 import org.spongepowered.api.profile.GameProfile;
 
 public class SpongePing extends PingBuilder<Server, Favicon, ClientPingServerEvent, GameProfile> {
@@ -26,81 +24,42 @@ public class SpongePing extends PingBuilder<Server, Favicon, ClientPingServerEve
 
     @Override
     public void execute(MotdType motdType, ClientPingServerEvent event, int code, String user) {
-        final ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
-
         ClientPingServerEvent.Response ping = event.response();
 
-        String motd = getMotd(motdType);
+        CachedMotd motd = getMotd(motdType);
 
-        if (motd.equals("8293829382382732127413475y42732749832748327472fyfs")) {
+        if (motd == null) {
             if (isDebug()) {
                 getLogs().debug("The plugin don't detect motds for MotdType: " + motdType);
             }
             return;
         }
 
-        String path = motdType + "." + motd + ".";
-
         String line1, line2, completed;
 
         int online, max;
 
         if (isIconSystem()) {
-            String iconName = control.getString(
-                    path + "icons.icon"
-            );
-
-            if (!iconName.equalsIgnoreCase("") && !iconName.equalsIgnoreCase("disabled")) {
-                Favicon img = getFavicon().getFavicon(
-                        iconName
+            if (motd.hasServerIcon()) {
+                Favicon favicon = getFavicon().getFavicon(
+                        motd.getServerIcon()
                 );
-                if (img != null) {
-                    ping.setFavicon(img);
+                if (favicon != null) {
+                    ping.setFavicon(favicon);
                 }
             }
         }
 
-        if (control.getStatus(path + "players.online.toggle", false)) {
-            online = MotdPlayers.getModeFromText(
-                    control,
-                    control.getString(path + "players.online.type", "add"),
-                    getPlugin().getPlayerHandler().getPlayersSize(),
-                    path + "players.online."
-            );
-        } else {
-            online = ping.players().map(StatusResponse.Players::online)
-                    .orElseGet(() -> getPlugin().getPlayerHandler().getPlayersSize());
-        }
-        if (control.getStatus(path + "players.max.toggle", false)) {
-            String mode = control.getString(path + "players.max.type", "add").toLowerCase();
-            if (mode.contains("equal")) {
-                max = MotdPlayers.getModeFromText(
-                        control,
-                        mode,
-                        getPlugin().getPlayerHandler().getPlayersSize(),
-                        path + "players.max."
-                );
-            } else {
-                max = MotdPlayers.getModeFromText(
-                        control,
-                        mode,
-                        online,
-                        path + "players.max."
-                );
-            }
-        } else {
-            max = ping.players().map(StatusResponse.Players::max)
-                    .orElseGet(() -> getPlugin().getPlayerHandler().getMaxPlayers());
-        }
+        online = motd.getOnline(getPlugin());
+        max    = motd.getMax(getPlugin(), online);
 
-        if (control.getStatus(path + "hover.toggle", false)) {
+        if (motd.hasHover()) {
             if (ping.players().isPresent()) {
                 ping.players().get().profiles().clear();
 
                 ping.players().get().profiles().addAll(
                         getHoverModule().generate(
-                                control,
-                                path,
+                                motd.getHover(),
                                 user,
                                 online,
                                 max
@@ -111,11 +70,10 @@ public class SpongePing extends PingBuilder<Server, Favicon, ClientPingServerEve
 
         Component result;
 
-        if (motdType.isHexMotd()) {
+        if (motd.hasHex()) {
 
-            line1 = control.getString(path + "line1", "");
-
-            line2 = control.getString(path + "line2", "");
+            line1 = motd.getLine1();
+            line2 = motd.getLine2();
 
             completed = getExtras().replace(
                     line1,
@@ -134,9 +92,8 @@ public class SpongePing extends PingBuilder<Server, Favicon, ClientPingServerEve
 
         } else {
 
-            line1 = control.getString(path + "line1", "");
-
-            line2 = control.getString(path + "line2", "");
+            line1 = motd.getLine1();
+            line2 = motd.getLine2();
 
             completed = getExtras().replace(
                     line1,

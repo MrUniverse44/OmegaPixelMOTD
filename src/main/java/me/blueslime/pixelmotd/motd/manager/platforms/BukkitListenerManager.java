@@ -2,11 +2,11 @@ package me.blueslime.pixelmotd.motd.manager.platforms;
 
 import me.blueslime.pixelmotd.motd.manager.ListenerManager;
 import me.blueslime.pixelmotd.PixelMOTD;
-import me.blueslime.pixelmotd.listener.spigot.events.PacketServerPingListener;
+import me.blueslime.pixelmotd.listener.spigot.events.ProtocolServerPingListener;
 import me.blueslime.pixelmotd.listener.spigot.events.ServerPingListener;
 import me.blueslime.pixelmotd.listener.spigot.events.abstracts.AbstractLoginListener;
 import me.blueslime.pixelmotd.listener.spigot.events.abstracts.AbstractTeleportListener;
-import me.blueslime.pixelmotd.utils.Extras;
+import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -22,7 +22,7 @@ public class BukkitListenerManager extends ListenerManager<JavaPlugin> {
 
     private final AbstractLoginListener login;
 
-    private PacketServerPingListener protocol;
+    private ProtocolServerPingListener protocol;
 
     private ServerPingListener listener;
 
@@ -78,7 +78,7 @@ public class BukkitListenerManager extends ListenerManager<JavaPlugin> {
         if (manager.isPluginEnabled("ProtocolLib")) {
             isPacket = true;
 
-            protocol = new PacketServerPingListener(getPlugin());
+            protocol = new ProtocolServerPingListener(getPlugin());
             protocol.register();
 
             getLogs().info("Using ProtocolLib for motds, enabling all features...");
@@ -113,7 +113,7 @@ public class BukkitListenerManager extends ListenerManager<JavaPlugin> {
     }
 
     @Override
-    public Extras getExtras() {
+    public PluginPlaceholders getExtras() {
         if (isPacket) {
             return protocol.getPingBuilder().getExtras();
         }

@@ -1,21 +1,24 @@
 package me.blueslime.pixelmotd.motd.builder;
 
+import dev.mruniverse.slimelib.file.configuration.ConfigurationProvider;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdType;
 
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
-import me.blueslime.pixelmotd.utils.Extras;
+import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
 import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.pixelmotd.utils.internal.storage.PluginStorage;
 
+import java.io.File;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("unused")
 public abstract class PingBuilder<T, I, E, H> {
-    private final Map<MotdType, List<String>> motdsMap = new ConcurrentHashMap<>();
+    private final PluginStorage<MotdType, List<CachedMotd>> motdStorage = PluginStorage.initAsConcurrentHash();
     private final FaviconModule<T, I> faviconModule;
     private final HoverModule<H> hoverModule;
 
@@ -28,13 +31,13 @@ public abstract class PingBuilder<T, I, E, H> {
 
     private boolean iconSystem = true;
 
-    private final Extras extras;
+    private final PluginPlaceholders pluginPlaceholders;
 
     public PingBuilder(PixelMOTD<T> plugin, FaviconModule<T, I> faviconModule, HoverModule<H> hoverModule) {
         this.faviconModule = faviconModule;
         this.hoverModule = hoverModule;
         this.plugin  = plugin;
-        this.extras  = new Extras(plugin);
+        this.pluginPlaceholders = new PluginPlaceholders(plugin);
         load();
     }
 
@@ -61,71 +64,93 @@ public abstract class PingBuilder<T, I, E, H> {
             plugin.getLogs().error("Can't load settings data");
         }
 
-        motdsMap.clear();
+        File[] files = plugin.getMotdFolder().listFiles((dir, name) -> name.contains(".yml"));
 
-        for (MotdType motdType : MotdType.values()) {
+        if (files == null) {
+            return;
+        }
 
-            ConfigurationHandler configuration = plugin.getConfigurationHandler(motdType.getFile());
-
-            List<String> motds;
-
-            if (configuration == null) {
-                motds = new ArrayList<>();
-
-                if (isDebug()) {
-                    plugin.getLogs().info("&aNo motds found in motd file: " + motdType.getFile().getFileName() + ", for motdType: " + motdType);
-                }
+        for (MotdType type : MotdType.values()) {
+            if (motdStorage.contains(type)) {
+                motdStorage.get(type).clear();
             } else {
-                motds = configuration.getContent(
-                        motdType.toString(),
-                        false
+                motdStorage.set(
+                        type,
+                        new ArrayList<>()
                 );
             }
+        }
 
-            motdsMap.put(
-                    motdType,
-                    motds
+        ConfigurationProvider provider = plugin.getServerType()
+                .getProvider()
+                .getNewInstance();
+
+        for (File file : files) {
+            ConfigurationHandler motd = provider.create(
+                    plugin.getLogs(),
+                    file
+            );
+            MotdType type = MotdType.parseMotd(
+                    motd.getInt("type")
+            );
+            motdStorage.get(type).add(
+                    new CachedMotd(
+                            motd
+                    )
             );
         }
     }
 
-    public List<String> loadMotds(MotdType type) {
-        ConfigurationHandler control = plugin.getConfigurationHandler(type.getFile());
+    public List<CachedMotd> loadMotds(MotdType type) {
+        File[] files = plugin.getMotdFolder().listFiles((dir, name) -> name.contains(".yml"));
 
-        List<String> list;
-
-        if (control != null) {
-            list = control.getContent(
-                    type.toString(),
-                    false
-            );
-        } else {
-            list = new ArrayList<>();
+        if (files == null) {
+            return Collections.emptyList();
         }
 
-        motdsMap.put(
-                type,
-                list
-        );
-        return list;
+        List<CachedMotd> motdList = new ArrayList<>();
+
+        ConfigurationProvider provider = plugin.getServerType()
+                .getProvider()
+                .getNewInstance();
+
+        for (File file : files) {
+            ConfigurationHandler motd = provider.create(
+                    plugin.getLogs(),
+                    file
+            );
+            if (MotdType.parseMotd(
+                    motd.getInt("type")
+            ) == type) {
+                motdList.add(
+                        new CachedMotd(
+                                motd
+                        )
+                );
+            }
+        }
+        motdStorage.set(type, motdList);
+        return motdList;
     }
 
-    public String getMotd(MotdType type) {
-        List<String> motds = motdsMap.get(type);
+    public CachedMotd getMotd(MotdType type) {
+        List<CachedMotd> motds = motdStorage.get(type);
 
         if (motds == null) {
             motds = loadMotds(type);
         }
 
         if (motds.size() == 0) {
-            return "8293829382382732127413475y42732749832748327472fyfs";
+            return null;
         }
 
         if (motds.size() == 1) {
             return motds.get(0);
         }
 
-        return motds.get(ThreadLocalRandom.current().nextInt(motds.size()));
+        return motds.get(
+                ThreadLocalRandom.current().nextInt(motds.size())
+        );
     }
 
     public SlimeLogs getLogs() {
@@ -158,7 +183,7 @@ public abstract class PingBuilder<T, I, E, H> {
         return debug;
     }
 
-    public Extras getExtras() {
-        return extras;
+    public PluginPlaceholders getExtras() {
+        return pluginPlaceholders;
     }
 }

@@ -40,10 +40,6 @@ public class ProxyPingListener implements Ping {
 
     private String unknown;
 
-    private MotdType type;
-
-    private ConfigurationHandler modes;
-
     public ProxyPingListener(PixelMOTD<ProxyServer> plugin) {
         this.pingBuilder = new VelocityPing(
                 plugin,
@@ -57,28 +53,22 @@ public class ProxyPingListener implements Ping {
         this.plugin = plugin;
         load();
     }
-
-    public void updateModes() {
-        modes = plugin.getConfigurationHandler(Configuration.MODES);
-    }
-
     private void load() {
-        updateModes();
-
         FileStorage fileStorage = plugin.getLoader().getFiles();
 
         final ConfigurationHandler control = fileStorage.getConfigurationHandler(Configuration.SETTINGS);
 
-        type = MotdType.NORMAL;
+        this.unknown = plugin.getSettings().getString("settings.unknown-player", "unknown#1");
 
-        unknown = plugin.getSettings().getString("settings.unknown-player", "unknown#1");
+        ConfigurationHandler whitelist = plugin.getConfiguration(Configuration.WHITELIST);
+        ConfigurationHandler blacklist = plugin.getConfiguration(Configuration.BLACKLIST);
 
-        if (control.getString("settings.default-priority-motd", "DEFAULT").equalsIgnoreCase("HEX")) {
-            type = MotdType.NORMAL_HEX;
-        }
 
-        isWhitelisted = modes.getStatus("whitelist.global.enabled") && modes.getStatus("whitelist.global.enable-motd");
-        isBlacklisted = modes.getStatus("blacklist.global.enabled") && modes.getStatus("blacklist.global.enable-motd");
+        this.isWhitelisted = whitelist.getStatus("enabled") &&
+                whitelist.getStatus("motd");
+
+        this.isBlacklisted = blacklist.getStatus("enabled") &&
+                blacklist.getStatus("motd");
 
         hasOutdatedClient = control.getStatus("settings.outdated-client-motd",true);
         hasOutdatedServer = control.getStatus("settings.outdated-server-motd",true);
@@ -116,30 +106,18 @@ public class ProxyPingListener implements Ping {
             user = unknown;
         }
 
-        if (isBlacklisted && modes.getStringList("blacklist.global.players.by-name").contains(user)) {
-            if (protocol >= 735) {
-                pingBuilder.execute(MotdType.BLACKLIST_HEX, event, protocol, user);
-                return;
-            }
+        if (isBlacklisted && plugin.getConfiguration(Configuration.BLACKLIST).getStringList("players.by-name").contains(user)) {
             pingBuilder.execute(MotdType.BLACKLIST, event, protocol, user);
             return;
         }
 
         if (isWhitelisted) {
-            if (protocol >= 735) {
-                pingBuilder.execute(MotdType.WHITELIST_HEX, event, protocol, user);
-                return;
-            }
             pingBuilder.execute(MotdType.WHITELIST, event, protocol, user);
             return;
         }
 
         if (!hasOutdatedClient && !hasOutdatedServer || protocol >= MIN_PROTOCOL && protocol <= MAX_PROTOCOL) {
-            if (protocol >= 735) {
-                pingBuilder.execute(MotdType.NORMAL_HEX, event, protocol, user);
-                return;
-            }
-            pingBuilder.execute(type, event, protocol, user);
+            pingBuilder.execute(MotdType.NORMAL, event, protocol, user);
             return;
         }
         if (MAX_PROTOCOL < protocol && hasOutdatedServer) {

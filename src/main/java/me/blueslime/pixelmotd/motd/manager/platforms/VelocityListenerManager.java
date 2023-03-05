@@ -8,7 +8,7 @@ import me.blueslime.pixelmotd.initialization.velocity.VelocityMOTD;
 import me.blueslime.pixelmotd.listener.velocity.events.ProxyPingListener;
 import me.blueslime.pixelmotd.listener.velocity.events.abstracts.AbstractLoginListener;
 import me.blueslime.pixelmotd.listener.velocity.events.abstracts.AbstractServerConnectListener;
-import me.blueslime.pixelmotd.utils.Extras;
+import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
 
 public class VelocityListenerManager extends ListenerManager<ProxyServer> {
 
@@ -84,7 +84,7 @@ public class VelocityListenerManager extends ListenerManager<ProxyServer> {
     }
 
     @Override
-    public Extras getExtras() {
+    public PluginPlaceholders getExtras() {
         return listener.getPingBuilder().getExtras();
     }
 }

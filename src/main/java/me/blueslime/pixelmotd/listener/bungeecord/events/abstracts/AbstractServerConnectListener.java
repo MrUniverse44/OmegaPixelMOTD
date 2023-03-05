@@ -54,19 +54,21 @@ public class AbstractServerConnectListener extends ConnectionListener<Plugin, Se
 
         final String serverName = event.getTarget().getName();
 
-        ConfigurationHandler settings = getControl();
+        ConfigurationHandler whitelist = getWhitelist();
+        ConfigurationHandler blacklist = getBlacklist();
 
-        String path = getPlace().toStringLowerCase() + "." + serverName;
+        String path = getPlace().loweredName() + "." + serverName;
 
-        if (settings.getStatus("whitelist." + path + ".enabled", false)) {
+        if (whitelist.getStatus(path +".enabled", false)) {
             if (!checkPlayer(ListType.WHITELIST, path, username) && !checkUUID(ListType.WHITELIST, path, uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.whitelist"));
+                String reason = ListUtil.ListToString(whitelist.getStringList("kick-message.individual"));
 
                 connection.sendMessage(
                         colorize(
                                 replace(
                                         reason,
-                                        "whitelist." + path,
+                                        true,
+                                        path,
                                         username,
                                         uuid.toString()
                                 )
@@ -80,15 +82,16 @@ public class AbstractServerConnectListener extends ConnectionListener<Plugin, Se
             }
         }
 
-        if (settings.getStatus("blacklist." + path + ".enabled", false)) {
+        if (blacklist.getStatus(path + ".enabled", false)) {
             if (checkPlayer(ListType.BLACKLIST, path, username) || checkUUID(ListType.BLACKLIST, path, uuid)) {
-                String reason = ListUtil.ListToString(settings.getStringList("kick-message.blacklist"));
+                String reason = ListUtil.ListToString(blacklist.getStringList("kick-message.individual"));
 
                 connection.sendMessage(
                         colorize(
                                 replace(
                                         reason,
-                                        "blacklist." + path,
+                                        false,
+                                        path,
                                         username,
                                         uuid.toString()
                                 )

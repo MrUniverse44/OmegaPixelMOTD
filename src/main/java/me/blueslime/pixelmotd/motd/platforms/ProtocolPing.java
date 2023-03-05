@@ -3,8 +3,7 @@ package me.blueslime.pixelmotd.motd.platforms;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import dev.mruniverse.slimelib.colors.platforms.StringSlimeColor;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.file.configuration.TextDecoration;
+import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdProtocol;
 import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;
@@ -12,7 +11,6 @@ import me.blueslime.pixelmotd.external.iridiumcolorapi.IridiumColorAPI;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
-import me.blueslime.pixelmotd.utils.MotdPlayers;
 import me.blueslime.pixelmotd.utils.PlaceholderParser;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,74 +30,38 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
 
     @Override
     public void execute(MotdType motdType, WrappedServerPing ping, int code, String user) {
-        final ConfigurationHandler control = getPlugin().getConfigurationHandler(motdType.getFile());
+        CachedMotd motd = getMotd(motdType);
 
-        String motd = getMotd(motdType);
-
-        if (motd.equals("8293829382382732127413475y42732749832748327472fyfs")) {
+        if (motd == null) {
             if (isDebug()) {
                 getLogs().debug("The plugin don't detect motds for MotdType: " + motdType);
             }
             return;
         }
 
-        String path = motdType + "." + motd + ".";
-
         String line1, line2, completed;
 
         int online, max;
 
         if (isIconSystem()) {
-            String iconName = control.getString(
-                    path + "icons.icon", ""
-            );
-
-            if (!iconName.equalsIgnoreCase("") && !iconName.equalsIgnoreCase("disabled")) {
-                WrappedServerPing.CompressedImage img = getFavicon().getFavicon(
-                        iconName
+            if (motd.hasServerIcon()) {
+                WrappedServerPing.CompressedImage favicon = getFavicon().getFavicon(
+                        motd.getServerIcon()
                 );
-                if (img != null) {
-                    ping.setFavicon(img);
+
+                if (favicon != null) {
+                    ping.setFavicon(favicon);
                 }
             }
         }
 
-        if (control.getStatus(path + "players.online.toggle", false)) {
-            online = MotdPlayers.getModeFromText(
-                    control,
-                    control.getString(path + "players.online.type", "add"),
-                    getPlugin().getPlayerHandler().getPlayersSize(),
-                    path + "players.online."
-            );
-        } else {
-            online = ping.getPlayersOnline();
-        }
-        if (control.getStatus(path + "players.max.toggle", false)) {
-            String mode = control.getString(path + "players.max.type", "add").toLowerCase();
-            if (mode.contains("equal")) {
-                max = MotdPlayers.getModeFromText(
-                        control,
-                        mode,
-                        ping.getPlayersMaximum(),
-                        path + "players.max."
-                );
-            } else {
-                max = MotdPlayers.getModeFromText(
-                        control,
-                        mode,
-                        online,
-                        path + "players.max."
-                );
-            }
-        } else {
-            max = ping.getPlayersMaximum();
-        }
+        online = motd.getOnline(getPlugin());
+        max    = motd.getMax(getPlugin(), online);
 
-        if (control.getStatus(path + "hover.toggle", false)) {
+        if (motd.hasHover()) {
             ping.setPlayers(
                     getHoverModule().generate(
-                            control,
-                            path,
+                            motd.getHover(),
                             user,
                             online,
                             max
@@ -107,32 +69,33 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
             );
         }
 
-        if (control.getStatus(path + "protocol.toggle", true)) {
-            MotdProtocol protocol = MotdProtocol.getFromText(
-                    control.getString(path + "protocol.modifier", "ALWAYS_POSITIVE"),
-                    code
-            );
+        MotdProtocol protocol = MotdProtocol.fromOther(
+                motd.getModifier()
+        ).setCode(code);
 
+        if (protocol != MotdProtocol.DEFAULT) {
             if (protocol != MotdProtocol.ALWAYS_NEGATIVE) {
-                ping.setVersionProtocol(protocol.getCode());
+                ping.setVersionProtocol(code);
+            } else {
+                ping.setVersionProtocol(-1);
             }
-
-            ping.setVersionName(
-                    ChatColor.translateAlternateColorCodes(
-                            '&',
-                            getExtras().replace(
-                                    control.getString(path + "protocol.message", "PixelMOTD System"),
-                                    online,
-                                    max,
-                                    user
-                            )
-                    )
-            );
         }
 
-        if (!motdType.isHexMotd()) {
-            line1 = control.getString(TextDecoration.LEGACY, path + "line1", "");
-            line2 = control.getString(TextDecoration.LEGACY, path + "line2", "");
+        ping.setVersionName(
+                ChatColor.translateAlternateColorCodes(
+                        '&',
+                        getExtras().replace(
+                                motd.getProtocolText(),
+                                online,
+                                max,
+                                user
+                        )
+                )
+        );
+
+        if (!motd.hasHex()) {
+            line1 = motd.getLine1();
+            line2 = motd.getLine2();
 
             if (hasPAPI) {
                 line1 = PlaceholderParser.parse(getPlugin().getLogs(), user, line1);
@@ -152,8 +115,8 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
             );
 
         } else {
-            line1 = control.getString(path + "line1", "");
-            line2 = control.getString(path + "line2", "");
+            line1 = motd.getLine1();
+            line2 = motd.getLine2();
 
             if (hasPAPI) {
                 line1 = PlaceholderParser.parse(getPlugin().getLogs(), user, line1);
