@@ -14,6 +14,57 @@ public class PlayerModules {
     public static PlayerModule SPLIT_MODULE = SplitModule.INSTANCE;
     public static PlayerModule ADD_MODULE = AdderModule.INSTANCE;
 
+    public static int execute(Object type, int online, int motdOnline, String values) {
+        if (type instanceof String) {
+            return execute(
+                    Integer.parseInt(
+                            (String)type
+                    ),
+                    online,
+                    motdOnline,
+                    values
+            );
+        }
+        if (type instanceof Integer) {
+            return execute(
+                    (int)type,
+                    online,
+                    motdOnline,
+                    values
+            );
+        }
+        return execute(
+                -1,
+                online,
+                motdOnline,
+                values
+        );
+    }
+
+    public static int execute(Object type, int online, String values) {
+        if (type instanceof String) {
+            return execute(
+                    Integer.parseInt(
+                            (String)type
+                    ),
+                    online,
+                    values
+            );
+        }
+        if (type instanceof Integer) {
+            return execute(
+                    (int)type,
+                    online,
+                    values
+            );
+        }
+        return execute(
+                -1,
+                online,
+                values
+        );
+    }
+
     public static int execute(int type, int online, int motdOnline, String values) {
         switch (type) {
             default:
@@ -102,7 +153,7 @@ public class PlayerModules {
 
     public static int getMaximumPlayers(PixelMOTD<?> plugin, ConfigurationHandler configuration) {
         return execute(
-                configuration.getInt("players.max.type", 1),
+                configuration.get("players.max.type", 1),
                 plugin.getPlayerHandler().getMaxPlayers(),
                 configuration.getString("players.max.values", "1000;1001")
         );
@@ -110,7 +161,7 @@ public class PlayerModules {
 
     public static int getMaximumPlayers(PixelMOTD<?> plugin, ConfigurationHandler configuration, int online) {
         return execute(
-                configuration.getInt("players.max.type", 1),
+                configuration.get("players.max.type", 1),
                 plugin.getPlayerHandler().getMaxPlayers(),
                 online,
                 configuration.getString("players.max.values", "1000;1001")
@@ -119,7 +170,7 @@ public class PlayerModules {
 
     public static int getOnlinePlayers(PixelMOTD<?> plugin, ConfigurationHandler configuration) {
         return execute(
-                configuration.getInt("players.online.type", 0),
+                configuration.get("players.online.type", 0),
                 plugin.getPlayerHandler().getPlayersSize(),
                 configuration.getString("players.online.values", "10")
         );

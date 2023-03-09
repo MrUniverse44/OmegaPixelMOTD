@@ -40,6 +40,35 @@ public enum MotdProtocol {
         return protocol;
     }
 
+    public static MotdProtocol fromObject(Object object, int code) {
+        if (object instanceof String) {
+            return fromString(
+                    (String)object,
+                    code
+            );
+        }
+        if (object instanceof Integer) {
+            return fromInteger(
+                    (int)object,
+                    code
+            );
+        }
+        return DEFAULT.setCode(code);
+    }
+
+    public static MotdProtocol fromInteger(int parameter, int code) {
+        switch (parameter) {
+            default:
+            case -1:
+            case 0:
+                return DEFAULT.setCode(code);
+            case 1:
+                return ALWAYS_POSITIVE.setCode(code);
+            case 2:
+                return ALWAYS_NEGATIVE;
+        }
+    }
+
     public static MotdProtocol fromString(String paramText, int code) {
         paramText = paramText.toLowerCase(Locale.ENGLISH);
 

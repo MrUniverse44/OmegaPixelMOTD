@@ -22,8 +22,8 @@ public class CachedMotd {
     }
 
     private void init() {
-        this.specifiedProtocol = MotdProtocol.fromString(
-                configuration.getString("protocol.modifier", "1"),
+        this.specifiedProtocol = MotdProtocol.fromObject(
+                configuration.get("protocol.modifier", "1"),
                 0
         );
 
@@ -66,7 +66,17 @@ public class CachedMotd {
     }
 
     public boolean hasHover() {
-        return "0".equals(configuration.get("hover.type", "0")) || configuration.getInt("hover.type", 0) == 0;
+        Object type = configuration.get("hover.type", "0");
+
+        if (type instanceof String) {
+            String v = (String)type;
+            return v.equals("0");
+        }
+        if (type instanceof Integer) {
+            int v = (int)type;
+            return v == 0;
+        }
+        return (boolean)type;
     }
 
     public List<String> getHover() {
