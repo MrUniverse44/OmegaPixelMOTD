@@ -14,7 +14,15 @@ public class PlayerModules {
     public static PlayerModule SPLIT_MODULE = SplitModule.INSTANCE;
     public static PlayerModule ADD_MODULE = AdderModule.INSTANCE;
 
-    public static int execute(Object type, int online, int motdOnline, String values) {
+    public static int execute(Object type, int online, int motdOnline, Object values) {
+
+        String value;
+
+        if (values instanceof String) {
+            value = (String)values;
+        } else {
+            value = String.valueOf((int)values);
+        }
         if (type instanceof String) {
             return execute(
                     Integer.parseInt(
@@ -22,7 +30,7 @@ public class PlayerModules {
                     ),
                     online,
                     motdOnline,
-                    values
+                    value
             );
         }
         if (type instanceof Integer) {
@@ -30,38 +38,45 @@ public class PlayerModules {
                     (int)type,
                     online,
                     motdOnline,
-                    values
+                    value
             );
         }
         return execute(
                 -1,
                 online,
                 motdOnline,
-                values
+                value
         );
     }
 
-    public static int execute(Object type, int online, String values) {
+    public static int execute(Object type, int online, Object values) {
+        String value;
+
+        if (values instanceof String) {
+            value = (String)values;
+        } else {
+            value = String.valueOf((int)values);
+        }
         if (type instanceof String) {
             return execute(
                     Integer.parseInt(
                             (String)type
                     ),
                     online,
-                    values
+                    value
             );
         }
         if (type instanceof Integer) {
             return execute(
                     (int)type,
                     online,
-                    values
+                    value
             );
         }
         return execute(
                 -1,
                 online,
-                values
+                value
         );
     }
 
@@ -160,11 +175,13 @@ public class PlayerModules {
     }
 
     public static int getMaximumPlayers(PixelMOTD<?> plugin, ConfigurationHandler configuration, int online) {
+        plugin.getLogs().info("Max Type: " + configuration.get("players.max.type", 1));
+        plugin.getLogs().info("Max online val: " + online);
         return execute(
                 configuration.get("players.max.type", 1),
                 plugin.getPlayerHandler().getMaxPlayers(),
                 online,
-                configuration.getString("players.max.values", "1000;1001")
+                configuration.get("players.max.values", "1000;1001")
         );
     }
 
@@ -172,7 +189,7 @@ public class PlayerModules {
         return execute(
                 configuration.get("players.online.type", 0),
                 plugin.getPlayerHandler().getPlayersSize(),
-                configuration.getString("players.online.values", "10")
+                configuration.get("players.online.values", "10")
         );
     }
 
