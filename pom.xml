@@ -6,7 +6,7 @@
 
     <groupId>me.blueslime.pixelmotd</groupId>
     <artifactId>PixelMOTD</artifactId>
-    <version>9.3.7-SNAPSHOT</version>
+    <version>9.3.8-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>PixelMOTD</name>

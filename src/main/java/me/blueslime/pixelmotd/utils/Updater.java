@@ -13,15 +13,12 @@ import java.net.URL;
 
 @SuppressWarnings({"deprecation", "unused"})
 public class Updater {
-    private static final String USER_AGENT = "Updater by Stipess1 and recoded by MrUniverse44";
+    private static final String USER_AGENT = "Updater by JustJustin";
     // Direct download link
     private String downloadLink;
     // SlimeLogs
     private final SlimeLogs logs;
-    // The folder where releases will be storage
-    private final File releaseFolder;
-    // The folder where builds will be storage
-    private final File buildsFolder;
+    private final File folder;
     // The plugin file
     private final File file;
     // ID of a project
@@ -57,19 +54,13 @@ public class Updater {
     public Updater(SlimeLogs logger, String currentVersion, int id, File file, UpdateType updateType) {
         this.logs = logger;
         this.currentVersion = currentVersion;
-        // The folder where update will be downloaded
-        File updateFolder = new File(file, "downloads");
-        if (!updateFolder.exists()) {
-            if (updateFolder.mkdirs()) logger.info("Downloads folder has been created");
+
+        this.folder = new File(file, "downloads");
+
+        if (!folder.exists() && folder.mkdirs()) {
+            logger.info("Downloads folder has been created");
         }
-        this.releaseFolder = new File(updateFolder, "releases");
-        if (!releaseFolder.exists()) {
-            if (releaseFolder.mkdirs()) logger.info("Releases folder has been created");
-        }
-        this.buildsFolder = new File(updateFolder, "builds");
-        if (!buildsFolder.exists()) {
-            if (buildsFolder.mkdirs()) logger.info("Releases folder has been created");
-        }
+
         this.id = id;
         this.file = file;
         this.updateType = updateType;
@@ -164,9 +155,6 @@ public class Updater {
             case SPIGOTMC:
                 checkSpigot();
                 break;
-            case GITHUB:
-                checkGithub();
-                break;
             case MC_MARKET:
                 checkMcMarket();
                 break;
@@ -175,61 +163,6 @@ public class Updater {
 
     private void checkMcMarket() {
         //TODO
-    }
-
-    private void checkGithub() {
-        try {
-            URL url = new URL(GITHUB_API_RESOURCE);
-
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.addRequestProperty("User-Agent", USER_AGENT);
-
-            InputStream inputStream = connection.getInputStream();
-            InputStreamReader reader = new InputStreamReader(inputStream);
-
-            JsonElement element = new JsonParser().parse(reader);
-            JsonObject object = element.getAsJsonObject();
-            element = object.get("tag_name");
-            tag = element.toString().replaceAll("\"", "").replace("v", "");
-            if (logger)
-                logs.info("GITHUB |&e Checking for update...");
-            if (shouldUpdate(tag, currentVersion) && updateType == UpdateType.VERSION_CHECK) {
-                result = Result.UPDATE_FOUND;
-                if (logger) {
-                    logs.info("GITHUB |&6 Update found!");
-                }
-            } else if (updateType == UpdateType.DOWNLOAD) {
-                if (logger)
-                    logs.info("GITHUB |&e Trying to download update..");
-                download(UpdateSite.GITHUB);
-            } else if (updateType == UpdateType.CHECK_DOWNLOAD) {
-                if (shouldUpdate(tag, currentVersion)) {
-                    if (logger) {
-                        logs.info("GITHUB |&e Update found, downloading now...");
-                    }
-                    download(UpdateSite.GITHUB);
-
-                } else {
-                    if (logger) {
-                        logs.info("GITHUB |&6 You are using latest version of the plugin.");
-                    }
-                    result = Result.NO_UPDATE;
-                }
-            } else {
-                if (logger) {
-                    logs.info("GITHUB |&6 You are using latest version of the plugin.");
-                }
-                result = Result.NO_UPDATE;
-            }
-        } catch (Exception exception) {
-            if (exception instanceof FileNotFoundException) {
-                logs.info("&aNo updates are available on github");
-                return;
-            }
-            logs.error("&cCan't find for updates on github :(");
-            logs.error(exception);
-
-        }
     }
 
     private void checkSpigot() {
@@ -269,18 +202,9 @@ public class Updater {
                         logs.info("SPIGOTMC |&6 Update found!");
                 } else if (updateType == UpdateType.DOWNLOAD) {
                     if (logger)
-                        logs.info("SPIGOTMC |&e Trying to download update..");
-                    download(UpdateSite.SPIGOTMC);
+                        logs.info("SPIGOTMC |&e Updater is disabled");
                 } else if (updateType == UpdateType.CHECK_DOWNLOAD) {
-                    if (shouldUpdate(version, currentVersion)) {
-                        if (logger)
-                            logs.info("SPIGOTMC |&e Update found, downloading now...");
-                        download(UpdateSite.SPIGOTMC);
-                    } else {
-                        if (logger)
-                            logs.info("SPIGOTMC |&6 You are using latest version of the plugin.");
-                        result = Result.NO_UPDATE;
-                    }
+                    logs.info("SPIGOTMC | &eUpdater is disabled");
                 } else {
                     if (logger)
                         logs.info("SPIGOTMC |&6 You are using latest version of the plugin.");
@@ -310,103 +234,14 @@ public class Updater {
     private void download(UpdateSite site) {
         switch (site) {
             case GITHUB:
-                downloadGithub();
                 break;
             case SPIGOTMC:
-                downloadSpigotmc();
                 break;
             case MC_MARKET:
                 downloadMcMarket();
                 break;
         }
     }
-
-    private void downloadGithub() {
-        BufferedInputStream in = null;
-        FileOutputStream fout = null;
-
-        try {
-            URL url = new URL(GITHUB_DOWNLOAD_LINK + tag + "/PixelMOTD-" + tag + ".jar");
-            in = new BufferedInputStream(url.openStream());
-
-            fout = new FileOutputStream(new File(buildsFolder, file.getName() + "-v" + version + ".jar"));
-
-            final byte[] data = new byte[4096];
-            int count;
-            while ((count = in.read(data, 0, 4096)) != -1) {
-                fout.write(data, 0, count);
-            }
-
-            logs.info("&6Latest build from Github has been downloaded.");
-
-        } catch (Exception ignored) {
-            if (logger)
-                logs.info("&cCan't download latest version automatically, download it manually from website.");
-            logs.info(" ");
-            result = Result.FAILED;
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (final IOException exception) {
-                logs.error("Can't download");
-                logs.error(exception);
-            }
-            try {
-                if (fout != null) {
-                    fout.close();
-                }
-            } catch (final IOException exception) {
-                logs.error("Can't download");
-                logs.error(exception);
-            }
-        }
-    }
-
-    private void downloadSpigotmc() {
-        BufferedInputStream in = null;
-        FileOutputStream fout = null;
-
-        try {
-            URL url = new URL(downloadLink);
-            in = new BufferedInputStream(url.openStream());
-
-            fout = new FileOutputStream(new File(releaseFolder, file.getName() + "-v" + version + ".jar"));
-
-            final byte[] data = new byte[4096];
-            int count;
-            while ((count = in.read(data, 0, 4096)) != -1) {
-                fout.write(data, 0, count);
-            }
-
-            logs.info("&6Latest release from SpigotMC has been downloaded.");
-
-        } catch (Exception ignored) {
-            if (logger)
-                logs.info("&cCan't download latest version automatically, download it manually from website.");
-            logs.info(" ");
-            result = Result.FAILED;
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (final IOException exception) {
-                logs.error("Can't download");
-                logs.error(exception);
-            }
-            try {
-                if (fout != null) {
-                    fout.close();
-                }
-            } catch (final IOException exception) {
-                logs.error("Can't download");
-                logs.error(exception);
-            }
-        }
-    }
-
     private void downloadMcMarket() {
         //TODO
     }
