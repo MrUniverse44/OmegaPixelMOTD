@@ -170,18 +170,16 @@ public class PlayerModules {
         return execute(
                 configuration.get("players.max.type", 1),
                 plugin.getPlayerHandler().getMaxPlayers(),
-                configuration.getString("players.max.values", "1000;1001")
+                configuration.getString("players.max.value", "1000;1001")
         );
     }
 
     public static int getMaximumPlayers(PixelMOTD<?> plugin, ConfigurationHandler configuration, int online) {
-        plugin.getLogs().info("Max Type: " + configuration.get("players.max.type", 1));
-        plugin.getLogs().info("Max online val: " + online);
         return execute(
                 configuration.get("players.max.type", 1),
                 plugin.getPlayerHandler().getMaxPlayers(),
                 online,
-                configuration.get("players.max.values", "1000;1001")
+                configuration.get("players.max.value", "1000;1001")
         );
     }
 
@@ -189,7 +187,7 @@ public class PlayerModules {
         return execute(
                 configuration.get("players.online.type", 0),
                 plugin.getPlayerHandler().getPlayersSize(),
-                configuration.get("players.online.values", "10")
+                configuration.get("players.online.value", "10")
         );
     }
 
