@@ -37,11 +37,14 @@ public class CachedMotd {
             String icon;
             String def;
 
-            if (split.length == 2) {
+            if (split.length >= 2) {
                 icon = split[0];
                 def = split[1];
-            } else {
+            } else if (split.length == 1) {
                 icon = split[0];
+                def = "";
+            } else {
+                icon = "";
                 def = "";
             }
 
