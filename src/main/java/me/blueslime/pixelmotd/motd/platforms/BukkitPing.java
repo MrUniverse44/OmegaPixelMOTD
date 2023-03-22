@@ -119,7 +119,9 @@ public class BukkitPing extends PingBuilder<JavaPlugin, CachedServerIcon, Server
             completed = ChatColor.translateAlternateColorCodes('&', completed);
         }
 
-        ping.setMotd(completed);
+        ping.setMotd(
+                ChatColor.translateAlternateColorCodes('&', completed)
+        );
         ping.setMaxPlayers(max);
 
     }
