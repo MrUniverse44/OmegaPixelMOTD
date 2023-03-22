@@ -9,9 +9,9 @@ public class AdderModule extends PlayerModule {
     @Override
     public int execute(int online, String values) {
         if (values.contains(";")) {
-            return online + generateRandomParameter(values);
+            int random = generateRandomParameter(values);
+            return online + random;
         }
-
         return online + Integer.parseInt(values);
     }
 }

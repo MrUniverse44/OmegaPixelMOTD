@@ -6,7 +6,7 @@ import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.utils.internal.players.injects.*;
 
 public class PlayerModules {
-
+    private static final ClassCastException CLASS_CAST_EXCEPTION = new ClassCastException("Did you tried to load a String list or a object in the player number");
     public static PlayerModule MULTIPLIER_MODULE = MultiplierModule.INSTANCE;
     public static PlayerModule DEFAULT_MODULE = DefaultModule.INSTANCE;
     public static PlayerModule REMOVE_MODULE = RemoverModule.INSTANCE;
@@ -58,7 +58,7 @@ public class PlayerModules {
             value = String.valueOf((int)values);
         }
         if (type instanceof String) {
-            return execute(
+            return executeDirect(
                     Integer.parseInt(
                             (String)type
                     ),
@@ -67,17 +67,13 @@ public class PlayerModules {
             );
         }
         if (type instanceof Integer) {
-            return execute(
+            return executeDirect(
                     (int)type,
                     online,
                     value
             );
         }
-        return execute(
-                -1,
-                online,
-                value
-        );
+        throw CLASS_CAST_EXCEPTION;
     }
 
     public static int execute(int type, int online, int motdOnline, String values) {
@@ -113,7 +109,7 @@ public class PlayerModules {
         }
     }
 
-    public static int execute(int type, int online, String values) {
+    public static int executeDirect(int type, int online, String values) {
         switch (type) {
             default:
             case -1:

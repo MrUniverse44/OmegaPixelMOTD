@@ -411,6 +411,9 @@ public class PluginPlaceholders {
     }
 
     public List<String> replaceHoverLine(List<String> lines) {
+        if (lines == null || lines.isEmpty()) {
+            return Collections.emptyList();
+        }
         List<String> array = new ArrayList<>();
         int showedPlayers = 0;
         for (String line : lines) {

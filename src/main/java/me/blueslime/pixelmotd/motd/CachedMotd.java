@@ -34,8 +34,16 @@ public class CachedMotd {
 
             String[] split = protocol.split("<default>");
 
-            String icon = split[0];
-            String def = split[1];
+            String icon;
+            String def;
+
+            if (split.length == 2) {
+                icon = split[0];
+                def = split[1];
+            } else {
+                icon = split[0];
+                def = "";
+            }
 
             int max = configuration.getInt("protocol.space-length", 30);
 
