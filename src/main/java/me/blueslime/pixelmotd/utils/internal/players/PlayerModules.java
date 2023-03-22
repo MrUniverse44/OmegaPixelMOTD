@@ -225,8 +225,6 @@ public class PlayerModules {
     }
 
     public static int getMaximumPlayers(PixelMOTD<?> plugin, ConfigurationHandler configuration, int online) {
-        plugin.getLogs().info("max type is: " + configuration.get("players.max.type", 1));
-        plugin.getLogs().info("max values: " + configuration.get("players.max.value", "1000;1001"));
         return execute(
                 configuration.get("players.max.type", 1),
                 plugin.getPlayerHandler(),
