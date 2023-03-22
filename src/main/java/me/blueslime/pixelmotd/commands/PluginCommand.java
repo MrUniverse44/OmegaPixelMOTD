@@ -6,7 +6,6 @@ import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
 import me.blueslime.pixelmotd.utils.ListType;
 import me.blueslime.pixelmotd.utils.PlayerUtil;
-import me.blueslime.pixelmotd.utils.Updater;
 import me.blueslime.pixelmotd.utils.list.PluginList;
 import dev.mruniverse.slimelib.commands.command.Command;
 import dev.mruniverse.slimelib.commands.command.SlimeCommand;
@@ -190,22 +189,7 @@ public class PluginCommand<T> implements SlimeCommand {
             final ConfigurationHandler settings = plugin.getConfigurationHandler(Configuration.SETTINGS);
 
             if (settings.getStatus("settings.update-check", true)) {
-                sender.sendColoredMessage("&9Updater Command has been used, information will be posted in Console");
-
-                Updater.UpdateType type = Updater.UpdateType.VERSION_CHECK;
-
-                if (settings.getStatus("settings.auto-download-updates", true)) {
-                    type = Updater.UpdateType.CHECK_DOWNLOAD;
-                }
-
-                new Updater(
-                        plugin.getLogs(),
-                        plugin.getPluginInformation().getVersion(),
-                        37177, plugin.getDataFolder(),
-                        type
-                );
-
-                sender.sendColoredMessage("&bUpdater has been applied read info in Console.");
+                sender.sendColoredMessage("&9Updater Command has been disabled temporally.");
             } else {
                 sender.sendColoredMessage("&cUpdater is not enabled in settings.yml");
             }

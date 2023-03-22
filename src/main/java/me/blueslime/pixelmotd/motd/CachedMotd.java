@@ -101,6 +101,7 @@ public class CachedMotd {
         );
     }
 
+    @SuppressWarnings("unused")
     public int getMax(PixelMOTD<?> plugin) {
         return PlayerModules.getMaximumPlayers(
                 plugin,

@@ -9,7 +9,6 @@ import me.blueslime.pixelmotd.metrics.MetricsHandler;
 import me.blueslime.pixelmotd.players.PlayerHandler;
 import me.blueslime.pixelmotd.servers.ServerHandler;
 import me.blueslime.pixelmotd.utils.FileUtilities;
-import me.blueslime.pixelmotd.utils.Updater;
 import dev.mruniverse.slimelib.SlimePlatform;
 import dev.mruniverse.slimelib.SlimePlugin;
 import dev.mruniverse.slimelib.SlimePluginInformation;
@@ -82,12 +81,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         this.loader.getCommands().register(new PluginCommand<>(this));
 
         if (getSettings().getStatus("settings.update-check", true)) {
-            if (getSettings().getStatus("settings.auto-download-updates", true)) {
-                new Updater(logs, information.getVersion(), 37177, getDataFolder(), Updater.UpdateType.CHECK_DOWNLOAD);
-            } else {
-                new Updater(logs, information.getVersion(), 37177, getDataFolder(), Updater.UpdateType.VERSION_CHECK);
-            }
-
+            //TODO: In the future the new auto updater will be created
+            logs.info("&fUpdater has been disabled for now...");
         }
 
         this.motds = new File(dataFolder, "motds");
