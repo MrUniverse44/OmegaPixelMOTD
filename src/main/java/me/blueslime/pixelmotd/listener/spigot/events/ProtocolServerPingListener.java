@@ -116,10 +116,13 @@ public class ProtocolServerPingListener extends PacketAdapter implements Ping {
         }
 
         if (event.isCancelled()) {
+            if (plugin.getSettings().getBoolean("settings.debug-mode", false)) {
+                plugin.getLogs().debug("Another plugin is cancelling your motd event, the plugin can't show the motd :(");
+            }
             return;
         }
 
-        if (!plugin.getSettings().getBoolean("bukkit.allow-null-connections.enabled", false) && event.getPlayer() == null) {
+        if (event.getPlayer() == null && !plugin.getSettings().getBoolean("bukkit.allow-null-connections.enabled", false)) {
             return;
         }
 
@@ -132,6 +135,9 @@ public class ProtocolServerPingListener extends PacketAdapter implements Ping {
         }
 
         if (ping == null) {
+            if (plugin.getSettings().getBoolean("settings.debug-mode", false)) {
+                plugin.getLogs().debug("The plugin is receiving a null ping from ProtocolLib, please report it to ProtocolLib, this issue is not caused by PixelMOTD");
+            }
             return;
         }
 
