@@ -7,8 +7,8 @@
 
 
 
-* Spigot 1.8 - 1.19
-* BungeeCord 1.8 - 1.19
+* Spigot 1.8.X - 1.19.X
+* BungeeCord 1.8.X - 1.19.X
 * Velocity 3.X.X
 * Customizable MaxPlayers
 * Hex Colors Support (1.16+) (Gradient and Normal Hex)
@@ -43,26 +43,14 @@
 
 <img align="center" src="https://i.imgur.com/GIDYa8z.png" alt="PixelMOTD Image">
 
-> - events.yml
+> - motds/(your motd file name).yml
+> - lang/(your lang code).yml
 > - commands.yml
-> - modes.yml
 > - settings.yml
-> - motds/server-motds.yml
-> - motds/join-motds.yml
-> - modes/blacklist.yml
-> - modes/outdated-client.yml
-> - modes/outdated-server.yml
-> - modes/whitelist.yml
-> - translations/messages_en.yml
-> - translations/messages_es.yml
-> - translations/messages_jp.yml
-> - translations/messages_de.yml
-> - translations/messages_pl.yml
+> - events.yml
 
 ---
 
 Presented by:
 
 <img align="left" alt="PixelMOTD Image" src="https://i.imgur.com/jUBJjHy.png" />
-
-*//TODO : Improve README.md*
