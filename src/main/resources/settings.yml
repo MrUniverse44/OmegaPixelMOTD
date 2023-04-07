@@ -102,3 +102,10 @@ settings:
 
   # Default min protocol 47 = 1.8.X
   min-server-protocol: 47
+
+# This section is for Bukkit with ProtocolLib
+bukkit:
+  # allow pings with null players
+  allow-null-connections:
+    enabled: false
+    default-protocol: 762

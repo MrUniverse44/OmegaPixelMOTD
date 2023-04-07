@@ -109,6 +109,9 @@ public class ProtocolServerPingListener extends PacketAdapter implements Ping {
     @Override
     public void onPacketSending(final PacketEvent event) {
         if (event.getPacketType() != PacketType.Status.Server.SERVER_INFO) {
+            if (plugin.getSettings().getBoolean("settings.debug-mode", false)) {
+                plugin.getLogs().debug("The plugin is receiving a different packet of SERVER_INFO, the received packet is: " + event.getPacketType());
+            }
             return;
         }
 
@@ -116,21 +119,37 @@ public class ProtocolServerPingListener extends PacketAdapter implements Ping {
             return;
         }
 
-        if (event.getPlayer() == null) {
+        if (!plugin.getSettings().getBoolean("bukkit.allow-null-connections.enabled", false) && event.getPlayer() == null) {
             return;
         }
 
-        final WrappedServerPing ping = event.getPacket().getServerPings().read(0);
+        WrappedServerPing ping = event.getPacket().getServerPings().read(0);
+
+        if (ping == null) {
+            if (event.getPacket().getServerPings().size() > 2) {
+                ping = event.getPacket().getServerPings().read(1);
+            }
+        }
 
         if (ping == null) {
             return;
         }
 
-        final InetSocketAddress socketAddress = event.getPlayer().getAddress();
+        InetSocketAddress socketAddress = null;
+
+        if (event.getPlayer() != null) {
+            socketAddress = event.getPlayer().getAddress();
+        }
 
         final String user;
 
-        final int protocol = playerVersionHandler.getProtocol(event.getPlayer());
+        int protocol;
+
+        if (event.getPlayer() != null) {
+            protocol = playerVersionHandler.getProtocol(event.getPlayer());
+        } else {
+            protocol = plugin.getSettings().getInt("bukkit.allow-null-connections.default-protocol", 762);
+        }
 
         if (socketAddress != null) {
             final InetAddress address = socketAddress.getAddress();
