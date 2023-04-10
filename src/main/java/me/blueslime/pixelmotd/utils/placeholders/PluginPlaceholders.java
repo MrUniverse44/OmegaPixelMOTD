@@ -278,7 +278,9 @@ public class PluginPlaceholders {
                     joiner.add(number + " " + prefix);
                 }
 
+                number = math(seconds, TimeUnit.SECONDS, 1);
                 if (seconds > 0 || joiner.length() == 0) {
+                    seconds %= TimeUnit.SECONDS.toSeconds(1);
                     if (number == 1) {
                         prefix = events.getString("timer.second", "second");
                     } else {
@@ -315,8 +317,10 @@ public class PluginPlaceholders {
                     joiner.add(number + ":");
                 }
 
+                number = math(seconds, TimeUnit.SECONDS, 1);
                 if (seconds > 0 || joiner.length() == 0) {
-                    joiner.add(seconds + "");
+                    seconds %= TimeUnit.SECONDS.toSeconds(1);
+                    joiner.add(number + "");
                 }
                 return joiner.toString().replace(" ", "");
             case THIRD:
@@ -358,7 +362,10 @@ public class PluginPlaceholders {
                     joiner.add(number + prefix + separator);
                 }
 
+                number = math(seconds, TimeUnit.SECONDS, 1);
                 if (seconds > 0 || joiner.length() == 0) {
+                    seconds %= TimeUnit.SECONDS.toSeconds(1);
+
                     prefix = events.getString("timer.s", "s");
 
                     joiner.add(number + prefix);
