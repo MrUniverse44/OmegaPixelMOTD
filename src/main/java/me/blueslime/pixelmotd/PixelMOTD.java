@@ -3,8 +3,9 @@ package me.blueslime.pixelmotd;
 import dev.mruniverse.slimelib.SlimeFiles;
 import me.blueslime.pixelmotd.commands.PluginCommand;
 import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
-import me.blueslime.pixelmotd.motd.manager.ListenerManager;
+import me.blueslime.pixelmotd.listener.PluginListener;
 import me.blueslime.pixelmotd.loader.PluginLoader;
+import me.blueslime.pixelmotd.loader.listener.ListenerLoader;
 import me.blueslime.pixelmotd.metrics.MetricsHandler;
 import me.blueslime.pixelmotd.players.PlayerHandler;
 import me.blueslime.pixelmotd.servers.ServerHandler;
@@ -17,9 +18,12 @@ import dev.mruniverse.slimelib.file.configuration.ConfigurationProvider;
 import dev.mruniverse.slimelib.logs.SlimeLogger;
 import dev.mruniverse.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.utils.logger.LoggerSetup;
+import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class PixelMOTD<T> implements SlimePlugin<T> {
@@ -27,9 +31,11 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
             "The current language in the settings file doesn't exists, probably you will see errors in console"
     );
 
+    private List<PluginListener<T>> listenerList = new ArrayList<>();
+
     private final SlimePluginInformation information;
 
-    private ListenerManager<T> listenerManager;
+    private final PluginPlaceholders placeholders;
 
     private final PluginLoader<T> loader;
 
@@ -79,6 +85,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         this.loader.init();
 
         this.loader.getCommands().register(new PluginCommand<>(this));
+
+        this.placeholders = new PluginPlaceholders(this);
 
         if (getSettings().getStatus("settings.update-check", true)) {
             //TODO: In the future the new auto updater will be created
@@ -154,10 +162,27 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
                 platform,
                 plugin
         ).initialize();
+
+        ListenerLoader.initialize(this);
+        getLogs().info(
+                "[Debug Scheduler] &6Registered listeners for platform '&f" + getServerType().toString() + "&6':&f " + listenerList.toString().replace(
+                        "[",
+                        ""
+                ).replace(
+                        "]",
+                        ""
+                ).replace(
+                        "{",
+                        ""
+                ).replace(
+                        "}",
+                        ""
+                )
+        );
     }
 
-    public void initialize(ListenerManager<T> manager) {
-        this.listenerManager = manager;
+    public void addListener(PluginListener<T> listener) {
+        listenerList.add(listener);
     }
 
     private void loadMessageFile(String... files) {
@@ -193,6 +218,10 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         return messages;
     }
 
+    public PluginPlaceholders getPlaceholders() {
+        return placeholders;
+    }
+
     public File getMotdFolder() {
         return motds;
     }
@@ -207,10 +236,6 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
     public ConfigurationHandler getConfiguration(SlimeFiles configuration) {
         return getConfigurationHandler(configuration);
-    }
-
-    public ListenerManager<T> getListenerManager() {
-        return listenerManager;
     }
 
     public PlayerHandler getPlayerHandler() {
@@ -250,7 +275,9 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
     public void reload() {
         loader.reload();
 
-        listenerManager.update();
+        for (PluginListener<T> listener : listenerList) {
+            listener.reload();
+        }
     }
 
     @Override

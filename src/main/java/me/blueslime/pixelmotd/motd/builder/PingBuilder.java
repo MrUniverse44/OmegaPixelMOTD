@@ -22,14 +22,11 @@ public abstract class PingBuilder<T, I, E, H> {
     private final FaviconModule<T, I> faviconModule;
     private final HoverModule<H> hoverModule;
 
-    private boolean playerSystem = false;
+    private boolean iconSystem = false;
 
     private final PixelMOTD<T> plugin;
 
     private boolean debug = false;
-
-
-    private boolean iconSystem = true;
 
     private final PluginPlaceholders pluginPlaceholders;
 
@@ -52,12 +49,9 @@ public abstract class PingBuilder<T, I, E, H> {
         if (settings != null) {
 
             iconSystem = settings.getStatus("settings.icon-system", false);
-            playerSystem = settings.getStatus("settings.player-system.enabled", true);
 
             debug = settings.getStatus("settings.debug-mode", false);
         } else {
-            iconSystem = false;
-            playerSystem = true;
 
             debug = false;
 
@@ -173,10 +167,6 @@ public abstract class PingBuilder<T, I, E, H> {
 
     public boolean isIconSystem() {
         return iconSystem;
-    }
-
-    public boolean isPlayerSystem() {
-        return playerSystem;
     }
 
     public boolean isDebug() {

@@ -2,12 +2,21 @@ package me.blueslime.pixelmotd.utils.list;
 
 import dev.mruniverse.slimelib.SlimePlatform;
 
+import java.util.Locale;
+
 public enum PluginList {
     SERVERS,
     WORLDS;
     
     public String loweredName() {
-        return super.toString().toLowerCase();
+        return toString(true);
+    }
+
+    public String toString(boolean lowerCase) {
+        if (lowerCase) {
+            return super.toString().toLowerCase(Locale.ENGLISH);
+        }
+        return toString();
     }
 
     @Override
