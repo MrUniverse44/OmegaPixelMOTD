@@ -271,13 +271,17 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         return plugin;
     }
 
+    public void reloadListeners() {
+        for (PluginListener<T> listener : listenerList) {
+            listener.reload();
+        }
+    }
+
     @Override
     public void reload() {
         loader.reload();
 
-        for (PluginListener<T> listener : listenerList) {
-            listener.reload();
-        }
+        reloadListeners();
     }
 
     @Override

@@ -27,10 +27,10 @@ public abstract class HoverModule<T> extends PluginModule {
     public abstract T[] convert(List<T> list);
 
     public PluginPlaceholders getExtras() {
-        return getPlugin().getListenerManager().getExtras();
+        return getPlugin().getPlaceholders();
     }
 
     public boolean hasPlayers() {
-        return getPlugin().getListenerManager().isPlayer();
+        return getPlugin().getSettings().getBoolean("settings.player-system.enabled");
     }
 }

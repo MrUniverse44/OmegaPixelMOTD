@@ -369,7 +369,7 @@ public class PluginCommand<T> implements SlimeCommand {
                     messages.getString("messages." + type + ".enabled", "")
             );
 
-            plugin.getListenerManager().update();
+            plugin.reloadListeners();
             plugin.getConfigurationHandler(type.getFile()).save();
             plugin.getConfigurationHandler(type.getFile()).reload();
             return;
@@ -416,7 +416,7 @@ public class PluginCommand<T> implements SlimeCommand {
                     messages.getString("messages." + type + ".disabled", "")
             );
 
-            plugin.getListenerManager().update();
+            plugin.reloadListeners();
             plugin.getConfigurationHandler(type.getFile()).save();
             plugin.getConfigurationHandler(type.getFile()).reload();
         }

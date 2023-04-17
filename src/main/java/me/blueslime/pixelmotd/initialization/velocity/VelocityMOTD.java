@@ -8,7 +8,6 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.blueslime.pixelmotd.PixelMOTD;
-import me.blueslime.pixelmotd.motd.manager.platforms.VelocityListenerManager;
 import me.blueslime.pixelmotd.metrics.velocity.Metrics;
 import me.blueslime.pixelmotd.status.StatusChecker;
 import me.blueslime.pixelmotd.status.VelocityServerStatusChecker;
@@ -64,16 +63,6 @@ public class VelocityMOTD {
         if (instance.getSettings().getStatus("settings.server-status.toggle")) {
             checker = new VelocityServerStatusChecker(instance);
         }
-
-        VelocityListenerManager listener = new VelocityListenerManager(
-                this.instance
-        );
-
-        this.instance.initialize(
-                listener
-        );
-
-        listener.register(this);
     }
 
     @Subscribe
