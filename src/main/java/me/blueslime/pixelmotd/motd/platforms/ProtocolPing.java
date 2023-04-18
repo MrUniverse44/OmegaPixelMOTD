@@ -33,6 +33,7 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
 
     @Override
     public void execute(MotdType motdType, PacketEvent event, int code, String user) {
+        getLogs().debug("The motd is being executed");
         WrappedServerPing ping = event.getPacket().getServerPings().read(0);
 
         if (ping == null) {
@@ -55,6 +56,8 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
         }
 
         CachedMotd motd = getMotd(motdType);
+
+        getLogs().info("Everything seems good..");
 
         if (motd == null) {
             if (isDebug()) {
@@ -180,6 +183,7 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
             completed = ChatColor.translateAlternateColorCodes('&', completed);
         }
 
+        getLogs().info("Motd lines: " + completed);
         ping.setMotD(
                 WrappedChatComponent.fromLegacyText(completed)
         );
