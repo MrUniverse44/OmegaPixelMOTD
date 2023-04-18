@@ -33,15 +33,16 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
 
     @Override
     public void execute(MotdType motdType, PacketEvent event, int code, String user) {
-        getLogs().debug("The motd is being executed");
-        WrappedServerPing ping = event.getPacket().getServerPings().read(0);
+        int index = 0;
+        WrappedServerPing ping = event.getPacket().getServerPings().read(index);
 
         if (ping == null) {
             if (isDebug()) {
                 getLogs().debug("The ping was null in the index 0, searching in another index");
             }
             if (event.getPacket().getServerPings().size() > 2) {
-                ping = event.getPacket().getServerPings().read(1);
+                index = 1;
+                ping = event.getPacket().getServerPings().read(index);
                 if (isDebug()) {
                     getLogs().debug("Currently reading index 1 of ping packet.");
                 }
@@ -191,5 +192,7 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
 
         ping.setPlayersOnline(online);
         ping.setPlayersMaximum(max);
+
+        event.getPacket().getServerPings().write(index, ping);
     }
 }
