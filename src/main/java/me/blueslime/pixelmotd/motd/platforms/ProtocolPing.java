@@ -58,8 +58,6 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
 
         CachedMotd motd = getMotd(motdType);
 
-        getLogs().info("Everything seems good..");
-
         if (motd == null) {
             if (isDebug()) {
                 getLogs().debug("The plugin don't detect motds for MotdType: " + motdType);
@@ -184,7 +182,6 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
             completed = ChatColor.translateAlternateColorCodes('&', completed);
         }
 
-        getLogs().info("Motd lines: " + completed);
         ping.setMotD(
                 WrappedChatComponent.fromLegacyText(completed)
         );
