@@ -26,8 +26,6 @@ public abstract class PingBuilder<T, I, E, H> {
 
     private final PixelMOTD<T> plugin;
 
-    private boolean debug = false;
-
     private final PluginPlaceholders pluginPlaceholders;
 
     public PingBuilder(PixelMOTD<T> plugin, FaviconModule<T, I> faviconModule, HoverModule<H> hoverModule) {
@@ -50,10 +48,7 @@ public abstract class PingBuilder<T, I, E, H> {
 
             iconSystem = settings.getStatus("settings.icon-system", false);
 
-            debug = settings.getStatus("settings.debug-mode", false);
         } else {
-
-            debug = false;
 
             plugin.getLogs().error("Can't load settings data");
         }
@@ -170,7 +165,7 @@ public abstract class PingBuilder<T, I, E, H> {
     }
 
     public boolean isDebug() {
-        return debug;
+        return plugin.getSettings().getBoolean("settings.debug-mode", false);
     }
 
     public PluginPlaceholders getExtras() {

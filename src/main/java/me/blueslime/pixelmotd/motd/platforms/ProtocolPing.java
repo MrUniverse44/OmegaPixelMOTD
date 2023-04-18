@@ -1,7 +1,10 @@
 package me.blueslime.pixelmotd.motd.platforms;
 
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
+import me.blueslime.pixelmotd.utils.color.BungeeHexUtil;
 import me.blueslime.slimelib.colors.platforms.StringSlimeColor;
 import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdProtocol;
@@ -15,7 +18,7 @@ import me.blueslime.pixelmotd.utils.PlaceholderParser;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.CompressedImage, WrappedServerPing, WrappedGameProfile> {
+public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.CompressedImage, PacketEvent, WrappedGameProfile> {
 
     private final boolean hasPAPI;
 
@@ -29,7 +32,28 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
     }
 
     @Override
-    public void execute(MotdType motdType, WrappedServerPing ping, int code, String user) {
+    public void execute(MotdType motdType, PacketEvent event, int code, String user) {
+        WrappedServerPing ping = event.getPacket().getServerPings().read(0);
+
+        if (ping == null) {
+            if (isDebug()) {
+                getLogs().debug("The ping was null in the index 0, searching in another index");
+            }
+            if (event.getPacket().getServerPings().size() > 2) {
+                ping = event.getPacket().getServerPings().read(1);
+                if (isDebug()) {
+                    getLogs().debug("Currently reading index 1 of ping packet.");
+                }
+            }
+        }
+
+        if (ping == null) {
+            if (isDebug()) {
+                getLogs().debug("The plugin is receiving a null ping from ProtocolLib, please report it to ProtocolLib, this issue is not caused by PixelMOTD");
+            }
+            return;
+        }
+
         CachedMotd motd = getMotd(motdType);
 
         if (motd == null) {
@@ -45,6 +69,8 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
 
         if (isIconSystem()) {
             if (motd.hasServerIcon()) {
+
+                getLogs().info("Icon applied");
                 WrappedServerPing.CompressedImage favicon = getFavicon().getFavicon(
                         motd.getServerIcon()
                 );
@@ -114,6 +140,8 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
                     user
             );
 
+            completed = ChatColor.translateAlternateColorCodes('&', completed);
+
         } else {
             line1 = motd.getLine1();
             line2 = motd.getLine2();
@@ -144,12 +172,18 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
                         completed,
                         true
                 ).build();
+
+                completed = BungeeHexUtil.convert(completed);
             }
 
             completed = ChatColor.translateAlternateColorCodes('&', completed);
         }
 
-        ping.setMotD(completed);
+        ping.setMotD(
+                WrappedChatComponent.fromLegacyText(completed)
+        );
+
+
         ping.setPlayersOnline(online);
         ping.setPlayersMaximum(max);
     }

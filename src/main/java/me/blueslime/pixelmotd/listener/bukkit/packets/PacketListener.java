@@ -3,7 +3,6 @@ package me.blueslime.pixelmotd.listener.bukkit.packets;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.WrappedServerPing;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.utils.ping.Ping;
@@ -99,21 +98,6 @@ public class PacketListener extends BukkitPacketPluginListener implements Ping {
             return;
         }
 
-        WrappedServerPing ping = event.getPacket().getServerPings().read(0);
-
-        if (ping == null) {
-            if (event.getPacket().getServerPings().size() > 2) {
-                ping = event.getPacket().getServerPings().read(1);
-            }
-        }
-
-        if (ping == null) {
-            if (getSettings().getBoolean("settings.debug-mode", false)) {
-                getLogs().debug("The plugin is receiving a null ping from ProtocolLib, please report it to ProtocolLib, this issue is not caused by PixelMOTD");
-            }
-            return;
-        }
-
         InetSocketAddress socketAddress = null;
 
         if (event.getPlayer() != null) {
@@ -139,25 +123,25 @@ public class PacketListener extends BukkitPacketPluginListener implements Ping {
         }
 
         if (isBlacklisted && getBlacklist().getStringList("players.by-name").contains(user)) {
-            builder.execute(MotdType.BLACKLIST, ping, protocol, user);
+            builder.execute(MotdType.BLACKLIST, event, protocol, user);
             return;
         }
 
         if (isWhitelisted) {
-            builder.execute(MotdType.WHITELIST, ping, protocol, user);
+            builder.execute(MotdType.WHITELIST, event, protocol, user);
             return;
         }
 
         if (!hasOutdatedClient && !hasOutdatedServer || protocol >= MIN_PROTOCOL && protocol <= MAX_PROTOCOL) {
-            builder.execute(MotdType.NORMAL, ping, protocol, user);
+            builder.execute(MotdType.NORMAL, event, protocol, user);
             return;
         }
         if (MAX_PROTOCOL < protocol && hasOutdatedServer) {
-            builder.execute(MotdType.OUTDATED_SERVER, ping, protocol, user);
+            builder.execute(MotdType.OUTDATED_SERVER, event, protocol, user);
             return;
         }
         if (MIN_PROTOCOL > protocol && hasOutdatedClient) {
-            builder.execute(MotdType.OUTDATED_CLIENT, ping, protocol, user);
+            builder.execute(MotdType.OUTDATED_CLIENT, event, protocol, user);
         }
     }
 
