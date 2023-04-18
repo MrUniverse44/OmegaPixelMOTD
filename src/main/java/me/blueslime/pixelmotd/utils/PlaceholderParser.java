@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.utils;
 
-import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.slimelib.logs.SlimeLogs;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

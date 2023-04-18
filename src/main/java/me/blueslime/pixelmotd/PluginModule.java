@@ -1,7 +1,7 @@
 package me.blueslime.pixelmotd;
 
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
 
 public abstract class PluginModule {

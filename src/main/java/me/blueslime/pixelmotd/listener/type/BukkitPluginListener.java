@@ -1,7 +1,7 @@
 package me.blueslime.pixelmotd.listener.type;
 
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.exception.NotFoundLanguageException;

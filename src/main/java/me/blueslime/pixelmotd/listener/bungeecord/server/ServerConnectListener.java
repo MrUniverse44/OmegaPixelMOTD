@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.listener.bungeecord.server;
 
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.type.BungeePluginListener;
 import me.blueslime.pixelmotd.utils.ListType;

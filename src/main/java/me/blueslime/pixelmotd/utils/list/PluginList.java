@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.utils.list;
 
-import dev.mruniverse.slimelib.SlimePlatform;
+import me.blueslime.slimelib.SlimePlatform;
 
 import java.util.Locale;
 
@@ -42,7 +42,7 @@ public enum PluginList {
             case VELOCITY:
             case BUNGEECORD:
                 return SERVERS;
-            case SPIGOT:
+            case BUKKIT:
             case SPONGE:
                 return WORLDS;
         }

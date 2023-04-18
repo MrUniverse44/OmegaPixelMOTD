@@ -9,7 +9,7 @@ import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
 import me.blueslime.pixelmotd.motd.builder.PingBuilder;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
 import me.blueslime.pixelmotd.utils.PlaceholderParser;
-import dev.mruniverse.slimelib.colors.platforms.StringSlimeColor;
+import me.blueslime.slimelib.colors.platforms.StringSlimeColor;
 import org.bukkit.ChatColor;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.java.JavaPlugin;

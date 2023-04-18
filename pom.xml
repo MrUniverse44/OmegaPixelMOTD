@@ -44,6 +44,20 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>me.blueslime.slimelib</pattern>
+                            <shadedPattern>me.blueslime.pixelmotd.libraries.slimelib</shadedPattern>
+                        </relocation>
+                    </relocations>
+
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                        </filter>
+                    </filters>
+                </configuration>
             </plugin>
         </plugins>
         <resources>
@@ -136,7 +150,7 @@
         <dependency>
             <groupId>com.github.MrUniverse44</groupId>
             <artifactId>SlimeLib</artifactId>
-            <version>1.0.8</version>
+            <version>1.0.9</version>
         </dependency>
 
         <dependency>

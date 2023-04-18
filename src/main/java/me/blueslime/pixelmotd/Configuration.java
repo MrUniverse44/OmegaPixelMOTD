@@ -1,7 +1,7 @@
 package me.blueslime.pixelmotd;
 
-import dev.mruniverse.slimelib.SlimeFiles;
-import dev.mruniverse.slimelib.SlimePlatform;
+import me.blueslime.slimelib.SlimeFiles;
+import me.blueslime.slimelib.SlimePlatform;
 
 @SuppressWarnings("unused")
 public enum Configuration implements SlimeFiles {

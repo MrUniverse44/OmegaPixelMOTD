@@ -2,7 +2,7 @@ package me.blueslime.pixelmotd.motd.platforms;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
-import dev.mruniverse.slimelib.colors.platforms.StringSlimeColor;
+import me.blueslime.slimelib.colors.platforms.StringSlimeColor;
 import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdProtocol;
 import me.blueslime.pixelmotd.motd.MotdType;

@@ -2,8 +2,8 @@ package me.blueslime.pixelmotd.status;
 
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.Configuration;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.file.configuration.TextDecoration;
+import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.slimelib.file.configuration.TextDecoration;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;

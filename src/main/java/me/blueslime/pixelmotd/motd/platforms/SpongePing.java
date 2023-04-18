@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.motd.platforms;
 
-import dev.mruniverse.slimelib.colors.platforms.velocity.DefaultSlimeColor;
+import me.blueslime.slimelib.colors.platforms.velocity.DefaultSlimeColor;
 import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdType;
 import me.blueslime.pixelmotd.PixelMOTD;

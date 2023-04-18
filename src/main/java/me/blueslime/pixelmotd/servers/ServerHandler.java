@@ -1,6 +1,9 @@
 package me.blueslime.pixelmotd.servers;
 
-import dev.mruniverse.slimelib.SlimePlatform;
+import me.blueslime.pixelmotd.servers.platform.BukkitServerHandler;
+import me.blueslime.pixelmotd.servers.platform.BungeeServerHandler;
+import me.blueslime.pixelmotd.servers.platform.VelocityServerHandler;
+import me.blueslime.slimelib.SlimePlatform;
 
 import java.util.List;
 
@@ -33,8 +36,8 @@ public interface ServerHandler {
 
     static <T> ServerHandler fromPlatform(SlimePlatform platform, T plugin) {
         switch (platform) {
-            case SPIGOT:
-                return new SpigotServerHandler(plugin);
+            case BUKKIT:
+                return new BukkitServerHandler(plugin);
             case VELOCITY:
                 return new VelocityServerHandler(plugin);
             default:

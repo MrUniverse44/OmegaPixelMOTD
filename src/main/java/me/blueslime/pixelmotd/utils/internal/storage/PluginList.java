@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.utils.internal.storage;
 
-import dev.mruniverse.slimelib.source.SlimeSource;
+import me.blueslime.slimelib.source.SlimeSource;
 
 import java.util.ArrayList;
 import java.util.Collection;

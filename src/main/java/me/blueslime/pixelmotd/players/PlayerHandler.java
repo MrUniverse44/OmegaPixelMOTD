@@ -1,6 +1,9 @@
 package me.blueslime.pixelmotd.players;
 
-import dev.mruniverse.slimelib.SlimePlatform;
+import me.blueslime.pixelmotd.players.platform.BungeePlayerHandler;
+import me.blueslime.pixelmotd.players.platform.BukkitPlayerHandler;
+import me.blueslime.pixelmotd.players.platform.VelocityPlayerHandler;
+import me.blueslime.slimelib.SlimePlatform;
 
 import java.util.List;
 
@@ -39,8 +42,8 @@ public interface PlayerHandler {
 
     static <T> PlayerHandler fromPlatform(SlimePlatform platform, T plugin) {
         switch (platform) {
-            case SPIGOT:
-                return new SpigotPlayerHandler(plugin);
+            case BUKKIT:
+                return new BukkitPlayerHandler(plugin);
             case VELOCITY:
                 return new VelocityPlayerHandler(plugin);
             default:

@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd;
 
-import dev.mruniverse.slimelib.SlimeFiles;
+import me.blueslime.slimelib.SlimeFiles;
 import me.blueslime.pixelmotd.commands.PluginCommand;
 import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
 import me.blueslime.pixelmotd.listener.PluginListener;
@@ -10,13 +10,13 @@ import me.blueslime.pixelmotd.metrics.MetricsHandler;
 import me.blueslime.pixelmotd.players.PlayerHandler;
 import me.blueslime.pixelmotd.servers.ServerHandler;
 import me.blueslime.pixelmotd.utils.FileUtilities;
-import dev.mruniverse.slimelib.SlimePlatform;
-import dev.mruniverse.slimelib.SlimePlugin;
-import dev.mruniverse.slimelib.SlimePluginInformation;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationProvider;
-import dev.mruniverse.slimelib.logs.SlimeLogger;
-import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.slimelib.SlimePlatform;
+import me.blueslime.slimelib.SlimePlugin;
+import me.blueslime.slimelib.SlimePluginInformation;
+import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.slimelib.file.configuration.ConfigurationProvider;
+import me.blueslime.slimelib.logs.SlimeLogger;
+import me.blueslime.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.utils.logger.LoggerSetup;
 import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
 
@@ -31,7 +31,7 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
             "The current language in the settings file doesn't exists, probably you will see errors in console"
     );
 
-    private List<PluginListener<T>> listenerList = new ArrayList<>();
+    private final List<PluginListener<T>> listenerList = new ArrayList<>();
 
     private final SlimePluginInformation information;
 

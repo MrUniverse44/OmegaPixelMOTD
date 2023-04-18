@@ -1,5 +1,7 @@
-package me.blueslime.pixelmotd.servers;
+package me.blueslime.pixelmotd.servers.platform;
 
+import me.blueslime.pixelmotd.servers.Server;
+import me.blueslime.pixelmotd.servers.ServerHandler;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 

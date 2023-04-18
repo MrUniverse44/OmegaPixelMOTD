@@ -1,7 +1,7 @@
 package me.blueslime.pixelmotd.initialization.bukkit;
 
 import me.blueslime.pixelmotd.PixelMOTD;
-import dev.mruniverse.slimelib.SlimePlatform;
+import me.blueslime.slimelib.SlimePlatform;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
@@ -12,7 +12,7 @@ public class BukkitMOTD extends JavaPlugin {
     @Override
     public void onEnable() {
         this.instance = new PixelMOTD<>(
-                SlimePlatform.SPIGOT,
+                SlimePlatform.BUKKIT,
                 this,
                 getDataFolder()
         );

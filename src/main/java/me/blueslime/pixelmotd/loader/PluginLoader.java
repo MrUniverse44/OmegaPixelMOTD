@@ -1,7 +1,7 @@
 package me.blueslime.pixelmotd.loader;
 
-import dev.mruniverse.slimelib.SlimePlugin;
-import dev.mruniverse.slimelib.loader.BaseSlimeLoader;
+import me.blueslime.slimelib.SlimePlugin;
+import me.blueslime.slimelib.loader.BaseSlimeLoader;
 import me.blueslime.pixelmotd.players.PlayerDatabase;
 
 public class PluginLoader<T> extends BaseSlimeLoader<T> {

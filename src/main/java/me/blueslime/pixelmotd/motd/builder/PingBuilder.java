@@ -1,7 +1,7 @@
 package me.blueslime.pixelmotd.motd.builder;
 
-import dev.mruniverse.slimelib.file.configuration.ConfigurationProvider;
-import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.slimelib.file.configuration.ConfigurationProvider;
+import me.blueslime.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdType;
 
@@ -9,7 +9,7 @@ import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.motd.builder.favicon.FaviconModule;
 import me.blueslime.pixelmotd.motd.builder.hover.HoverModule;
 import me.blueslime.pixelmotd.utils.placeholders.PluginPlaceholders;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.utils.internal.storage.PluginStorage;
 
 import java.io.File;

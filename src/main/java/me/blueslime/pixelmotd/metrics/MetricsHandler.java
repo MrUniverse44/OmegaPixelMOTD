@@ -1,10 +1,10 @@
 package me.blueslime.pixelmotd.metrics;
 
 import me.blueslime.pixelmotd.metrics.bungeecord.BungeeCordMetricsHandler;
-import me.blueslime.pixelmotd.metrics.spigot.SpigotMetricsHandler;
+import me.blueslime.pixelmotd.metrics.bukkit.BukkitMetricsHandler;
 import me.blueslime.pixelmotd.metrics.sponge.SpongeMetricsHandler;
 import me.blueslime.pixelmotd.metrics.velocity.VelocityMetricsHandler;
-import dev.mruniverse.slimelib.SlimePlatform;
+import me.blueslime.slimelib.SlimePlatform;
 
 public abstract class MetricsHandler<T> {
 
@@ -32,8 +32,8 @@ public abstract class MetricsHandler<T> {
                 return new SpongeMetricsHandler(main);
             case VELOCITY:
                 return new VelocityMetricsHandler(main);
-            case SPIGOT:
-                return new SpigotMetricsHandler(main);
+            case BUKKIT:
+                return new BukkitMetricsHandler(main);
             default:
             case BUNGEECORD:
                 return new BungeeCordMetricsHandler(main);

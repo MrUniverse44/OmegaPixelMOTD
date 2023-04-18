@@ -2,7 +2,7 @@ package me.blueslime.pixelmotd.motd.builder.favicon.icons.platforms;
 
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import me.blueslime.pixelmotd.motd.builder.favicon.icons.Icon;
-import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.slimelib.logs.SlimeLogs;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

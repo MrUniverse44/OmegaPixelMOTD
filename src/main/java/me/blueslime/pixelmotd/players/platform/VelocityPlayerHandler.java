@@ -1,7 +1,8 @@
-package me.blueslime.pixelmotd.players;
+package me.blueslime.pixelmotd.players.platform;
 
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+import me.blueslime.pixelmotd.players.PlayerHandler;
 
 import java.util.ArrayList;
 import java.util.List;

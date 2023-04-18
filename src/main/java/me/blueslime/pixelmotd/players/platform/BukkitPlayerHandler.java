@@ -1,16 +1,17 @@
-package me.blueslime.pixelmotd.players;
+package me.blueslime.pixelmotd.players.platform;
 
+import me.blueslime.pixelmotd.players.PlayerHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpigotPlayerHandler implements PlayerHandler {
+public class BukkitPlayerHandler implements PlayerHandler {
 
     private final JavaPlugin plugin;
 
-    public <T> SpigotPlayerHandler(T plugin) {
+    public <T> BukkitPlayerHandler(T plugin) {
         this.plugin = (JavaPlugin) plugin;
     }
 

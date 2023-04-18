@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.utils.internal.players;
 
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.players.PlayerHandler;

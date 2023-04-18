@@ -14,7 +14,7 @@ public abstract class ListenerLoader {
             default:
             case BUNGEECORD:
                 return new BungeeListenerLoader(plugin);
-            case SPIGOT:
+            case BUKKIT:
                 return new BukkitListenerLoader(plugin);
             case VELOCITY:
                 return new VelocityListenerLoader(plugin);

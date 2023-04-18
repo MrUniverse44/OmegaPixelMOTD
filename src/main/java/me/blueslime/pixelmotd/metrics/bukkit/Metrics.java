@@ -1,4 +1,4 @@
-package me.blueslime.pixelmotd.metrics.spigot;
+package me.blueslime.pixelmotd.metrics.bukkit;
 
 /*
  * This Metrics class was auto-generated and can be copied into your project if you are

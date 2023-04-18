@@ -1,7 +1,7 @@
 package me.blueslime.pixelmotd.utils;
 
-import dev.mruniverse.slimelib.file.configuration.handlers.util.FileUtils;
-import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.slimelib.file.configuration.handlers.util.FileUtils;
+import me.blueslime.slimelib.logs.SlimeLogs;
 
 import java.io.File;
 import java.io.IOException;

@@ -6,7 +6,7 @@ import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.type.VelocityPluginListener;
 import me.blueslime.pixelmotd.utils.ListType;

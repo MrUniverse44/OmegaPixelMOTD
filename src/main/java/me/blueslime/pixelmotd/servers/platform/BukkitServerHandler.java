@@ -1,16 +1,18 @@
-package me.blueslime.pixelmotd.servers;
+package me.blueslime.pixelmotd.servers.platform;
 
+import me.blueslime.pixelmotd.servers.Server;
+import me.blueslime.pixelmotd.servers.ServerHandler;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpigotServerHandler implements ServerHandler {
+public class BukkitServerHandler implements ServerHandler {
 
     private final JavaPlugin plugin;
 
-    public <T> SpigotServerHandler(T plugin) {
+    public <T> BukkitServerHandler(T plugin) {
         this.plugin = (JavaPlugin) plugin;
     }
 

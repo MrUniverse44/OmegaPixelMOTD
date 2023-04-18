@@ -1,7 +1,7 @@
 package me.blueslime.pixelmotd.motd.platforms;
 
-import dev.mruniverse.slimelib.colors.platforms.bungeecord.BungeeSlimeColor;
-import dev.mruniverse.slimelib.utils.ClassUtils;
+import me.blueslime.slimelib.colors.platforms.bungeecord.BungeeSlimeColor;
+import me.blueslime.slimelib.utils.ClassUtils;
 import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdProtocol;
 import me.blueslime.pixelmotd.motd.MotdType;

@@ -11,7 +11,7 @@ import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.metrics.velocity.Metrics;
 import me.blueslime.pixelmotd.status.StatusChecker;
 import me.blueslime.pixelmotd.status.VelocityServerStatusChecker;
-import dev.mruniverse.slimelib.SlimePlatform;
+import me.blueslime.slimelib.SlimePlatform;
 
 import org.slf4j.Logger;
 

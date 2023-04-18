@@ -1,10 +1,10 @@
-package me.blueslime.pixelmotd.metrics.spigot;
+package me.blueslime.pixelmotd.metrics.bukkit;
 
 import me.blueslime.pixelmotd.metrics.MetricsHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class SpigotMetricsHandler extends MetricsHandler<JavaPlugin> {
-    public SpigotMetricsHandler(Object main) {
+public class BukkitMetricsHandler extends MetricsHandler<JavaPlugin> {
+    public BukkitMetricsHandler(Object main) {
         super((JavaPlugin) main, 15577);
     }
 

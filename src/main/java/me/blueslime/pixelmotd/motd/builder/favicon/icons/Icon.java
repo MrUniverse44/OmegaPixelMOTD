@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.motd.builder.favicon.icons;
 
-import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.slimelib.logs.SlimeLogs;
 
 import java.io.File;
 

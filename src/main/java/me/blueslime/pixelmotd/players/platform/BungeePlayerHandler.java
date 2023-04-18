@@ -1,5 +1,6 @@
-package me.blueslime.pixelmotd.players;
+package me.blueslime.pixelmotd.players.platform;
 
+import me.blueslime.pixelmotd.players.PlayerHandler;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 

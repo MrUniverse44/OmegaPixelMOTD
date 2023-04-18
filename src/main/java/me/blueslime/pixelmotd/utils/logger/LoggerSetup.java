@@ -1,6 +1,6 @@
 package me.blueslime.pixelmotd.utils.logger;
 
-import dev.mruniverse.slimelib.logs.SlimeLogs;
+import me.blueslime.slimelib.logs.SlimeLogs;
 
 public class LoggerSetup {
     public static void start(SlimeLogs logs) {

@@ -3,7 +3,7 @@ package me.blueslime.pixelmotd.initialization.bungeecord;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.status.ServerStatusChecker;
 import me.blueslime.pixelmotd.status.StatusChecker;
-import dev.mruniverse.slimelib.SlimePlatform;
+import me.blueslime.slimelib.SlimePlatform;
 import net.md_5.bungee.api.plugin.Plugin;
 
 @SuppressWarnings("unused")

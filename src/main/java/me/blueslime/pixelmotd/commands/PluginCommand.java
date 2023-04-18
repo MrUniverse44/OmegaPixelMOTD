@@ -1,15 +1,15 @@
 package me.blueslime.pixelmotd.commands;
 
-import dev.mruniverse.slimelib.source.SlimeSource;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.Configuration;
 import me.blueslime.pixelmotd.exception.NotFoundLanguageException;
 import me.blueslime.pixelmotd.utils.ListType;
 import me.blueslime.pixelmotd.utils.PlayerUtil;
 import me.blueslime.pixelmotd.utils.list.PluginList;
-import dev.mruniverse.slimelib.commands.command.Command;
-import dev.mruniverse.slimelib.commands.command.SlimeCommand;
-import dev.mruniverse.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.slimelib.commands.command.Command;
+import me.blueslime.slimelib.commands.command.SlimeCommand;
+import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
+import me.blueslime.slimelib.source.SlimeSource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
