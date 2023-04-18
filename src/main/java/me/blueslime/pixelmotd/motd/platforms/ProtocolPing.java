@@ -69,8 +69,9 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
 
         if (isIconSystem()) {
             if (motd.hasServerIcon()) {
-
-                getLogs().info("Icon applied");
+                if (isDebug()) {
+                    getLogs().info("Icon applied");
+                }
                 WrappedServerPing.CompressedImage favicon = getFavicon().getFavicon(
                         motd.getServerIcon()
                 );
