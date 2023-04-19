@@ -4,7 +4,7 @@
 # ██─▄▄▄██─███▀─▀███─▄█▀██─██▀██─█▄█─██─██─███─████─██─████ ██─██─█  █─██─█
 # █▄▄▄███▄▄▄█▄▄█▄▄█▄▄▄▄▄█▄▄▄▄▄█▄▄▄█▄▄▄█▄▄▄▄██▄▄▄██▄▄▄▄████▄▄▄█▄▄▄▄█▄▄█▄▄▄▄█
 #
-# Using version: 9.3.9-SNAPSHOT (System originally created for PixelMOTD 10 moved to the Legacy version) by JustJustin
+# Using version: 9.4.0-SNAPSHOT (System originally created for PixelMOTD 10 moved to the Legacy version) by JustJustin
 #
 #   Author: JustJustin (MrUniverse44)
 #   SpigotMC Link: https://www.spigotmc.org/resources/37177/
@@ -41,7 +41,7 @@ settings:
         - "hub2"
         - "hub3"
     exampleContains:
-      # CONTAINS (Example): You have sub-servers for SkyWars minigame, all servers contains "sw_map" in the name.
+      # CONTAINS (Example): You have sub-servers for SkyWars mini-game, all servers contains "sw_map" in the name.
       # Example: sw_map1,sw_map2,sw_map3,sw_map4 and you want to get the online players count of these servers
       # Including the lobby players-count (sw_lobby1,sw_lobby2). This mode will check the name of all servers
       # with your values to get the online-size.

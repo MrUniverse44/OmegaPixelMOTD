@@ -28,7 +28,6 @@
 * Custom Protocol Message
 * Custom Server-Icon
 * Performance Boost
-* Customizable join motd
 
 ---
 
