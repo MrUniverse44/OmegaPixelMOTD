@@ -36,7 +36,6 @@ public abstract class PingBuilder<T, I, E, H> {
         this.hoverModule = hoverModule;
         this.plugin  = plugin;
         this.pluginPlaceholders = new PluginPlaceholders(plugin);
-        load();
     }
 
     public void update() {

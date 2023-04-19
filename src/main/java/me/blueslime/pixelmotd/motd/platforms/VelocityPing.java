@@ -19,6 +19,8 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 public class VelocityPing extends PingBuilder<ProxyServer, Favicon, ProxyPingEvent, ServerPing.SamplePlayer> {
 
     public VelocityPing(
@@ -71,7 +73,7 @@ public class VelocityPing extends PingBuilder<ProxyServer, Favicon, ProxyPingEve
                             max
                     )
             );
-
+            getLogs().debug(Arrays.toString(array));
             ping.samplePlayers(
                     array
             );
