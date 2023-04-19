@@ -38,7 +38,6 @@ public class VelocityHover extends HoverModule<ServerPing.SamplePlayer> {
                     )
             );
         }
-        getLogs().debug(lines.toString());
         return sample;
     }
 

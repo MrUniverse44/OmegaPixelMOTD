@@ -5,8 +5,6 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import me.blueslime.slimelib.colors.platforms.velocity.DefaultSlimeColor;
-import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
-import me.blueslime.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.motd.CachedMotd;
 import me.blueslime.pixelmotd.motd.MotdProtocol;
 import me.blueslime.pixelmotd.motd.MotdType;
@@ -19,7 +17,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class VelocityPing extends PingBuilder<ProxyServer, Favicon, ProxyPingEvent, ServerPing.SamplePlayer> {
 
@@ -63,17 +61,21 @@ public class VelocityPing extends PingBuilder<ProxyServer, Favicon, ProxyPingEve
         max    = motd.getMax(getPlugin(), online);
 
         if (motd.hasHover()) {
-            ping.clearSamplePlayers();
+            List<String> lines = motd.getConfiguration().getStringList("hover.value");
+
+            lines.replaceAll(
+                    line -> line = legacy(line)
+            );
 
             ServerPing.SamplePlayer[] array = getHoverModule().convert(
                     getHoverModule().generate(
-                            motd.getHover(),
+                            lines,
                             user,
                             online,
                             max
                     )
             );
-            getLogs().debug(Arrays.toString(array));
+
             ping.samplePlayers(
                     array
             );
