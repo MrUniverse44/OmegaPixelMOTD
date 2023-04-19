@@ -33,7 +33,7 @@ public class VelocityPing extends PingBuilder<ProxyServer, Favicon, ProxyPingEve
     public void execute(MotdType motdType, ProxyPingEvent event, int code, String user) {
         ServerPing.Builder ping = event.getPing().asBuilder();
 
-        CachedMotd motd = getMotd(motdType);
+        CachedMotd motd = fetchMotd(motdType, code);
 
         if (motd == null) {
             if (isDebug()) {

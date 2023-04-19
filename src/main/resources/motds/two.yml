@@ -38,7 +38,7 @@ domain-setup:
 # 1.16+ and If you are in Spigot or Paper your server version need to be 1.16+
 # Or it will not work, But if you are in bungeecord or velocity it will work without problems.
 # Just stay updated in your proxy jar.
-hex-motd: false
+hex-motd: true
 
 # Modify your motd lines here
 # If you want to add Hex or Gradient, Click here: (tutorial link for hex here in the future)
@@ -46,7 +46,7 @@ hex-motd: false
 # If you want to create variables, Click here: (tutorial link for hex here in the future)
 # <center> variable is disabled until 10.0.0
 line-1: "&6&lPIXEL MOTD &f&lLEGACY UPDATE FROM v10.0"
-line-2: "&f&lEnjoy &7and play with us!"
+line-2: "&f&lEnjoy &7and play with us! &6&ltwo.yml"
 
 # Modify your motd protocol here <-------
 # This will rename your proxy in the ServerList for players using an incompatible minecraft version in your server

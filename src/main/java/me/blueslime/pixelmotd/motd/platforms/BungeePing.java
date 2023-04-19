@@ -29,7 +29,7 @@ public class BungeePing extends PingBuilder<Plugin, Favicon, ServerPing, ServerP
 
     @Override
     public void execute(MotdType motdType, ServerPing ping, int code, String user) {
-        CachedMotd motd = getMotd(motdType);
+        CachedMotd motd = fetchMotd(motdType, code);
 
         if (motd == null) {
             if (isDebug()) {

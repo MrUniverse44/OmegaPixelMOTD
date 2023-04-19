@@ -19,10 +19,13 @@ import java.util.concurrent.ThreadLocalRandom;
 @SuppressWarnings("unused")
 public abstract class PingBuilder<T, I, E, H> {
     private final PluginStorage<MotdType, List<CachedMotd>> motdStorage = PluginStorage.initAsConcurrentHash();
+    private final PluginStorage<MotdType, List<CachedMotd>> hexStorage = PluginStorage.initAsConcurrentHash();
     private final FaviconModule<T, I> faviconModule;
     private final HoverModule<H> hoverModule;
 
     private boolean iconSystem = false;
+
+    private boolean separated = false;
 
     private final PixelMOTD<T> plugin;
 
@@ -47,8 +50,11 @@ public abstract class PingBuilder<T, I, E, H> {
         if (settings != null) {
 
             iconSystem = settings.getStatus("settings.icon-system", false);
+            separated = settings.getStatus("settings.hide-hex-motds-in-legacy-versions", true);
 
         } else {
+            iconSystem = true;
+            separated = true;
 
             plugin.getLogs().error("Can't load settings data");
         }
@@ -60,6 +66,14 @@ public abstract class PingBuilder<T, I, E, H> {
         }
 
         for (MotdType type : MotdType.values()) {
+            if (hexStorage.contains(type)) {
+                hexStorage.get(type).clear();
+            } else {
+                hexStorage.set(
+                        type,
+                        new ArrayList<>()
+                );
+            }
             if (motdStorage.contains(type)) {
                 motdStorage.get(type).clear();
             } else {
@@ -74,19 +88,43 @@ public abstract class PingBuilder<T, I, E, H> {
                 .getProvider()
                 .getNewInstance();
 
-        for (File file : files) {
-            ConfigurationHandler motd = provider.create(
-                    plugin.getLogs(),
-                    file
-            );
-            MotdType type = MotdType.parseMotd(
-                    motd.getInt("type")
-            );
-            motdStorage.get(type).add(
-                    new CachedMotd(
-                            motd
-                    )
-            );
+        if (!separated) {
+            for (File file : files) {
+                ConfigurationHandler motd = provider.create(
+                        plugin.getLogs(),
+                        file
+                );
+                MotdType type = MotdType.parseMotd(
+                        motd.getInt("type")
+                );
+                motdStorage.get(type).add(
+                        new CachedMotd(
+                                motd
+                        )
+                );
+            }
+        } else {
+            for (File file : files) {
+                ConfigurationHandler motd = provider.create(
+                        plugin.getLogs(),
+                        file
+                );
+                MotdType type = MotdType.parseMotd(
+                        motd.getInt("type")
+                );
+
+                CachedMotd cachedMotd = new CachedMotd(motd);
+
+                if (motd.getBoolean("hex-motd", false)) {
+                    hexStorage.get(type).add(
+                            cachedMotd
+                    );
+                } else {
+                    motdStorage.get(type).add(
+                            cachedMotd
+                    );
+                }
+            }
         }
     }
 
@@ -98,6 +136,7 @@ public abstract class PingBuilder<T, I, E, H> {
         }
 
         List<CachedMotd> motdList = new ArrayList<>();
+        List<CachedMotd> hexList = new ArrayList<>();
 
         ConfigurationProvider provider = plugin.getServerType()
                 .getProvider()
@@ -111,25 +150,44 @@ public abstract class PingBuilder<T, I, E, H> {
             if (MotdType.parseMotd(
                     motd.getInt("type")
             ) == type) {
-                motdList.add(
-                        new CachedMotd(
-                                motd
-                        )
-                );
+                if (motd.getBoolean("hex-motd", false) && separated) {
+                    hexList.add(
+                            new CachedMotd(motd)
+                    );
+                } else {
+                    motdList.add(
+                            new CachedMotd(
+                                    motd
+                            )
+                    );
+                }
             }
         }
         motdStorage.set(type, motdList);
+        hexStorage.set(type, hexList);
         return motdList;
     }
 
-    public CachedMotd getMotd(MotdType type) {
-        List<CachedMotd> motds = motdStorage.get(type);
+    public CachedMotd fetchMotd(MotdType type, int protocol) {
+        List<CachedMotd> motds;
+
+        if (separated && protocol >= 735) {
+            motds = hexStorage.get(type);
+        } else {
+            motds = motdStorage.get(type);
+        }
 
         if (motds == null) {
             motds = loadMotds(type);
         }
 
         if (motds.size() == 0) {
+            if (type == MotdType.OUTDATED_CLIENT && (motdStorage.get(type).size() == 0 || (separated && hexStorage.get(type).size() == 0))) {
+                return fetchMotd(MotdType.NORMAL, protocol);
+            }
+            if (type == MotdType.OUTDATED_SERVER && (motdStorage.get(type).size() == 0 || (separated && hexStorage.get(type).size() == 0))) {
+                return fetchMotd(MotdType.NORMAL, protocol);
+            }
             return null;
         }
 

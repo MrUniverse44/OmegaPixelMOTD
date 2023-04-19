@@ -56,7 +56,7 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
             return;
         }
 
-        CachedMotd motd = getMotd(motdType);
+        CachedMotd motd = fetchMotd(motdType, code);
 
         if (motd == null) {
             if (isDebug()) {

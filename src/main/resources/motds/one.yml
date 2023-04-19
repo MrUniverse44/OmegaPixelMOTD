@@ -46,7 +46,7 @@ hex-motd: false
 # If you want to create variables, Click here: (tutorial link for hex here in the future)
 # <center> variable is disabled until 10.0.0
 line-1: "&6&lPIXEL MOTD &f&lLEGACY UPDATE FROM v10.0"
-line-2: "&f&lEnjoy &7and play with us!"
+line-2: "&f&lEnjoy &7and play with us! &6&lone.ml"
 
 # Modify your motd protocol here <-------
 # This will rename your proxy in the ServerList for players using an incompatible minecraft version in your server

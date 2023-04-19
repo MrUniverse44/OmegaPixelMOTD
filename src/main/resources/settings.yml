@@ -84,8 +84,10 @@ settings:
 
   # MOTD CONFIGURATION
 
-  # Toggle the 1.16+ motd, this motd includes gradient or hex colors.
-  different-motd-for-116-or-higher: true
+  # This option will not show your motd
+  # When your motd "hex" option is enabled
+  # and the player is using a legacy version (-1.15)
+  hide-hex-motds-in-legacy-versions: true
   # Toggle outdated-client motd system
   outdated-client-motd: false
   # Toggle outdated-server motd system
