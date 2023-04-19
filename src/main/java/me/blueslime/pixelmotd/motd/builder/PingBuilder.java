@@ -91,7 +91,8 @@ public abstract class PingBuilder<T, I, E, H> {
             for (File file : files) {
                 ConfigurationHandler motd = provider.create(
                         plugin.getLogs(),
-                        file
+                        file,
+                        true
                 );
                 MotdType type = MotdType.parseMotd(
                         motd.getInt("type")
@@ -106,7 +107,8 @@ public abstract class PingBuilder<T, I, E, H> {
             for (File file : files) {
                 ConfigurationHandler motd = provider.create(
                         plugin.getLogs(),
-                        file
+                        file,
+                        true
                 );
                 MotdType type = MotdType.parseMotd(
                         motd.getInt("type")
@@ -144,7 +146,8 @@ public abstract class PingBuilder<T, I, E, H> {
         for (File file : files) {
             ConfigurationHandler motd = provider.create(
                     plugin.getLogs(),
-                    file
+                    file,
+                    true
             );
             if (MotdType.parseMotd(
                     motd.getInt("type")

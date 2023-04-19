@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd.listener.bungeecord.player;
 
+import me.blueslime.pixelmotd.listener.bungeecord.BungeeListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.type.BungeePluginListener;
@@ -18,7 +19,7 @@ import java.util.UUID;
 public class LoginListener extends BungeePluginListener {
 
     public LoginListener(PixelMOTD<?> plugin) {
-        super(plugin);
+        super(plugin, BungeeListener.LOGIN);
         register();
     }
 

@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd.listener.sponge.server;
 
+import me.blueslime.pixelmotd.listener.sponge.SpongeListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.utils.ping.Ping;
@@ -29,7 +30,7 @@ public class ServerPingListener extends SpongePluginListener implements Ping {
     private String unknown;
 
     public ServerPingListener(PixelMOTD<Server> plugin) {
-        super(plugin);
+        super(plugin, SpongeListener.SERVER_PING);
         register();
 
         builder = new SpongePing(

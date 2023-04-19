@@ -79,6 +79,8 @@ public interface PluginListener<T> {
 
     PixelMOTD<T> getBasePlugin();
 
+    String getName();
+
     SlimeLogs getLogs();
 
     void register();

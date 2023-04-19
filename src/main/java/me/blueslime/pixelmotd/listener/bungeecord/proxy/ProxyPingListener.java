@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd.listener.bungeecord.proxy;
 
+import me.blueslime.pixelmotd.listener.bungeecord.BungeeListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.utils.ping.Ping;
@@ -35,7 +36,7 @@ public class ProxyPingListener extends BungeePluginListener implements Ping {
     private String unknown;
 
     public ProxyPingListener(PixelMOTD<?> plugin) {
-        super(plugin);
+        super(plugin, BungeeListener.PROXY_PING);
         register();
 
         builder = new BungeePing(

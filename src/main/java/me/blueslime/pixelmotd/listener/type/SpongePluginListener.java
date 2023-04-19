@@ -1,6 +1,7 @@
 package me.blueslime.pixelmotd.listener.type;
 
 import com.google.inject.Inject;
+import me.blueslime.pixelmotd.listener.sponge.SpongeListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.Configuration;
@@ -25,8 +26,11 @@ public abstract class SpongePluginListener implements PluginListener<Server> {
     @Inject
     private PluginContainer container;
 
+    private final SpongeListener listener;
+
     @SuppressWarnings("unchecked")
-    public SpongePluginListener(PixelMOTD<?> plugin) {
+    public SpongePluginListener(PixelMOTD<?> plugin, SpongeListener listener) {
+        this.listener = listener;
         this.plugin = (PixelMOTD<Server>) plugin;
     }
 
@@ -101,6 +105,11 @@ public abstract class SpongePluginListener implements PluginListener<Server> {
     @Override
     public PlayerDatabase getPlayerDatabase() {
         return plugin.getLoader().getDatabase();
+    }
+
+    @Override
+    public String getName() {
+        return listener.toString();
     }
 
     @Override

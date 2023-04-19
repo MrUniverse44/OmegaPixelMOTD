@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd.listener.type;
 
+import me.blueslime.pixelmotd.listener.bungeecord.BungeeListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.Configuration;
@@ -19,9 +20,11 @@ import java.util.UUID;
 
 public abstract class BungeePluginListener implements PluginListener<Plugin>, Listener {
     private final PixelMOTD<Plugin> plugin;
+    private final BungeeListener listener;
 
     @SuppressWarnings("unchecked")
-    public BungeePluginListener(PixelMOTD<?> plugin) {
+    public BungeePluginListener(PixelMOTD<?> plugin, BungeeListener listener) {
+        this.listener = listener;
         this.plugin = (PixelMOTD<Plugin>) plugin;
     }
 
@@ -59,6 +62,11 @@ public abstract class BungeePluginListener implements PluginListener<Plugin>, Li
     @Override
     public ConfigurationHandler getSettings() {
         return plugin.getSettings();
+    }
+
+    @Override
+    public String getName() {
+        return listener.toString();
     }
 
     @Override

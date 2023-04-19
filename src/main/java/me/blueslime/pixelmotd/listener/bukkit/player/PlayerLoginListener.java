@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd.listener.bukkit.player;
 
+import me.blueslime.pixelmotd.listener.bukkit.BukkitListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.type.BukkitPluginListener;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 public class PlayerLoginListener extends BukkitPluginListener implements Listener {
     public PlayerLoginListener(PixelMOTD<?> plugin) {
-        super(plugin);
+        super(plugin, BukkitListener.PLAYER_LOGIN);
         register();
     }
 

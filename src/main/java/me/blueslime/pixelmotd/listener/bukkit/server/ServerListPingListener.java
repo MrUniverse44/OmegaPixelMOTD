@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd.listener.bukkit.server;
 
+import me.blueslime.pixelmotd.listener.bukkit.BukkitListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.utils.ping.Ping;
@@ -25,7 +26,7 @@ public class ServerListPingListener extends BukkitPluginListener implements List
     private String unknown;
 
     public ServerListPingListener(PixelMOTD<?> plugin) {
-        super(plugin);
+        super(plugin, BukkitListener.SERVER_LIST_PING);
         register();
 
         builder = new BukkitPing(

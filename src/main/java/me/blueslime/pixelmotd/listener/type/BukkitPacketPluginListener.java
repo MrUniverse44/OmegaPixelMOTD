@@ -1,10 +1,10 @@
 package me.blueslime.pixelmotd.listener.type;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLib;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
+import me.blueslime.pixelmotd.listener.bukkit.BukkitListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.Configuration;
@@ -24,15 +24,16 @@ import java.util.UUID;
 
 public abstract class BukkitPacketPluginListener extends PacketAdapter implements PluginListener<JavaPlugin>, Listener {
     private final PixelMOTD<JavaPlugin> plugin;
+    private final BukkitListener listener;
 
     @SuppressWarnings("unchecked")
-    public BukkitPacketPluginListener(PixelMOTD<?> plugin, ListenerPriority priority, PacketType... types) {
+    public BukkitPacketPluginListener(PixelMOTD<?> plugin, BukkitListener listener, ListenerPriority priority, PacketType... types) {
         super(
                 (JavaPlugin) plugin.getPlugin(),
                 priority,
                 types
         );
-
+        this.listener = listener;
         this.plugin = (PixelMOTD<JavaPlugin>) plugin;
 
     }
@@ -99,6 +100,11 @@ public abstract class BukkitPacketPluginListener extends PacketAdapter implement
     @Override
     public SlimeLogs getLogs() {
         return plugin.getLogs();
+    }
+
+    @Override
+    public String getName() {
+        return listener.toString();
     }
 
     @Override

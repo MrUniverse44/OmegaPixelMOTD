@@ -1,5 +1,6 @@
 package me.blueslime.pixelmotd.listener.type;
 
+import me.blueslime.pixelmotd.listener.bukkit.BukkitListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.Configuration;
@@ -19,10 +20,13 @@ import java.util.UUID;
 
 public abstract class BukkitPluginListener implements PluginListener<JavaPlugin>, Listener {
     private final PixelMOTD<JavaPlugin> plugin;
+    private final BukkitListener baseListener;
 
     @SuppressWarnings("unchecked")
-    public BukkitPluginListener(PixelMOTD<?> plugin) {
+    public BukkitPluginListener(PixelMOTD<?> plugin, BukkitListener listener) {
+        this.baseListener = listener;
         this.plugin = (PixelMOTD<JavaPlugin>) plugin;
+
     }
 
     public void register() {
@@ -100,6 +104,11 @@ public abstract class BukkitPluginListener implements PluginListener<JavaPlugin>
     @Override
     public PlayerDatabase getPlayerDatabase() {
         return plugin.getLoader().getDatabase();
+    }
+
+    @Override
+    public String getName() {
+        return baseListener.toString();
     }
 
     @Override

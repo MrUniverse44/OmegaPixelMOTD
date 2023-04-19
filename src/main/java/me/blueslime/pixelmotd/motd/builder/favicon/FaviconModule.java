@@ -29,7 +29,6 @@ public abstract class FaviconModule<T, I> {
 
     private void initialize() {
 
-        getLogs().info("Loading icons");
         File data = new File(plugin.getDataFolder(), "icons");
 
         if (!data.exists() && !data.mkdirs()) {

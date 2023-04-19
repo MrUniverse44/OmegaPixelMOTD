@@ -3,6 +3,7 @@ package me.blueslime.pixelmotd.listener.bukkit.packets;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketEvent;
+import me.blueslime.pixelmotd.listener.bukkit.BukkitListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.utils.ping.Ping;
@@ -38,7 +39,7 @@ public class PacketListener extends BukkitPacketPluginListener implements Ping {
     private String unknown;
 
     public PacketListener(PixelMOTD<?> plugin) {
-        super(plugin, ListenerPriority.HIGHEST, PacketType.Status.Server.SERVER_INFO);
+        super(plugin, BukkitListener.PACKET_LISTENER, ListenerPriority.HIGHEST, PacketType.Status.Server.SERVER_INFO);
         register();
 
         this.builder = new ProtocolPing(

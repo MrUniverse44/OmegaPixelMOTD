@@ -147,7 +147,8 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
 
             messages = provider.create(
                     logs,
-                    langFile
+                    langFile,
+                    true
             );
 
             logs.info("Messages are loaded from Lang files successfully.");
@@ -164,8 +165,15 @@ public class PixelMOTD<T> implements SlimePlugin<T> {
         ).initialize();
 
         ListenerLoader.initialize(this);
+
+        List<String> listeners = new ArrayList<>();
+
+        for (PluginListener<?> listener : listenerList) {
+            listeners.add(listener.getName());
+        }
+
         getLogs().info(
-                "[Debug Scheduler] &6Registered listeners for platform '&f" + getServerType().toString() + "&6':&f " + listenerList.toString().replace(
+                "[Debug Scheduler] &6Registered listeners for platform '&f" + getServerType().toString() + "&6':&f " + listeners.toString().replace(
                         "[",
                         ""
                 ).replace(

@@ -5,6 +5,7 @@ import com.velocitypowered.api.event.ResultedEvent;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.proxy.Player;
+import me.blueslime.pixelmotd.listener.velocity.VelocityListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.type.VelocityPluginListener;
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 public class LoginListener extends VelocityPluginListener {
     public LoginListener(PixelMOTD<?> plugin) {
-        super(plugin);
+        super(plugin, VelocityListener.LOGIN);
         register();
     }
 

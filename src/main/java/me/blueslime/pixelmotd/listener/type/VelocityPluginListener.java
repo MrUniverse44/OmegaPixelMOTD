@@ -1,6 +1,7 @@
 package me.blueslime.pixelmotd.listener.type;
 
 import com.velocitypowered.api.proxy.ProxyServer;
+import me.blueslime.pixelmotd.listener.velocity.VelocityListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.slimelib.logs.SlimeLogs;
 import me.blueslime.pixelmotd.Configuration;
@@ -19,9 +20,11 @@ import java.util.UUID;
 
 public abstract class VelocityPluginListener implements PluginListener<ProxyServer> {
     private final PixelMOTD<ProxyServer> plugin;
+    private final VelocityListener listener;
 
     @SuppressWarnings("unchecked")
-    public VelocityPluginListener(PixelMOTD<?> plugin) {
+    public VelocityPluginListener(PixelMOTD<?> plugin, VelocityListener listener) {
+        this.listener = listener;
         this.plugin = (PixelMOTD<ProxyServer>) plugin;
     }
 
@@ -69,6 +72,11 @@ public abstract class VelocityPluginListener implements PluginListener<ProxyServ
     @Override
     public ConfigurationHandler getConfiguration(Configuration configuration) {
         return plugin.getConfiguration(configuration);
+    }
+
+    @Override
+    public String getName() {
+        return listener.toString();
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
+import me.blueslime.pixelmotd.listener.velocity.VelocityListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.listener.type.VelocityPluginListener;
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 public class ServerConnectListener extends VelocityPluginListener {
     public ServerConnectListener(PixelMOTD<?> plugin) {
-        super(plugin);
+        super(plugin, VelocityListener.SERVER_CONNECT);
         register();
     }
 

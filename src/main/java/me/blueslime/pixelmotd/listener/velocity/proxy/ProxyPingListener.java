@@ -5,6 +5,7 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.InboundConnection;
 import com.velocitypowered.api.proxy.server.ServerPing;
+import me.blueslime.pixelmotd.listener.velocity.VelocityListener;
 import me.blueslime.slimelib.file.configuration.ConfigurationHandler;
 import me.blueslime.pixelmotd.PixelMOTD;
 import me.blueslime.pixelmotd.utils.ping.Ping;
@@ -37,7 +38,7 @@ public class ProxyPingListener extends VelocityPluginListener implements Ping {
     private String unknown;
 
     public ProxyPingListener(PixelMOTD<?> plugin) {
-        super(plugin);
+        super(plugin, VelocityListener.PROXY_PING);
         register();
 
         builder = new VelocityPing(
