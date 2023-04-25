@@ -38,19 +38,6 @@ public class ProtocolPing extends PingBuilder<JavaPlugin, WrappedServerPing.Comp
 
         if (ping == null) {
             if (isDebug()) {
-                getLogs().debug("The ping was null in the index 0, searching in another index");
-            }
-            if (event.getPacket().getServerPings().size() > 2) {
-                index = 1;
-                ping = event.getPacket().getServerPings().read(index);
-                if (isDebug()) {
-                    getLogs().debug("Currently reading index 1 of ping packet.");
-                }
-            }
-        }
-
-        if (ping == null) {
-            if (isDebug()) {
                 getLogs().debug("The plugin is receiving a null ping from ProtocolLib, please report it to ProtocolLib, this issue is not caused by PixelMOTD");
             }
             return;
