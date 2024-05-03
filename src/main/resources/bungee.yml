@@ -1,0 +1,5 @@
+name: PixelMOTD
+version: '${project.version}'
+main: me.blueslime.omegapixelmotd.modules.initialization.BungeecordPixelMOTD
+description: Motd plugin for multiplatform
+author: JustJustin

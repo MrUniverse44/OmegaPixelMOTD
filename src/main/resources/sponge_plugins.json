@@ -1,0 +1,15 @@
+{
+  "loader": {
+    "name": "java_plain",
+    "version": "1.0"
+  },
+  "license": "MIT",
+  "plugins": [
+    {
+      "id": "pixelmotd",
+      "name": "PixelMOTD",
+      "entrypoint": "me.blueslime.omegapixelmotd.modules.initialization.SpongePixelMOTD",
+      "description": "Simple MOTD Plugin"
+    }
+  ]
+}

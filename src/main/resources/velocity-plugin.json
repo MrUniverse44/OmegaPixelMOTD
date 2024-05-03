@@ -1,0 +1,8 @@
+{
+  "id":"pixelmotd",
+  "name":"PixelMOTD",
+  "version":"${project.version}",
+  "authors":["JustJustin"],
+  "dependencies":[],
+  "main":"me.blueslime.omegapixelmotd.modules.initialization.VelocityPixelMOTD"
+}

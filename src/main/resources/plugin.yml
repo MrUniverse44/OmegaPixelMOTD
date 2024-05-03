@@ -1,0 +1,9 @@
+name: OmegaPixelMOTD
+version: '${project.version}'
+main: me.blueslime.omegapixelmotd.modules.initialization.BukkitPixelMOTD
+api-version: '1.13'
+author: JustJustin
+folia-supported: true
+website: "https://github.com/ShieldCommunity/PixelMOTD"
+softdepend:
+  - ProtocolLib
