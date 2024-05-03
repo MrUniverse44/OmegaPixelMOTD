@@ -100,12 +100,12 @@
       <dependency>
           <groupId>com.github.MrUniverse44</groupId>
           <artifactId>WardenPlugin</artifactId>
-          <version>0.0.1</version>
+          <version>0.0.2</version>
       </dependency>
       <dependency>
           <groupId>org.spongepowered</groupId>
           <artifactId>spongeapi</artifactId>
-          <version>8.0.0</version>
+          <version>8.1.0</version>
           <type>jar</type>
           <scope>provided</scope>
       </dependency>
