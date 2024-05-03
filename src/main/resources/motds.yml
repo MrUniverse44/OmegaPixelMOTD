@@ -1,0 +1,162 @@
+# Custom motds, you can add more motds in this file and remove motds from this same file.
+example-motd-one:
+  # Values: default, whitelist, blacklist, outdated_server, outdated_client
+  available-for: default
+  # Domain system
+  domains:
+    # This option will show a different motd if the player is using or is not using a specified domain
+    # You can split domains using ';' as a separator. Please don't use spaces.
+    # Values: using, not_using
+    detection-mode: using
+    domain: "mc.spigotmc.org;play.spigotmc.org"
+  # Text loaders available: with_hex, without_hex
+  text-loader: without_hex
+  # Configuration
+  configuration:
+    line-1: "&b&lTHIS MOTD ONLY APPEARS FOR LEGACY VERSIONS"
+    line-2: "&7&oThese versions do not&a support&7 Hex or Gradient"
+  # Protocol Configuration
+  protocol:
+    # Values: default, always_positive, always_negative
+    state: always_positive
+    # You can add multi values using ';' as splitter
+    message: "&aOnline: &f<online>/1000"
+  # Max players configuration
+  max-players:
+    # Values: default, custom
+    state: default
+    # You can add multi values using ';' as splitter
+    modifier: "<value>"
+  # Min players configuration
+  min-players:
+    # Values: default, custom
+    state: default
+    # You can add multi values using ';' as splitter
+    modifier: "<value>"
+  icon:
+    # Values: default, custom_cached, custom_load
+    state: default
+    # You can add multi values using ';' as splitter
+    location: "server-icon.png"
+  # Hover configuration
+  hover:
+    # Values: default, enabled
+    state: default
+    # Hover lines
+    lines:
+      - "&7This is a custom hover"
+  # Protocols, in bukkit, spigot or paper this option will only work using ProtocolLib
+  # You can see protocols here: https://minecraft.fandom.com/wiki/Protocol_version
+  protocols:
+    # Values: default, plugin, enabled
+    state: enabled
+    min: 47
+    max: 578
+
+example-motd-two:
+  # Values: default, whitelist, blacklist, outdated_server, outdated_client
+  available-for: default
+  # Domain system
+  domains:
+    # This option will show a different motd if the player is using or is not using a specified domain
+    # You can split domains using ';' as a separator. Please don't use spaces.
+    # Values: using, not_using
+    detection-mode: using
+    domain: "mc.spigotmc.org;play.spigotmc.org"
+  # Text loaders available: with_hex, without_hex
+  text-loader: with_hex
+  # Configuration
+  configuration:
+    line-1: "&b&lTHIS MOTD ONLY APPEARS FOR NEW VERSIONS"
+    line-2: "&7&oThese versions&a supports&7 Hex or Gradient"
+  # Protocol Configuration
+  protocol:
+    # Values: default, always_positive, always_negative
+    state: always_positive
+    # You can add multi values using ';' as splitter
+    message: "&aOnline: &f<online>/1000"
+  # Max players configuration
+  max-players:
+    # Values: default, custom
+    state: default
+    # You can add multi values using ';' as splitter
+    modifier: "<value>"
+  # Min players configuration
+  min-players:
+    # Values: default, custom
+    state: default
+    # You can add multi values using ';' as splitter
+    modifier: "<value>"
+  icon:
+    # Values: default, custom_cached, custom_load
+    state: default
+    # You can add multi values using ';' as splitter
+    location: "server-icon.png"
+  # Hover configuration
+  hover:
+    # Values: default, enabled
+    state: default
+    # Hover lines
+    lines:
+      - "&7This is a custom hover"
+  # Protocols, in bukkit, spigot or paper this option will only work using ProtocolLib
+  # You can see protocols here: https://minecraft.fandom.com/wiki/Protocol_version
+  protocols:
+    # Values: default, plugin, enabled
+    state: enabled
+    min: 735
+    max: 770
+
+example-motd-three:
+  # Values: default, whitelist, blacklist, outdated_server, outdated_client
+  available-for: default
+  # Domain system
+  domains:
+    # This option will show a different motd if the player is using or is not using a specified domain
+    # You can split domains using ';' as a separator. Please don't use spaces.
+    # Values: using, not_using
+    detection-mode: using
+    domain: "mc.spigotmc.org;play.spigotmc.org"
+  # Text loaders available: with_hex, without_hex
+  text-loader: without_hex
+  # Configuration
+  configuration:
+    line-1: "&b&lTHIS MOTD IS ONLY FOR WHITELIST"
+    line-2: "&7&oThe server is currently under maintenance"
+  # Protocol Configuration
+  protocol:
+    # Values: default, always_positive, always_negative
+    state: always_positive
+    # You can add multi values using ';' as splitter
+    message: "&aOnline: &f<online>/1000"
+  # Max players configuration
+  max-players:
+    # Values: default, custom
+    state: default
+    # You can add multi values using ';' as splitter
+    modifier: "<value>"
+  # Min players configuration
+  min-players:
+    # Values: default, custom
+    state: default
+    # You can add multi values using ';' as splitter
+    modifier: "<value>"
+  icon:
+    # Values: default, custom_cached, custom_load
+    state: default
+    # You can add multi values using ';' as splitter
+    location: "server-icon.png"
+  # Hover configuration
+  hover:
+    # Values: default, enabled
+    state: default
+    # Hover lines
+    lines:
+      - "&7This is a custom hover"
+  # Protocols, in bukkit, spigot or paper this option will only work using ProtocolLib
+  # You can see protocols here: https://minecraft.fandom.com/wiki/Protocol_version
+  protocols:
+    # Values: default, plugin, enabled
+    state: enabled
+    min: 47
+    max: 770
