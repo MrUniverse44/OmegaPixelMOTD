@@ -1,10 +1,38 @@
 package me.blueslime.omegapixelmotd.modules.commands;
 
 import com.velocitypowered.api.command.SimpleCommand;
+import me.blueslime.omegapixelmotd.OmegaPixelMOTD;
+import me.blueslime.wardenplugin.modules.list.VelocityModule;
 
 import java.util.List;
 
-public class VelocityCommand implements SimpleCommand {
+public class VelocityCommand extends VelocityModule implements SimpleCommand {
+    private final String command;
+
+    public VelocityCommand(OmegaPixelMOTD plugin, String command) {
+        super(plugin.cast());
+        this.command = command;
+    }
+
+    @Override
+    public void initialize() {
+        getPlugin().getPlugin().getCommandManager().register(
+            command,
+            this,
+            "pixelmotd"
+        );
+    }
+
+    @Override
+    public void shutdown() {
+
+    }
+
+    @Override
+    public void reload() {
+
+    }
+
     /**
      * Executes the command for the specified invocation.
      *

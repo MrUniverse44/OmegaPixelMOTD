@@ -1,0 +1,41 @@
+# Event System
+#
+# Values: true, false
+enabled: true
+
+# If you change this pattern you need to change the pattern of your eventDate
+#   Default pattern, example: 12/21/21 23:59:00
+#   Default pattern, value: MM/dd/yy HH:mm:ss
+pattern: "MM/dd/yy HH:mm:ss"
+
+# Customize your own events
+# You can create your own event using this next template:
+#    <event-name>:
+#      name: Name of your event
+#      date: End date or your event
+#      time-zone: Time zone of your event
+#      messages:
+#        # Hold Variables:
+#        #   <weeks:(more-hours):(one-hour)>,
+#        #   <days:(more-hours):(one-hour)>,
+#        #   <hours:(more-hours):(one-hour)>,
+#        #   <minutes:(more-hours):(one-hour)>,
+#        #   <seconds:(more-hours):(one-hour)>
+#        on-hold: "&7<weeks:%s weeks:%s week>, <days:%s days:%s day>, <hours:%s hours:%s hour>, <minutes:%s minutes:%s minute> and <seconds:%s seconds:%s second>"
+#        on-end: "&cThe event finished."
+#
+# Event variable for your motd: %event:example-event%
+events:
+  example-event:
+    name: Example Event
+    date: 12/21/21 23:59:00
+    time-zone: ECT
+    messages:
+      # Hold Variables:
+      #   <weeks:(more-hours):(one-hour)>,
+      #   <days:(more-hours):(one-hour)>,
+      #   <hours:(more-hours):(one-hour)>,
+      #   <minutes:(more-hours):(one-hour)>,
+      #   <seconds:(more-hours):(one-hour)>
+      on-hold: "&7<weeks:%s weeks:%s week>, <days:%s days:%s day>, <hours:%s hours:%s hour>, <minutes:%s minutes:%s minute> and <seconds:%s seconds:%s second>"
+      on-end: "&cThe event finished."

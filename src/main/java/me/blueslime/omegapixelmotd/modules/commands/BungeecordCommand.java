@@ -1,8 +1,7 @@
 package me.blueslime.omegapixelmotd.modules.commands;
 
+import me.blueslime.omegapixelmotd.OmegaPixelMOTD;
 import me.blueslime.omegapixelmotd.modules.commands.interfaces.BungeecordCommandInterface;
-import me.blueslime.omegapixelmotd.modules.initialization.BungeecordPixelMOTD;
-import me.blueslime.wardenplugin.WardenPlugin;
 import net.md_5.bungee.api.CommandSender;
 
 public class BungeecordCommand extends BungeecordCommandInterface {
@@ -13,8 +12,8 @@ public class BungeecordCommand extends BungeecordCommandInterface {
      * @param plugin instanced
      * @param name   the name of this command
      */
-    public BungeecordCommand(WardenPlugin<BungeecordPixelMOTD> plugin, String name) {
-        super(plugin, name);
+    public BungeecordCommand(OmegaPixelMOTD plugin, String name) {
+        super(plugin.cast(), name);
     }
 
     /**
@@ -30,7 +29,8 @@ public class BungeecordCommand extends BungeecordCommandInterface {
 
     @Override
     public void initialize() {
-
+        getPlugin().getPlugin().getProxy().getPluginManager().registerCommand(getPlugin().getPlugin(), this);
+        getLogs().info("Bungeecord command initialized");
     }
 
     @Override

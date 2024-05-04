@@ -1,21 +1,30 @@
 package me.blueslime.omegapixelmotd.modules.commands;
 
-import me.blueslime.wardenplugin.WardenPlugin;
+import me.blueslime.omegapixelmotd.OmegaPixelMOTD;
 import me.blueslime.wardenplugin.modules.list.BukkitModule;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.command.PluginCommand;
 import org.jetbrains.annotations.NotNull;
 
 public class BukkitCommand extends BukkitModule implements CommandExecutor {
-    public BukkitCommand(WardenPlugin<JavaPlugin> plugin) {
-        super(plugin);
+    private final String command;
+    public BukkitCommand(OmegaPixelMOTD plugin, String command) {
+        super(plugin.cast());
+        this.command = command;
     }
 
     @Override
     public void initialize() {
+        PluginCommand command = getPlugin().getPlugin().getServer().getPluginCommand(this.command);
 
+        if (command != null) {
+            command.setExecutor(this);
+            getLogs().info("Registered command: " + this.command);
+        } else {
+            getLogs().error("Could not find command: " + this.command);
+        }
     }
 
     @Override
@@ -42,6 +51,6 @@ public class BukkitCommand extends BukkitModule implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        return false;
+        return true;
     }
 }

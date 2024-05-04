@@ -7,19 +7,20 @@ import me.blueslime.wardenplugin.logs.WardenLogs;
 import me.blueslime.wardenplugin.modules.PluginModule;
 import me.blueslime.wardenplugin.platform.Platform;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.Plugin;
 
 import java.io.File;
 
 public abstract class BungeecordCommandInterface extends Command implements PluginModule {
-    private final WardenPlugin<BungeecordPixelMOTD> plugin;
+    private final WardenPlugin<Plugin> plugin;
 
     /**
      * Construct a new command with no permissions or aliases.
      *
      * @param name the name of this command
      */
-    public BungeecordCommandInterface(WardenPlugin<BungeecordPixelMOTD> plugin, String name) {
-        super(name);
+    public BungeecordCommandInterface(WardenPlugin<Plugin> plugin, String name) {
+        super(name, null, "pixelmotd");
         this.plugin = plugin;
     }
 
@@ -39,7 +40,7 @@ public abstract class BungeecordCommandInterface extends Command implements Plug
         return plugin.getDataFolder();
     }
 
-    public WardenPlugin<BungeecordPixelMOTD> getPlugin() {
+    public WardenPlugin<Plugin> getPlugin() {
         return plugin;
     }
 }

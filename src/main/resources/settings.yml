@@ -1,0 +1,80 @@
+# Settings section
+settings:
+  # Debug allows you to see hided information from the plugin, with this option you will know if something is wrong
+  # or help you to add more things.
+  debug-mode: false
+  # You can see protocols here: https://minecraft.fandom.com/wiki/Protocol_version
+  # Default max protocol: 766 = 1.20.6
+  max-server-protocol: 770
+  # Default min protocol 47 = 1.8.X
+  min-server-protocol: 47
+  # Language files: en, es, jp, pl, de, cz, zh-CN, zh-TW
+  language: "en"
+
+# Online variable section
+# This option can consume more CPU depending on servers/worlds
+#
+# ¿You want a faster motd? I recommend to stay disabled on this option if you have a big list of servers/worlds.
+# Recommended: Only MAX 5 servers or worlds.
+online-variables:
+  # Values: enabled, disabled
+  state: enabled
+  # List
+  world-or-servers:
+    example-name:
+      # Modes: use_name, name_contains
+      mode: use_name
+      values:
+        - "hub1"
+        - "hub2"
+        - "hub3"
+    example-contains:
+      # Modes: use_name, name_contains
+      mode: name_contains
+      values:
+        - "sw_map"
+        - "sw_lobby"
+
+# Server variable section
+server-variables:
+  # Values: enabled, disabled
+  state: disabled
+  # Status messages
+  online: "&a&lONLINE"
+  offline: "&c&lOFFLINE"
+  # Intervals to check server states
+  intervals:
+    online: 10
+    offline: 10
+    timeout: 500
+
+# Player variable section
+# This option can consume more CPU or more ram depending on options enabled
+#
+# ¿You want a faster motd? I recommend to stay disabled in this option for a better performance.
+player-variables:
+  # Values: enabled, disabled
+  states:
+    # with this option if the player already joined to the server, variable %player% will work for this player but
+    # this option will consume more ram. This option is not recommended, only for 200 players server (MAX)
+    store-usernames: disabled
+    # with this option if your motd contains %player_<number>%, the motd will replace this variable with a user of your server
+    variable: disabled
+
+# This section is for Bukkit
+bukkit-exclusive:
+  # Null connection fixer
+  null-connections:
+    # If a player tries to join to your server with a null ip, this option will block the player to join.
+    # This is a minimal security implement.
+    deny: enabled
+  # If you don't have ProtocolLib, the plugin will use this default protocol for players
+  # Or if your ProtocolLib don't detect the player version.
+  default-protocol: 762
+
+# Update section
+updates:
+  # States: enabled, disabled
+  states:
+    check: enabled
+    download: disabled
