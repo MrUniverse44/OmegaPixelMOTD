@@ -1,0 +1,25 @@
+#
+messages:
+  reload: "&aIl plugin e' stato ricaricato correttamente in <ms>ms."
+
+  error:
+    permission: "&cHai bisogno del permesso <permission> per eseguire questo comando."
+    already-whitelisted: "&a<type> &e<player> &ae' gia' nella whitelist!"
+    already-blacklisted: "&a<type> &e<player> &ae' gia' nella blacklist!"
+    not-whitelisted: "&a<type> &e<player> &anon e' nella whitelist!"
+    not-blacklisted: "&a<type> &e<player> &anon e' nella blacklist!"
+    invalid-arguments: "&aThis command needs more arguments."
+
+  whitelist:
+    enabled: "&aLa Whitelist e' stata &b&lATTIVATA&a."
+    disabled: "&aLa Whitelist e' stata &b&lDISATTIVATA&a."
+    player:
+      add: "&a<type> &e<player> &ae' stato aggiunto &baggiunto &aalla whitelist."
+      remove: "&a<type> &e<player> &ae' stato &crimosso &adalla whitelist."
+
+  blacklist:
+    enabled: "&aLa Blacklist e' stata &b&lATTIVATA&a."
+    disabled: "&aLa Blacklist e' stata &b&lDISATTIVATA&a."
+    player:
+      add: "&a<type> &e<player> &ae' stato &baggiunto &aalla blacklist."
+      remove: "&a<type> &e<player> &ae' stato &crimosso &adalla blacklist."

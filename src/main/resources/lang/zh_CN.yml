@@ -1,0 +1,29 @@
+#   Default translation provided by YoMonNPC.
+#   由 YoMonNPC 提供默认翻译。
+#   20220710T154000Z
+#
+messages:
+  # Reload Message
+  reload: "&a插件已正确重新加载，用时 <ms> 毫秒。"
+  # Errors
+  error:
+    permission: "&c你需要拥有权限“<permission>”来执行此命令。"
+    already-whitelisted: "&a<type> &e<player> &a已在白名单中！"
+    already-blacklisted: "&a<type> &e<player> &a已在黑名单中！"
+    not-whitelisted: "&a<type> &e<player> &a不在白名单中！"
+    not-blacklisted: "&a<type> &e<player> &a不在黑名单中！"
+    invalid-arguments: "&a此命令需要更多参数。"
+  # Whitelist
+  whitelist:
+    enabled: "&a白名单已&b&l启用&a。"
+    disabled: "&a白名单已&c&l禁用&a。"
+    player:
+      add: "&a<type> &e<player> &a已被&b加入&a白名单。"
+      remove: "&a<type> &e<player> &a已被&b移出&a白名单。"
+  # Blacklist
+  blacklist:
+    enabled: "&a黑名单已&b&l启用&a。"
+    disabled: "&a黑名单已&c&l禁用&a。"
+    player:
+      add: "&a<type> &e<player> &a已被&b加入&a黑名单。"
+      remove: "&a<type> &e<player> &a已被&b移出&a黑名单。"

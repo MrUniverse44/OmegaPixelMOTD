@@ -8,7 +8,7 @@ settings:
   max-server-protocol: 770
   # Default min protocol 47 = 1.8.X
   min-server-protocol: 47
-  # Language files: en, es, jp, pl, de, cz, zh-CN, zh-TW
+  # Language files: cz, de, en, he_IL, id, it, jp, ko, pl, zh_CN, zh_TW
   language: "en"
 
 # Online variable section

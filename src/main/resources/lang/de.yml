@@ -1,0 +1,26 @@
+#   Translated by SageSphinx63920
+messages:
+  # Reload message
+  reload: "&aDas plugin wurde in <ms>ms neu geladen."
+  # Errors
+  error:
+    permission: "&cDu brauchst die Berechtigung <permission> um diesen Befehl nutzen zu können."
+    already-whitelisted: "&a<type> &e<player> &aist bereits in der Whitelist!"
+    already-blacklisted: "&a<type> &e<player> &ais tbereits in der Blacklist!"
+    not-whitelisted: "&a<type> &e<player> &aist nicht in der Whitelist!"
+    not-blacklisted: "&a<type> &e<player> &aist nicht in der Blacklist!"
+    invalid-arguments: "&aDieser Befehl braucht mehr Argumente."
+  # Whitelist
+  whitelist:
+    enabled: "&aDie Whitelist ist jetzt &b&lAKTIVIERT&a."
+    disabled: "&aDie Whitelist ist jetzt &c&lDEAKTIVIERT&a."
+    player:
+      add: "&a<type> &e<player> &awurde zur Whitelist&b hinzugefügt&a."
+      remove: "&a<type> &e<player> &awurde von der Whitelist&b entfernt&a."
+  # Blacklist
+  blacklist:
+    enabled: "&aDie Blacklist wurde &b&lAKTIVIERT&a."
+    disabled: "&aDie Blacklist wurde &c&lDEAKTIVIERT&a."
+    player:
+      add: "&a<type> &e<player> &awurde zur Blacklist&b hinzugefügt&a."
+      remove: "&a<type> &e<player> &awurde von der Blacklist&b entfernt&a."

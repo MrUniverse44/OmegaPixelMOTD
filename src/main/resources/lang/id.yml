@@ -1,0 +1,25 @@
+messages:
+  # Reload Message
+  reload: "&aPlugin dimuat ulang dengan benar di <ms>ms."
+  # Errors
+  error:
+    permission: "&cKamu membutuhkan <izin> untuk perintah ini."
+    already-whitelisted: "&a<tipe> &e<pemain> &asudah masuk daftar putih!"
+    already-blacklisted: "&a<tipe> &e<pemain> &asudah masuk ke daftar hitam!"
+    not-whitelisted: "&a<tipe> &e<pemain> &atidak ada dalam daftar putih!"
+    not-blacklisted: "&a<tipe> &e<pemain> &atidak ada dalam daftar hitam!"
+    invalid-arguments: "&aPerintah ini membutuhkan lebih banyak argumen."
+  # Whitelist
+  whitelist:
+    enabled: "&aStatus Daftar Putih sekarang adalah &b&lDiaktifkan&a."
+    disabled: "&aStatus Daftar Putih sekarang adalah &c&lDimatikan&a."
+    player:
+      add: "&a<tipe> &e<pemain> &atelah&b ditambahkan &ke daftar putih."
+      remove: "&a<tipe> &e<pemain> &telah&b dihapus&a dari daftar putih."
+  # Blacklist
+  blacklist:
+    enabled: "&aDaftar hitam telah &b&lDiaktifkan&a."
+    disabled: "&aDaftar hitam telah &c&lDimatikan&a."
+    player:
+      add: "&a<tipe> &e<pemain> &telah&b ditambahkan &ke daftar hitam."
+      remove: "&a<tipe> &e<pemain> &telah&b dihapus&a dari daftar hitam."

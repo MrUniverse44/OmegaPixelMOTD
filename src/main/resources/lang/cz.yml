@@ -1,0 +1,26 @@
+# Translation author credits (Autor překladu): JustLeader#5532
+messages:
+  # Reload message
+  reload: "&aPlugin se úspěšně načetl za <ms>ms."
+  # Errors
+  error:
+    permission: '&cNa použití tohoto příkazu potřebuješ permissi <permission>.'
+    already-whitelisted: "&a<type> &e<player> &aje již na whitelistu!"
+    already-blacklisted: "&a<type> &e<player> &aje již na blacklistu!"
+    not-whitelisted: "&a<type> &e<player> &anení na whitelistu!"
+    not-blacklisted: "&a<type> &e<player> &anení na blacklistu!"
+    invalid-arguments: "&aTento příkaz vyžaduje více argumentů."
+  # Whitelist
+  whitelist:
+    enabled: "&aWhitelist je nyní &b&lZAPNUT&a."
+    disabled: "&aWhitelist je nyní &c&lVYPNUT&a."
+    player:
+      add: "&a<type> &e<player> &abyl&b přidán &ana whitelist."
+      remove: "&a<type> &e<player> &abyl&b odebrán&a z whitelistu."
+  # Blacklist
+  blacklist:
+    enabled: "&aBlacklist byl &b&lZAPNUT&a."
+    disabled: "&aBlacklist byl &c&lVYPNUT&a."
+    player:
+      add: "&a<type> &e<player> &abyl&b přidán &ana blacklist."
+      remove: "&a<type> &e<player> &abyl&b odebrán&a z blacklistu."

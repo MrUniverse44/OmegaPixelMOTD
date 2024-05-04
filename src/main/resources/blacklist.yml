@@ -1,0 +1,36 @@
+# Settings section
+settings:
+  # This reason will be applied when the blacklist is enabled without a reason specified
+  default-reason: "Hacked Client."
+  # Custom console name when the console uses the whitelist command.
+  custom-console-name:
+    # Values: enabled, disabled
+    state: enabled
+    # Name
+    name: Network
+
+# Kick messages
+kick-message:
+  global:
+    - "&c&lYOU HAS BEEN REMOVED FROM THE PROXY"
+    - " "
+    - "&7Blacklist Reason &8:"
+    - "&f%reason%"
+    - " "
+    - "&ePixelMOTD Plugin"
+  world-or-servers:
+    - " "
+    - "&c&lYOU HAS BEEN REMOVED FROM THE SERVER OR WORLD"
+    - " "
+    - "&7Blacklist Reason &8:"
+    - "&f%reason%"
+    - " "
+    - "&7Server: &8:"
+    - "&f%server%"
+    - " "
+    - "&ePixelMOTD Plugin"
+
+# Storage of blacklisted players
+players:
+  by-name: [ ]
+  by-uuid: [ ]

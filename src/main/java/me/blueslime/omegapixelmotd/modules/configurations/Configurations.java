@@ -10,6 +10,8 @@ import java.io.File;
 public class Configurations extends UniversalModule {
 
     private ConfigurationHandler countdowns;
+    private ConfigurationHandler whitelist;
+    private ConfigurationHandler blacklist;
     private ConfigurationHandler settings;
     private ConfigurationHandler motds;
 
@@ -39,6 +41,20 @@ public class Configurations extends UniversalModule {
                 Configurations.class.getResourceAsStream("/countdowns.yml")
             )
         );
+
+        this.whitelist = getConfigurationProvider().load(
+            ConfigurationFile.build(
+                new File(getDataFolder(), "whitelist.yml"),
+                Configurations.class.getResourceAsStream("/whitelist.yml")
+            )
+        );
+
+        this.blacklist =  getConfigurationProvider().load(
+            ConfigurationFile.build(
+                new File(getDataFolder(), "blacklist.yml"),
+                Configurations.class.getResourceAsStream("/blacklist.yml")
+            )
+        );
     }
 
     @Override
@@ -53,6 +69,14 @@ public class Configurations extends UniversalModule {
 
     public ConfigurationHandler getCountdowns() {
         return countdowns;
+    }
+
+    public ConfigurationHandler getWhitelist() {
+        return whitelist;
+    }
+
+    public ConfigurationHandler getBlacklist() {
+        return blacklist;
     }
 
     public ConfigurationHandler getSettings() {

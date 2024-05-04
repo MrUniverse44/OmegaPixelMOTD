@@ -1,0 +1,25 @@
+messages:
+  # Reload Message
+  reload: "&aהפלאגין עשה הפעלה מחדש ב <ms>ms."
+  # Errors
+  error:
+    permission: "&cחסר לך את הגישה <permission> בשביל להשתמש בפקודה הזאת."
+    already-whitelisted: "&a<type> &e<player> &aנמצא כבר ברשימת המורשים!"
+    already-blacklisted: "&a<type> &e<player> &aכבר ברשימה השחורה!"
+    not-whitelisted: "&a<type> &e<player> &aלא ברשימת המורשים!"
+    not-blacklisted: "&a<type> &e<player> &aלא ברשימה השחורה!"
+    invalid-arguments: "&aהפקודה הזאת זקוקה לנתונים נוספים."
+  # Whitelist
+  whitelist:
+    enabled: "&aרשימת מורשים עכשיו is &b&lמופעלת&a."
+    disabled: "&aרשימת מורשים עכשיו &c&lכבויה&a."
+    player:
+      add: "&a<type> &e<player> &aהשחקן&b נוסף &aלרשימת המורשים."
+      remove: "&a<type> &e<player> &aהשחקן&b נמחק&a מרשימת המורשים."
+  # Blacklist
+  blacklist:
+    enabled: "&aהרשימה השחורה &b&lהופעלה&a."
+    disabled: "&aהרשימה השחורה &c&lכבויה&a."
+    player:
+      add: "&a<type> &e<player> &aהשחקן&b נוסף &aלרשימה השחורה."
+      remove: "&a<type> &e<player> &aהשחקן&b הוסר&a מהרשימה השחורה."

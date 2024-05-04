@@ -1,0 +1,26 @@
+#
+messages:
+  # Reload Message
+  reload: "&aプラグインが<ms>ミリ秒で再読み込みされました。"
+  # Errors
+  error:
+    permission: "&cそのコマンドを使うには権限（<permission>）が必要です。"
+    already-whitelisted: "&a<type> &e<player> &aはすでにホワイトリストに追加されています！"
+    already-blacklisted: "&a<type> &e<player> &aはすでにブラックリストに追加されています！"
+    not-whitelisted: "&a<type> &e<player> &aはホワイトリストに追加されていません！"
+    not-blacklisted: "&a<type> &e<player> &aはブラックリストにつかされていません！"
+    invalid-arguments: "&aThis command needs more arguments."
+  # Whitelist
+  whitelist:
+    enabled: "&aホワイトリストが&b&l有効&aです。"
+    disabled: "&aホワイトリストが&c&l無効&aです。"
+    player:
+      add: "&a<type> &e<player> &aをホワイトリストに&b追加&aしました。"
+      remove: "&a<type> &e<player> &aをホワイトリストから&b削除&aしました。"
+  # Blacklist
+  blacklist:
+    enabled: "&aブラックリストが&b&l有効&aです。"
+    disabled: "&aブラックリストが&c&l無効&aです。"
+    player:
+      add: "&a<type> &e<player> &aをブラックリストに&b追加&aしました。"
+      remove: "&a<type> &e<player> &aをブラックリストから&b削除&aしました。"

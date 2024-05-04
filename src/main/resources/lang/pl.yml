@@ -1,0 +1,30 @@
+#   Translated by JedynyTakiPsiak
+#
+#   Notka od tłumacza! Nie zmieniaj parametrów <type>, <player>, <ms>, bo może to prowadzić do nieprawidłowego działania pluginu!
+#   Note from the translator! Do not change the <type>, <player>, <ms> parameters, because it can lead to plugin malfunction!
+#
+messages:
+  # Reload Message
+  reload: "&aPlugin został poprawnie załadowany w <ms>ms."
+  # Errors
+  error:
+    permission: "&cPotrzebujesz uprawnienia <permission> dla tej komendy!"
+    already-whitelisted: "&a<type> &e<player> &aznajduje się już na whitelist!"
+    already-blacklisted: "&a<type> &e<player> &aznajduje się już na blacklist!"
+    not-whitelisted: "&a<type> &e<player> &anie znajduje się na whitelist!"
+    not-blacklisted: "&a<type> &e<player> &anie znajduje się na blacklist!"
+    invalid-arguments: "&aThis command needs more arguments."
+  # Whitelist
+  whitelist:
+    enabled: "&aWhitelist'a została &b&lWŁĄCZONA&a."
+    disabled: "&aWhitelist'a została &c&lWYŁĄCZONA&a."
+    player:
+      add: "&a<type> &e<player> &azostał &bdodany &ana whitelist'e."
+      remove: "&a<type> &e<player> &azostał &busunięty &az whitelist'y."
+  # Blacklist
+  blacklist:
+    enabled: "&aBlacklist'a została &b&lWŁĄCZONA&a."
+    disabled: "&aBlacklist'a została &c&lWYŁĄCZONA&a."
+    player:
+      add: "&a<type> &e<player> &azostał &bdodany &ana blacklist'e."
+      remove: "&a<type> &e<player> &azostał &busunięty &az blacklist'y."

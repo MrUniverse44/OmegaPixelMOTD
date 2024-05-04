@@ -1,0 +1,26 @@
+# Messages file
+messages:
+  # Reload message
+  reload: "&aThe plugin was reloaded correctly in <ms>ms."
+  # Errors
+  error:
+    permission: "&cYou need permission <permission> for this command."
+    already-whitelisted: "&a<type> &e<player> &ais already in the whitelist!"
+    already-blacklisted: "&a<type> &e<player> &ais already in the blacklist!"
+    not-whitelisted: "&a<type> &e<player> &ais not in the whitelist!"
+    not-blacklisted: "&a<type> &e<player> &ais not in the blacklist!"
+    invalid-arguments: "&aThis command needs more arguments."
+  # Whitelist
+  whitelist:
+    enabled: "&aWhitelist Status now is &b&lENABLED&a."
+    disabled: "&aWhitelist Status now is &c&lDISABLED&a."
+    player:
+      add: "&a<type> &e<player> &ahas been&b added &ato the whitelist."
+      remove: "&a<type> &e<player> &ahas been&b removed&a from the whitelist."
+  # Blacklist
+  blacklist:
+    enabled: "&aThe blacklist has been &b&lENABLED&a."
+    disabled: "&aThe blacklist has been &c&lDISABLED&a."
+    player:
+      add: "&a<type> &e<player> &ahas been&b added &ato the blacklist."
+      remove: "&a<type> &e<player> &ahas been&b removed&a from the blacklist."
