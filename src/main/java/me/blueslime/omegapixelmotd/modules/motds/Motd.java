@@ -114,10 +114,11 @@ public class Motd {
         return lines;
     }
 
-    public int getOnlinePlayers(int original) {
+    public int getOnlinePlayers(int original, int max) {
         if (!online) {
             return original;
         }
+        String onlineExpression = generateRandomParameter(this.onlineExpression);
         int result = MotdPlayerCalculator.findExpression(
             onlineExpression.replace(
                 "<value>",
@@ -125,15 +126,19 @@ public class Motd {
             ).replace(
                 "<online>",
                 String.valueOf(original)
+            ).replace(
+                "<max>",
+                String.valueOf(max)
             )
         );
         return Math.max(result, 0);
     }
 
-    public int getMaxPlayers(int original) {
+    public int getMaxPlayers(int original, int online) {
         if (!max) {
             return original;
         }
+        String maxExpression = generateRandomParameter(this.maxExpression);
         int result = MotdPlayerCalculator.findExpression(
             maxExpression.replace(
                 "<value>",
@@ -141,6 +146,9 @@ public class Motd {
             ).replace(
                 "<max>",
                 String.valueOf(original)
+            ).replace(
+                "<online>",
+                String.valueOf(online)
             )
         );
         return Math.max(result, 0);
