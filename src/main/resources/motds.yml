@@ -28,7 +28,7 @@ example-motd-one:
     # You can add multi values using ';' as splitter
     modifier: "<value>"
   # Min players configuration
-  min-players:
+  online-players:
     # Values: default, custom
     state: default
     # You can add multi values using ';' as splitter
@@ -82,7 +82,7 @@ example-motd-two:
     # You can add multi values using ';' as splitter
     modifier: "<value>"
   # Min players configuration
-  min-players:
+  online-players:
     # Values: default, custom
     state: default
     # You can add multi values using ';' as splitter
@@ -136,7 +136,7 @@ example-motd-three:
     # You can add multi values using ';' as splitter
     modifier: "<value>"
   # Min players configuration
-  min-players:
+  online-players:
     # Values: default, custom
     state: default
     # You can add multi values using ';' as splitter
