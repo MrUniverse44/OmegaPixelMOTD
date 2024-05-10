@@ -2,9 +2,10 @@ package me.blueslime.omegapixelmotd.modules.listeners;
 
 import me.blueslime.omegapixelmotd.OmegaPixelMOTD;
 import me.blueslime.wardenplugin.WardenPlugin;
+import me.blueslime.wardenplugin.logs.WardenLogs;
 
 public abstract class PluginListener {
-    private final OmegaPixelMOTD plugin;
+    protected final OmegaPixelMOTD plugin;
 
     public PluginListener(final OmegaPixelMOTD plugin) {
         this.plugin = plugin;
@@ -22,5 +23,9 @@ public abstract class PluginListener {
         WardenPlugin<T> plugin = this.plugin.cast();
 
         return plugin.getPlugin();
+    }
+
+    public WardenLogs getLogs() {
+        return plugin.getLogs();
     }
 }

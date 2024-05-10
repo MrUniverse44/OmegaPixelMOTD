@@ -61,4 +61,9 @@ public final class OmegaPixelMOTD extends WardenPlugin<Object> {
     public <T> WardenPlugin<T> cast() {
         return (WardenPlugin<T>) this;
     }
+
+    @SuppressWarnings("unchecked")
+    public <T> T core() {
+        return ((WardenPlugin<T>)this).getPlugin();
+    }
 }

@@ -114,6 +114,15 @@ public class MotdData {
             this.id  = id;
         }
 
+        public static Type switchPriority(Type type) {
+            if (
+                type.getId() >= 1
+            ) {
+                return NORMAL;
+            }
+            return type;
+        }
+
         public int getId() {
             return this.id;
         }
@@ -130,7 +139,7 @@ public class MotdData {
         public static Type fromString(String text) {
             text = text.toLowerCase(Locale.ENGLISH);
 
-            if (text.equals("default")) {
+            if (text.equals("default") || text.equals("with_hex") || text.equals("without_hex")) {
                 return NORMAL;
             }
 

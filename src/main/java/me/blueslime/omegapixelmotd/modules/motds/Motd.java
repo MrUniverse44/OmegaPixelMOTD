@@ -23,6 +23,10 @@ public class Motd {
     private String line1;
     private String line2;
 
+    private int maxProtocol;
+    private int minProtocol;
+
+    private boolean protocols;
     private boolean hover;
     private boolean icon;
     private boolean hex;
@@ -49,6 +53,9 @@ public class Motd {
         this.onlineExpression = configuration.getString(path + "online-players.modifier", "<value>");
         this.maxExpression = configuration.getString(path + "max-players.modifier", "<value>");
 
+        this.maxProtocol = configuration.getInt(path + "protocols.max", -1);
+        this.minProtocol = configuration.getInt(path + "protocols.min", -1);
+
         if (protocolText != null && protocolText.contains("<before-the-icon>")) {
             this.protocolText = protocolText.replace("<before-the-icon>", "");
 
@@ -68,6 +75,7 @@ public class Motd {
             this.protocolText = icon + builder + def;
         }
 
+        this.protocols = has(configuration.get(path + "protocols.state", "default"));
         this.hover = has(configuration.get(path + "hover.state", "default"));
         this.icon = has(configuration.get(path + "icon.state", "default"));
         this.hex = configuration.getString(identifier + ".text-loader", "with_hex").equalsIgnoreCase("with_hex");
@@ -99,7 +107,7 @@ public class Motd {
         if (data instanceof String) {
             String v = (String) data;
             v = v.toLowerCase(Locale.ENGLISH);
-            return v.equals("0") || v.equals("enabled") || v.equals("on") || v.equals("true") || v.equals("yes") || v.equals("custom");
+            return v.equals("0") || v.equals("enabled") || v.equals("plugin") || v.equals("on") || v.equals("true") || v.equals("yes") || v.equals("custom");
         }
         if (data instanceof Integer) {
             int v = (int) data;
@@ -162,6 +170,10 @@ public class Motd {
         return icon;
     }
 
+    public boolean hasProtocols() {
+        return protocols;
+    }
+
     public String getServerIcon() {
         return generateRandomParameter(
                 configuration.getString(
@@ -189,5 +201,13 @@ public class Motd {
                 valueList.size()
             )
         );
+    }
+
+    public int getMinProtocol() {
+        return minProtocol;
+    }
+
+    public int getMaxProtocol() {
+        return maxProtocol;
     }
 }
