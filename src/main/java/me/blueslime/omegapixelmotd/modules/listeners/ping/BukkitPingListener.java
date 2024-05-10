@@ -116,7 +116,7 @@ public abstract class BukkitPingListener extends PluginListener {
         if (motds == null) {
             getLogs().info("No motds found for MotdType: " + type.toString());
             getLogs().info("Changing display priority list.");
-            type = MotdData.Type.fromString(type.toString());
+            type = MotdData.Type.switchPriority(type);
         }
         motds = motdCache.get(type);
         if (motds == null) {
