@@ -1,0 +1,23 @@
+name: 'PixelMOTD'
+author: 'JustJustin'
+version: '${project.version}'
+description: 'An advanced motd plugin with a good performance'
+main: 'me.blueslime.omegapixelmotd.modules.initialization.BukkitPixelMOTD'
+api-version: '1.13'
+folia-supported: true
+
+dependencies:
+  server:
+    ProtocolLIB:
+      load: BEFORE
+      required: false
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+
+commands:
+  pmotd:
+    description: 'Main command of PixelMOTD'
+    usage: '/<command> [help]'
+    aliases:
+      - 'pixelmotd'

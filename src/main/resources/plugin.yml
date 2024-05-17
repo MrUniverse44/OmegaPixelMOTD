@@ -7,3 +7,4 @@ folia-supported: true
 website: "https://github.com/ShieldCommunity/PixelMOTD"
 softdepend:
   - ProtocolLib
+  - PlaceholderAPI
