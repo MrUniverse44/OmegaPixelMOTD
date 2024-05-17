@@ -8,7 +8,7 @@ folia-supported: true
 
 dependencies:
   server:
-    ProtocolLIB:
+    ProtocolLib:
       load: BEFORE
       required: false
     PlaceholderAPI:

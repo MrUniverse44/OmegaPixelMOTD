@@ -17,9 +17,10 @@ public class BukkitListeners extends BukkitModule {
 
     @Override
     public void initialize() {
+        boolean packets = getPlugin().getPlugin().getServer().getPluginManager().isPluginEnabled("ProtocolLib");
+
         listeners.registerListener(
-            new PacketPingListener(plugin),
-            new ServerPingListener(plugin)
+            packets ? new PacketPingListener(plugin) : new ServerPingListener(plugin)
         );
 
         listeners.initialize();
