@@ -4,10 +4,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Listeners {
-    private final Map<Class<? extends PluginListener>, PluginListener> listenerMap = new ConcurrentHashMap<>();
+    private final Map<Class<? extends Listener>, Listener> listenerMap = new ConcurrentHashMap<>();
 
-    public void registerListener(PluginListener... listeners) {
-        for (PluginListener listener : listeners) {
+    public void registerListener(Listener... listeners) {
+        for (Listener listener : listeners) {
             listenerMap.put(
                     listener.getClass(),
                     listener
@@ -16,19 +16,19 @@ public class Listeners {
     }
 
     public void initialize() {
-        for (PluginListener listener : listenerMap.values()) {
+        for (Listener listener : listenerMap.values()) {
             listener.initialize();
         }
     }
 
     public void shutdown() {
-        for (PluginListener listener : listenerMap.values()) {
+        for (Listener listener : listenerMap.values()) {
             listener.shutdown();
         }
     }
 
     public void reload() {
-        for (PluginListener listener : listenerMap.values()) {
+        for (Listener listener : listenerMap.values()) {
             listener.reload();
         }
     }

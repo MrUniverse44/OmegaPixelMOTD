@@ -31,7 +31,7 @@ public class ServerPingListener extends BukkitPingListener implements Listener {
     public void initialize() {
         super.initialize();
 
-        JavaPlugin plugin = getPlugin();
+        JavaPlugin plugin = getOriginPlugin();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
         Configurations configurations = this.plugin.getModule(Configurations.class);

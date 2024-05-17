@@ -2,6 +2,7 @@ package me.blueslime.omegapixelmotd.modules.motds.hover;
 
 import me.blueslime.omegapixelmotd.OmegaPixelMOTD;
 import me.blueslime.omegapixelmotd.modules.motds.Motd;
+import me.blueslime.omegapixelmotd.modules.placeholders.parser.PlaceholderParser;
 import me.blueslime.omegapixelmotd.utils.text.TextReplacer;
 import me.blueslime.wardenplugin.colors.ColorHandler;
 import me.blueslime.wardenplugin.modules.list.BukkitModule;
@@ -31,7 +32,7 @@ public class ProtocolHover extends BukkitModule {
 
     }
 
-    public List<WrappedGameProfile> generate(Motd motd, TextReplacer replacer) {
+    public List<WrappedGameProfile> generate(Motd motd, TextReplacer replacer, boolean placeholders) {
         final List<WrappedGameProfile> sample = new ArrayList<>();
         final UUID uuid = new UUID(0, 0);
 
@@ -41,7 +42,9 @@ public class ProtocolHover extends BukkitModule {
             sample.add(
                 new WrappedGameProfile(
                     uuid,
-                    ColorHandler.convert(line)
+                    placeholders ?
+                        ColorHandler.convert(PlaceholderParser.parse(line)) :
+                        ColorHandler.convert(line)
                 )
             );
         }

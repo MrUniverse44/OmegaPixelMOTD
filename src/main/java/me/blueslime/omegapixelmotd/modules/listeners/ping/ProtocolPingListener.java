@@ -1,30 +1,35 @@
 package me.blueslime.omegapixelmotd.modules.listeners.ping;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.wrappers.WrappedServerPing;
 import me.blueslime.omegapixelmotd.OmegaPixelMOTD;
 import me.blueslime.omegapixelmotd.modules.configurations.Configurations;
 import me.blueslime.omegapixelmotd.modules.listeners.PluginListener;
+import me.blueslime.omegapixelmotd.modules.listeners.ProtocolListener;
 import me.blueslime.omegapixelmotd.modules.motds.Motd;
 import me.blueslime.omegapixelmotd.modules.motds.MotdData;
+import me.blueslime.omegapixelmotd.modules.motds.hover.ProtocolHover;
 import me.blueslime.wardenplugin.configuration.ConfigurationHandler;
 import me.blueslime.wardenplugin.utils.PluginConsumer;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.CachedServerIcon;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings("unused")
-public abstract class BukkitPingListener extends PluginListener {
+public abstract class ProtocolPingListener extends ProtocolListener {
     private final Map<MotdData.Type, List<Motd>> motdCache = new ConcurrentHashMap<>();
-    private final Map<String, CachedServerIcon> iconCache = new ConcurrentHashMap<>();
+    private final Map<String, WrappedServerPing.CompressedImage> iconCache = new ConcurrentHashMap<>();
+    protected final ProtocolHover hover;
 
-
-    public BukkitPingListener(OmegaPixelMOTD plugin) {
-        super(plugin);
+    public ProtocolPingListener(OmegaPixelMOTD plugin) {
+        super(plugin, ListenerPriority.HIGHEST, PacketType.Status.Server.SERVER_INFO);
+        this.hover = new ProtocolHover(plugin);
     }
 
     @Override
@@ -43,8 +48,8 @@ public abstract class BukkitPingListener extends PluginListener {
 
         for (MotdData.Type type : MotdData.Type.values()) {
             List<Motd> list = motdCache.computeIfAbsent(
-                type,
-                (k) -> new ArrayList<>()
+                    type,
+                    (k) -> new ArrayList<>()
             );
             list.clear();
         }
@@ -53,7 +58,7 @@ public abstract class BukkitPingListener extends PluginListener {
             String path = key + ".";
 
             MotdData.Type type = MotdData.Type.fromString(
-                settings.getString(path + "available-for", "default")
+                    settings.getString(path + "available-for", "default")
             );
 
             motdCache.get(type).add(new Motd(settings, key));
@@ -75,14 +80,12 @@ public abstract class BukkitPingListener extends PluginListener {
                     return;
                 }
 
-                JavaPlugin javaPlugin = plugin.core();
-
                 for (File icon : files) {
                     PluginConsumer.process(
                         () -> {
                             BufferedImage image = ImageIO.read(icon);
 
-                            CachedServerIcon serverIcon = javaPlugin.getServer().loadServerIcon(image);
+                            WrappedServerPing.CompressedImage serverIcon = WrappedServerPing.CompressedImage.fromPng(image);
 
                             iconCache.put(
                                 icon.getName(),
@@ -153,9 +156,9 @@ public abstract class BukkitPingListener extends PluginListener {
     }
 
 
-    public CachedServerIcon getFavicon(String key) {
+    public WrappedServerPing.CompressedImage getFavicon(String key) {
         if (key.equalsIgnoreCase("RANDOM")) {
-            List<CachedServerIcon> values = new ArrayList<>(iconCache.values());
+            List<WrappedServerPing.CompressedImage> values = new ArrayList<>(iconCache.values());
             int randomIndex = ThreadLocalRandom.current().nextInt(values.size());
             return values.get(randomIndex);
         }

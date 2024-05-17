@@ -1,13 +1,18 @@
 package me.blueslime.omegapixelmotd.modules.listeners;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
 import me.blueslime.omegapixelmotd.OmegaPixelMOTD;
 import me.blueslime.wardenplugin.WardenPlugin;
 import me.blueslime.wardenplugin.logs.WardenLogs;
+import org.bukkit.plugin.Plugin;
 
-public abstract class PluginListener implements Listener {
+public abstract class ProtocolListener extends PacketAdapter implements Listener {
     protected final OmegaPixelMOTD plugin;
 
-    public PluginListener(final OmegaPixelMOTD plugin) {
+    public ProtocolListener(final OmegaPixelMOTD plugin, ListenerPriority priority, PacketType... types) {
+        super((Plugin) plugin.getPlugin(), priority, types);
         this.plugin = plugin;
     }
 
