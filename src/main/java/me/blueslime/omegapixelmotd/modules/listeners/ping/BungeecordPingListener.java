@@ -5,6 +5,7 @@ import me.blueslime.omegapixelmotd.modules.configurations.Configurations;
 import me.blueslime.omegapixelmotd.modules.listeners.PluginListener;
 import me.blueslime.omegapixelmotd.modules.motds.Motd;
 import me.blueslime.omegapixelmotd.modules.motds.MotdData;
+import me.blueslime.omegapixelmotd.modules.motds.hover.BungeecordHover;
 import me.blueslime.wardenplugin.configuration.ConfigurationHandler;
 import me.blueslime.wardenplugin.utils.PluginConsumer;
 import net.md_5.bungee.api.Favicon;
@@ -19,12 +20,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class BungeecordPingListener extends PluginListener {
+    protected final BungeecordHover hover;
     private final Map<MotdData.Type, List<Motd>> motdCache = new ConcurrentHashMap<>();
     private final Map<String, Favicon> iconCache = new ConcurrentHashMap<>();
 
 
     public BungeecordPingListener(OmegaPixelMOTD plugin) {
         super(plugin);
+        hover = new BungeecordHover(plugin);
     }
 
     @Override
@@ -110,13 +113,39 @@ public abstract class BungeecordPingListener extends PluginListener {
     }
 
     public Motd fetchMotd(MotdData.Type type, int protocol) {
+        return fetchMotd(type, protocol, type);
+    }
+
+    public Motd fetchMotd(MotdData.Type type, int protocol, MotdData.Type emergencyType) {
+        if (type != MotdData.Type.OUTDATED_CLIENT && type != MotdData.Type.OUTDATED_SERVER) {
+            ConfigurationHandler settings = plugin.getModule(Configurations.class).getSettings();
+
+            int max = settings.getInt("settings.max-server-protocol", 770);
+            int min = settings.getInt("settings.min-server-protocol", 47);
+
+            if (protocol >= min && protocol >= max) {
+                type = MotdData.Type.OUTDATED_SERVER;
+            }
+
+            if (protocol < min) {
+                type = MotdData.Type.OUTDATED_CLIENT;
+            }
+        }
+
         List<Motd> motds = motdCache.get(type);
         if (motds == null) {
             getLogs().info("No motds found for MotdType: " + type.toString());
+            getLogs().info("Checking back to the first type: " + type.toString());
+            if (type != emergencyType) {
+                type = emergencyType;
+            }
+        }
+        motds = motdCache.get(type);
+        if (motds == null) {
+            getLogs().info("Can't found motds for type: " + type.toString());
             getLogs().info("Changing display priority list.");
             type = MotdData.Type.switchPriority(type);
         }
-        motds = motdCache.get(type);
         if (motds == null) {
             getLogs().info("No motds found for MotdType: " + type.toString());
             return null;

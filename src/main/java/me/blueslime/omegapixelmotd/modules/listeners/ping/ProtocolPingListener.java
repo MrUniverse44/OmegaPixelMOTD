@@ -115,13 +115,39 @@ public abstract class ProtocolPingListener extends ProtocolListener {
     }
 
     public Motd fetchMotd(MotdData.Type type, int protocol) {
+        return fetchMotd(type, protocol, type);
+    }
+
+    public Motd fetchMotd(MotdData.Type type, int protocol, MotdData.Type emergencyType) {
+        if (type != MotdData.Type.OUTDATED_CLIENT && type != MotdData.Type.OUTDATED_SERVER) {
+            ConfigurationHandler settings = plugin.getModule(Configurations.class).getSettings();
+
+            int max = settings.getInt("settings.max-server-protocol", 770);
+            int min = settings.getInt("settings.min-server-protocol", 47);
+
+            if (protocol >= min && protocol >= max) {
+                type = MotdData.Type.OUTDATED_SERVER;
+            }
+
+            if (protocol < min) {
+                type = MotdData.Type.OUTDATED_CLIENT;
+            }
+        }
+
         List<Motd> motds = motdCache.get(type);
         if (motds == null) {
             getLogs().info("No motds found for MotdType: " + type.toString());
+            getLogs().info("Checking back to the first type: " + type.toString());
+            if (type != emergencyType) {
+                type = emergencyType;
+            }
+        }
+        motds = motdCache.get(type);
+        if (motds == null) {
+            getLogs().info("Can't found motds for type: " + type.toString());
             getLogs().info("Changing display priority list.");
             type = MotdData.Type.switchPriority(type);
         }
-        motds = motdCache.get(type);
         if (motds == null) {
             getLogs().info("No motds found for MotdType: " + type.toString());
             return null;

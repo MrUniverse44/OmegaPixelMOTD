@@ -86,7 +86,7 @@ public class PacketPingListener extends ProtocolPingListener {
         int index = 0;
         WrappedServerPing event = eventHandler.getPacket().getServerPings().read(index);
 
-        Motd motd = fetchMotd(type, defaultProtocol);
+        Motd motd = fetchMotd(type, protocol);
 
         if (event == null) {
             getLogs().debug("The ping was null in the index 0, searching in another index");
@@ -103,7 +103,7 @@ public class PacketPingListener extends ProtocolPingListener {
         }
 
         if (motd == null) {
-            getLogs().info("No motds will be displayed because no motds found for type: " + type.toString() + " and protocol: " + defaultProtocol);
+            getLogs().info("No motds will be displayed because no motds found for type: " + type.toString() + " and protocol: " + protocol);
             return;
         }
 
@@ -151,21 +151,25 @@ public class PacketPingListener extends ProtocolPingListener {
         event.setPlayersMaximum(max);
         event.setPlayersOnline(online);
 
-        event.setPlayers(hover.generate(motd, replacer, true));
-
-        if (motd.getProtocol() == MotdData.Protocol.ALWAYS_POSITIVE) {
-            event.setVersionProtocol(protocol);
-        } else if (motd.getProtocol() == MotdData.Protocol.ALWAYS_NEGATIVE) {
-            event.setVersionProtocol(-1);
+        if (motd.hasHover()) {
+            event.setPlayers(hover.generate(motd, replacer, true));
         }
 
-        event.setVersionName(
-            ColorHandler.convert(
-                hasPlaceholders ?
-                    PlaceholderParser.parse(motd.getProtocolMessage(replacer)) :
-                    motd.getProtocolMessage(replacer)
-            )
-        );
+        if (motd.hasProtocols()) {
+            if (motd.getProtocol() == MotdData.Protocol.ALWAYS_POSITIVE) {
+                event.setVersionProtocol(protocol);
+            } else if (motd.getProtocol() == MotdData.Protocol.ALWAYS_NEGATIVE) {
+                event.setVersionProtocol(-1);
+            }
+
+            event.setVersionName(
+                    ColorHandler.convert(
+                            hasPlaceholders ?
+                                    PlaceholderParser.parse(motd.getProtocolMessage(replacer)) :
+                                    motd.getProtocolMessage(replacer)
+                    )
+            );
+        }
         eventHandler.getPacket().getServerPings().write(index, event);
     }
 
