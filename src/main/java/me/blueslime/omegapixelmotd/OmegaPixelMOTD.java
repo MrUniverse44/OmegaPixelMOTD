@@ -14,8 +14,8 @@ import me.blueslime.wardenplugin.platform.Platforms;
 
 public final class OmegaPixelMOTD extends WardenPlugin<Object> {
 
-    public OmegaPixelMOTD(Object plugin) {
-        super(plugin);
+    public OmegaPixelMOTD(Class<?> pluginClazz, Object plugin) {
+        super(pluginClazz, plugin);
     }
 
     @Override

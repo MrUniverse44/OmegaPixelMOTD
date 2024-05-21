@@ -47,7 +47,10 @@ public class VelocityPixelMOTD {
     public void onInitialize(ProxyInitializeEvent event) {
         File directory = dataDirectory.getParent().toFile();
 
-        plugin = new OmegaPixelMOTD(server);
+        plugin = new OmegaPixelMOTD(
+            getClass(),
+            server
+        );
         plugin.getInformation().setDataFolder(new File(directory, "PixelMOTD"));
 
         initMetrics(15579);

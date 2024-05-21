@@ -41,7 +41,10 @@ public class SpongePixelMOTD {
 
     @Listener
     public void onServerStart(final StartedEngineEvent<Server> event) {
-        plugin = new OmegaPixelMOTD(this);
+        plugin = new OmegaPixelMOTD(
+            getClass(),
+            this
+        );
 
         plugin.getInformation().setDataFolder(new File(privateConfigDir.toFile(), "PixelMOTD"));
         plugin.initialize();

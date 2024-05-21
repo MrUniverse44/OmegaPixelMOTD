@@ -9,7 +9,10 @@ public class BukkitPixelMOTD extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        plugin = new OmegaPixelMOTD(this);
+        plugin = new OmegaPixelMOTD(
+            getClass(),
+            this
+        );
         plugin.initialize();
 
         new Metrics(this, 15577);
