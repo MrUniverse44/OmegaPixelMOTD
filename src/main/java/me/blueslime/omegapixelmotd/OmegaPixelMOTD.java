@@ -23,10 +23,18 @@ public final class OmegaPixelMOTD extends WardenPlugin<Object> {
         registerModule(
             ModuleContainer.create(
                 Platforms.UNIVERSAL,
-                (creator) -> creator.register(
-                    new Configurations(this)
-                )
-            ),
+                (creator) -> {
+                    Configurations configurations = new Configurations(this);
+                    // Configuration files should be loaded first, the other part of the plugin should be loaded before this.
+                    configurations.initialize();
+                    // Register a configuration already initialized
+                    creator.register(
+                        configurations
+                    );
+                }
+            )
+        );
+        registerModule(
             ModuleContainer.create(
                 Platforms.VELOCITY,
                 (creator) -> creator.register(
